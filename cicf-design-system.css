@@ -1,0 +1,766 @@
+/**
+ * CICF Design System v1.0
+ * Centro de InovaÃ§Ã£o Carlos Fiolhais
+ * 
+ * Sistema de design para materiais educativos, tutoriais e documentaÃ§Ã£o
+ * Font: Montserrat (Google Fonts)
+ * Cores principais: #667eea (roxo primÃ¡rio), #764ba2 (roxo secundÃ¡rio)
+ */
+
+/* ========================================
+   IMPORTS & BASE
+======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* ========================================
+   VARIÃVEIS CSS
+======================================== */
+
+:root {
+    /* Cores principais */
+    --cicf-primary: #667eea;
+    --cicf-secondary: #764ba2;
+    --cicf-primary-hover: #5568d3;
+    --cicf-secondary-hover: #653a8a;
+    
+    /* Cores de texto */
+    --text-dark: #333;
+    --text-medium: #555;
+    --text-light: #666;
+    
+    /* Cores de fundo */
+    --bg-white: #ffffff;
+    --bg-light: #f8f9fa;
+    --bg-hover: #f0f4ff;
+    
+    /* Bordas */
+    --border-color: #e0e0e0;
+    --border-color-dark: #ddd;
+    --border-radius: 8px;
+    --border-radius-small: 6px;
+    --border-radius-large: 12px;
+    
+    /* Sombras */
+    --shadow-small: 0 2px 8px rgba(0,0,0,0.1);
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.15);
+    --shadow-large: 0 8px 24px rgba(0,0,0,0.2);
+    
+    /* EspaÃ§amentos */
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+    --spacing-xxl: 40px;
+}
+
+/* ========================================
+   CONTAINER PRINCIPAL
+======================================== */
+
+.cicf-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: var(--bg-white);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+/* ========================================
+   HEADER / CABEÃ‡ALHO
+======================================== */
+
+.cicf-header {
+    background: linear-gradient(135deg, var(--cicf-primary) 0%, var(--cicf-secondary) 100%);
+    color: white;
+    padding: var(--spacing-xl) var(--spacing-xxl);
+    text-align: center;
+    position: relative;
+}
+
+.cicf-header h1 {
+    font-size: 2.5em;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 700;
+}
+
+.cicf-header p {
+    font-size: 1.1em;
+    opacity: 0.95;
+    font-weight: 400;
+}
+
+/* ========================================
+   BOTÃ•ES
+======================================== */
+
+.cicf-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cicf-btn-primary {
+    background: var(--cicf-primary);
+    color: white;
+}
+
+.cicf-btn-primary:hover {
+    background: var(--cicf-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.cicf-btn-secondary {
+    background: var(--cicf-secondary);
+    color: white;
+}
+
+.cicf-btn-secondary:hover {
+    background: var(--cicf-secondary-hover);
+}
+/* Por defeito (fundo claro) */
+:root {
+    --btn-outline-bg: white;
+    --btn-outline-color: #667eea;
+    --btn-outline-border: #667eea;
+}
+
+/* Auto-detecção de fundos coloridos */
+[style*="background: linear-gradient"],
+.cicf-header {
+    --btn-outline-bg: rgba(255, 255, 255, 0.1);
+    --btn-outline-color: white;
+    --btn-outline-border: white;
+}
+
+.cicf-btn-outline {
+    background: var(--btn-outline-bg);
+    color: var(--btn-outline-color);
+    border: 2px solid var(--btn-outline-border);
+}
+}
+
+.cicf-btn-outline:hover {
+    background: var(--bg-hover);
+}
+
+.cicf-btn-ghost {
+    background: none;
+    color: var(--text-medium);
+}
+
+.cicf-btn-ghost:hover {
+    background: var(--bg-light);
+}
+
+/* Variantes para fundos coloridos/escuros */
+.cicf-btn-outline-light {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid white;
+    backdrop-filter: blur(10px);
+}
+
+.cicf-btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+}
+
+.cicf-btn-light {
+    background: white;
+    color: var(--cicf-primary);
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cicf-btn-light:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.cicf-btn-ghost-light {
+    background: none;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cicf-btn-ghost-light:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ========================================
+   GRID & LAYOUT
+======================================== */
+
+.cicf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.cicf-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.cicf-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* ========================================
+   SECTIONS / SECÃ‡Ã•ES
+======================================== */
+
+.cicf-section {
+    padding: var(--spacing-xl);
+    border-right: 2px solid var(--bg-light);
+    border-bottom: 2px solid var(--bg-light);
+    min-height: 250px;
+    position: relative;
+}
+
+.cicf-section:nth-child(2n) {
+    border-right: none;
+}
+
+.cicf-section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--cicf-primary);
+}
+
+.cicf-icon {
+    font-size: 2em;
+    margin-right: var(--spacing-md);
+}
+
+.cicf-section-title {
+    font-size: 1.3em;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.cicf-section-subtitle {
+    font-size: 0.85em;
+    color: var(--text-light);
+    font-style: italic;
+    margin-top: 3px;
+}
+
+/* ========================================
+   FIELDS / FORMULÃRIOS
+======================================== */
+
+.cicf-field {
+    margin-bottom: var(--spacing-md);
+}
+
+.cicf-field-label {
+    font-weight: 600;
+    color: var(--text-medium);
+    font-size: 0.9em;
+    margin-bottom: var(--spacing-xs);
+    display: block;
+}
+
+.cicf-field-input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border-color-dark);
+    border-radius: var(--border-radius-small);
+    font-size: 0.95em;
+    font-family: 'Montserrat', sans-serif;
+    resize: vertical;
+    min-height: 40px;
+    transition: all 0.3s ease;
+}
+
+.cicf-field-input:focus {
+    outline: none;
+    border-color: var(--cicf-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea.cicf-field-input {
+    min-height: 80px;
+    line-height: 1.5;
+}
+
+/* ========================================
+   TAGS / BADGES
+======================================== */
+
+.cicf-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+}
+
+.cicf-tag {
+    background: var(--cicf-primary);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    display: inline-block;
+    font-weight: 500;
+}
+
+.cicf-tag-outline {
+    background: white;
+    color: var(--cicf-primary);
+    border: 2px solid var(--cicf-primary);
+}
+
+/* ========================================
+   CHECKBOXES & RADIO
+======================================== */
+
+.cicf-checkbox-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.cicf-checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm) 12px;
+    border: 1px solid var(--border-color-dark);
+    border-radius: var(--border-radius-small);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.cicf-checkbox-item:hover {
+    background: var(--bg-light);
+    border-color: var(--cicf-primary);
+}
+
+.cicf-checkbox-item input[type="checkbox"] {
+    margin-right: var(--spacing-sm);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.cicf-checkbox-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.95em;
+}
+
+.cicf-checkbox-label span {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+/* ========================================
+   BUTTONS GROUP (TOGGLE)
+======================================== */
+
+.cicf-button-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.cicf-toggle-btn {
+    padding: 12px 15px;
+    border: 2px solid var(--border-color-dark);
+    border-radius: var(--border-radius);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95em;
+}
+
+.cicf-toggle-btn:hover {
+    border-color: var(--cicf-primary);
+    background: var(--bg-hover);
+}
+
+.cicf-toggle-btn.active {
+    border-color: var(--cicf-primary);
+    background: var(--cicf-primary);
+    color: white;
+}
+
+/* ========================================
+   TOOLTIPS / INFO ICON
+======================================== */
+
+.cicf-info-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--cicf-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: bold;
+    cursor: help;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.cicf-toggle-btn.active .cicf-info-icon {
+    background: white;
+    color: var(--cicf-primary);
+}
+
+.cicf-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: var(--spacing-sm) 12px;
+    border-radius: var(--border-radius-small);
+    font-size: 0.8em;
+    width: 280px;
+    margin-bottom: 8px;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    line-height: 1.4;
+    text-align: left;
+    font-weight: 400;
+}
+
+.cicf-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #333;
+}
+
+.cicf-info-icon:hover .cicf-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ========================================
+   KPI CARDS
+======================================== */
+
+.cicf-kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.cicf-kpi-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.cicf-kpi-item span {
+    font-size: 0.9em;
+    color: var(--text-medium);
+}
+
+.cicf-kpi-item input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid var(--border-color-dark);
+    border-radius: var(--border-radius-small);
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ========================================
+   SPECIAL SECTIONS
+======================================== */
+
+.cicf-highlight-section {
+    grid-column: 1 / -1;
+    background: var(--bg-light);
+    padding: var(--spacing-xxl);
+    border-bottom: none;
+}
+
+.cicf-highlight-section textarea {
+    min-height: 120px;
+    font-size: 1.05em;
+}
+
+/* ========================================
+   FOOTER
+======================================== */
+
+.cicf-footer {
+    background: var(--bg-light);
+    padding: var(--spacing-lg) var(--spacing-xxl);
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9em;
+}
+
+.cicf-footer-link {
+    color: var(--cicf-primary);
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-top: var(--spacing-sm);
+}
+
+.cicf-footer-link:hover {
+    color: var(--cicf-primary-hover);
+    text-decoration: underline;
+}
+
+/* ========================================
+   MODALS
+======================================== */
+
+.cicf-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+}
+
+.cicf-modal-overlay.active {
+    display: flex;
+}
+
+.cicf-modal-content {
+    background: white;
+    border-radius: var(--border-radius-large);
+    max-width: 1000px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.cicf-modal-header {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-bottom: 2px solid var(--bg-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cicf-modal-header h2 {
+    margin: 0;
+    color: var(--text-dark);
+    font-size: 1.5em;
+}
+
+.cicf-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--text-light);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    transition: color 0.3s ease;
+}
+
+.cicf-modal-close:hover {
+    color: var(--text-dark);
+}
+
+.cicf-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-xl);
+    background: #f5f5f5;
+}
+
+.cicf-modal-footer {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-top: 2px solid var(--bg-light);
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-end;
+}
+
+/* ========================================
+   A4 PREVIEW (One-Pager)
+======================================== */
+
+.cicf-a4-preview {
+    background: white;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 15mm;
+    box-shadow: var(--shadow-large);
+    font-size: 9pt;
+    line-height: 1.3;
+}
+
+.cicf-onepager-header {
+    text-align: center;
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--cicf-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.cicf-onepager-header h1 {
+    font-size: 18pt;
+    margin: 0 0 8px 0;
+    color: var(--cicf-primary);
+    font-weight: 700;
+}
+
+.cicf-onepager-header .cicf-tags {
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.cicf-onepager-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.cicf-onepager-section {
+    background: var(--bg-light);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-small);
+    border-left: 3px solid var(--cicf-primary);
+}
+
+.cicf-onepager-section h3 {
+    font-size: 11pt;
+    margin: 0 0 8px 0;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}
+
+.cicf-onepager-content {
+    font-size: 8.5pt;
+    color: #444;
+    line-height: 1.4;
+}
+
+.cicf-onepager-content p {
+    margin: 5px 0;
+}
+
+.cicf-onepager-content strong {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+/* ========================================
+   UTILITY CLASSES
+======================================== */
+
+.cicf-text-center { text-align: center; }
+.cicf-text-left { text-align: left; }
+.cicf-text-right { text-align: right; }
+
+.cicf-mt-sm { margin-top: var(--spacing-sm); }
+.cicf-mt-md { margin-top: var(--spacing-md); }
+.cicf-mt-lg { margin-top: var(--spacing-lg); }
+
+.cicf-mb-sm { margin-bottom: var(--spacing-sm); }
+.cicf-mb-md { margin-bottom: var(--spacing-md); }
+.cicf-mb-lg { margin-bottom: var(--spacing-lg); }
+
+.cicf-p-sm { padding: var(--spacing-sm); }
+.cicf-p-md { padding: var(--spacing-md); }
+.cicf-p-lg { padding: var(--spacing-lg); }
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 768px) {
+    .cicf-grid,
+    .cicf-onepager-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cicf-section {
+        border-right: none;
+    }
+    
+    .cicf-header h1 {
+        font-size: 1.8em;
+    }
+    
+    .cicf-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+======================================== */
+
+@media print {
+    @page { size: A4; margin: 0; }
+    body { margin: 0; padding: 0; background: white; }
+    .cicf-container { box-shadow: none; }
+}

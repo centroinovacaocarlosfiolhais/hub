@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ Detetive Digital | Circuito Cibersegurança CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        .mission-card {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .mission-card:hover {
+            border-color: var(--cicf-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .mission-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .mission-number {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+        
+        .mission-title {
+            flex: 1;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .mission-duration {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .mission-objective {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin-bottom: 20px;
+        }
+        
+        .mission-objective h4 {
+            color: #155724;
+            margin-bottom: 8px;
+        }
+        
+        .mission-activities {
+            margin: 20px 0;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            background: var(--cicf-primary);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            margin-top: 2px;
+        }
+        
+        .threat-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .threat-card {
+            background: #fff5f5;
+            border: 2px solid #feb2b2;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .threat-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(254, 178, 178, 0.3);
+        }
+        
+        .threat-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .threat-title {
+            font-weight: 600;
+            color: #c53030;
+            margin-bottom: 8px;
+        }
+        
+        .security-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .tool-card {
+            background: #e8f5e8;
+            border: 2px solid #48bb78;
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+        }
+        
+        .tool-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .quiz-preview {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+        
+        .quiz-question {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .quiz-option.correct {
+            border-color: #48bb78;
+            background: rgba(72, 187, 120, 0.3);
+        }
+        
+        .quiz-option.wrong {
+            border-color: #f56565;
+            background: rgba(245, 101, 101, 0.3);
+        }
+        
+        .badge-showcase {
+            background: linear-gradient(135deg, #f6ad55, #ed8936);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .badge-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            display: block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--cicf-primary);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 25px 0;
+            padding-left: 80px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 21px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--cicf-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8em;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #f0f0f0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .practical-demo {
+            background: #fffbf0;
+            border: 2px solid #fbd38d;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .demo-warning {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header -->
+        <div class="cicf-header">
+            <h1>🛡️ Detetive Digital</h1>
+            <p>Circuito de Cibersegurança • Protege-te online como um verdadeiro detetive!</p>
+        </div>
+
+        <div style="padding: 30px 40px 0;">
+            <a href="../index.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Circuitos
+            </a>
+        </div>
+
+        <!-- Visão Geral -->
+        <div class="cicf-grid">
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🎯</span>
+                    <div>
+                        <div class="cicf-section-title">Missão Principal</div>
+                        <div class="cicf-section-subtitle">O que vais aprender</div>
+                    </div>
+                </div>
+                
+                <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 20px;">
+                    Num mundo cada vez mais digital, saber proteger-se online é uma competência essencial. 
+                    Neste circuito, tornas-te um <strong>Detetive Digital</strong> e aprendes a:
+                </p>
+                
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0; border-left: 3px solid #48bb78; padding-left: 15px; margin-bottom: 8px;">
+                        🔐 <strong>Criar passwords inquebráveis</strong>
+                    </li>
+                    <li style="padding: 8px 0; border-left: 3px solid #4299e1; padding-left: 15px; margin-bottom: 8px;">
+                        🕵️ <strong>Identificar tentativas de phishing</strong>
+                    </li>
+                    <li style="padding: 8px 0; border-left: 3px solid #9f7aea; padding-left: 15px; margin-bottom: 8px;">
+                        📱 <strong>Configurar privacidade nas redes sociais</strong>
+                    </li>
+                    <li style="padding: 8px 0; border-left: 3px solid #f6ad55; padding-left: 15px;">
+                        🛡️ <strong>Navegar anonimamente e em segurança</strong>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">📊</span>
+                    <div>
+                        <div class="cicf-section-title">Detalhes do Circuito</div>
+                        <div class="cicf-section-subtitle">Informação prática</div>
+                    </div>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9em;">
+                        <div><strong>👥 Grupo:</strong> 8-15 participantes</div>
+                        <div><strong>⏰ Duração:</strong> 2 horas</div>
+                        <div><strong>🎂 Idade:</strong> 12-16 anos</div>
+                        <div><strong>💻 Material:</strong> Computadores + smartphones</div>
+                        <div><strong>🌐 Requisitos:</strong> Internet + projetor</div>
+                        <div><strong>🏆 Certificação:</strong> Badge Detetive Digital</div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 1.5em; font-weight: 700; margin-bottom: 5px;">100%</div>
+                    <div style="font-size: 0.9em;">Experiência prática e interativa</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ameaças Que Vais Conhecer -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">⚠️</span>
+                <div>
+                    <div class="cicf-section-title">Ameaças Digitais Reais</div>
+                    <div class="cicf-section-subtitle">O que um detetive digital precisa de conhecer</div>
+                </div>
+            </div>
+            
+            <div class="threat-showcase">
+                <div class="threat-card">
+                    <span class="threat-icon">🎣</span>
+                    <div class="threat-title">Phishing</div>
+                    <p style="font-size: 0.9em; color: #744210;">
+                        Emails e mensagens falsas que tentam roubar as tuas passwords e dados pessoais.
+                    </p>
+                </div>
+                
+                <div class="threat-card">
+                    <span class="threat-icon">🦠</span>
+                    <div class="threat-title">Malware</div>
+                    <p style="font-size: 0.9em; color: #744210;">
+                        Vírus e software malicioso que pode danificar o teu computador ou roubar informação.
+                    </p>
+                </div>
+                
+                <div class="threat-card">
+                    <span class="threat-icon">👤</span>
+                    <div class="threat-title">Identity Theft</div>
+                    <p style="font-size: 0.9em; color: #744210;">
+                        Roubo de identidade através de dados pessoais partilhados inadvertidamente.
+                    </p>
+                </div>
+                
+                <div class="threat-card">
+                    <span class="threat-icon">👁️</span>
+                    <div class="threat-title">Data Mining</div>
+                    <p style="font-size: 0.9em; color: #744210;">
+                        Recolha excessiva de dados sobre ti para fins comerciais ou outros.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cronograma das Missões -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🕵️</span>
+                <div>
+                    <div class="cicf-section-title">Missões do Detetive Digital</div>
+                    <div class="cicf-section-subtitle">2 horas de investigação e aprendizagem</div>
+                </div>
+            </div>
+            
+            <div class="timeline">
+                <!-- Missão 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">1</div>
+                    <div class="timeline-content">
+                        <h3 style="color: var(--cicf-primary); margin-bottom: 10px;">🚨 Briefing: O Mundo Digital Perigoso</h3>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⏰ 20 minutos</div>
+                        
+                        <div class="mission-objective">
+                            <h4>🎯 Objetivo:</h4>
+                            <p style="margin: 0; color: #155724;">Compreender as principais ameaças digitais e porque é que a cibersegurança é importante para todos.</p>
+                        </div>
+                        
+                        <div class="mission-activities">
+                            <div class="activity-item">
+                                <div class="activity-icon">📊</div>
+                                <div>
+                                    <strong>Estatísticas Chocantes:</strong> Quantos jovens já sofreram ciberataques?
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">📰</div>
+                                <div>
+                                    <strong>Casos Reais:</strong> Histórias de cibercrimes que afetaram pessoas como tu
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">🎮</div>
+                                <div>
+                                    <strong>Quiz Inicial:</strong> Testa os teus conhecimentos sobre segurança online
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Missão 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">2</div>
+                    <div class="timeline-content">
+                        <h3 style="color: var(--cicf-primary); margin-bottom: 10px;">🔐 Laboratório: Passwords Inquebráveis</h3>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⏰ 25 minutos</div>
+                        
+                        <div class="mission-objective">
+                            <h4>🎯 Objetivo:</h4>
+                            <p style="margin: 0; color: #155724;">Aprender a criar e gerir passwords seguras usando ferramentas profissionais.</p>
+                        </div>
+                        
+                        <div class="practical-demo">
+                            <h4 style="color: #975a16; margin-bottom: 15px;">🧪 Experiência Prática:</h4>
+                            <p style="margin: 0; line-height: 1.6;">
+                                Vais tentar "hackear" passwords fracas usando ferramentas reais (numa simulação segura) 
+                                e descobrir em segundos quanto tempo demora a quebrar "123456" vs "Cicf@2026!#Maia".
+                            </p>
+                        </div>
+                        
+                        <div class="security-tools">
+                            <div class="tool-card">
+                                <span class="tool-icon">🛡️</span>
+                                <div style="font-weight: 600; margin-bottom: 5px;">Password Manager</div>
+                                <div style="font-size: 0.8em;">Aprende a usar gestores de passwords</div>
+                            </div>
+                            <div class="tool-card">
+                                <span class="tool-icon">🎲</span>
+                                <div style="font-weight: 600; margin-bottom: 5px;">Gerador Seguro</div>
+                                <div style="font-size: 0.8em;">Cria passwords aleatórias e fortes</div>
+                            </div>
+                            <div class="tool-card">
+                                <span class="tool-icon">🔐</span>
+                                <div style="font-weight: 600; margin-bottom: 5px;">2FA Setup</div>
+                                <div style="font-size: 0.8em;">Configura autenticação de 2 fatores</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Missão 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">3</div>
+                    <div class="timeline-content">
+                        <h3 style="color: var(--cicf-primary); margin-bottom: 10px;">🎣 Caça ao Phishing</h3>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⏰ 30 minutos</div>
+                        
+                        <div class="mission-objective">
+                            <h4>🎯 Objetivo:</h4>
+                            <p style="margin: 0; color: #155724;">Identificar emails, SMS e websites falsos que tentam roubar as tuas informações.</p>
+                        </div>
+                        
+                        <p style="margin: 15px 0; line-height: 1.6;">
+                            <strong>🕵️ Desafio prático:</strong> Recebes 10 emails diferentes e tens que descobrir 
+                            quais são legítimos e quais são tentativas de phishing. Cada email correto dá pontos para a equipa!
+                        </p>
+                        
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                            <strong>⚠️ Pistas para detetives:</strong> URLs suspeitos, erros de ortografia, 
+                            remetentes estranhos, pedidos urgentes de informação pessoal.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Missão 4 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">4</div>
+                    <div class="timeline-content">
+                        <h3 style="color: var(--cicf-primary); margin-bottom: 10px;">📱 Redes Sociais Seguras</h3>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⏰ 25 minutos</div>
+                        
+                        <div class="mission-objective">
+                            <h4>🎯 Objetivo:</h4>
+                            <p style="margin: 0; color: #155724;">Configurar definições de privacidade no Instagram, TikTok, Snapchat e outras redes sociais.</p>
+                        </div>
+                        
+                        <p style="margin: 15px 0; line-height: 1.6;">
+                            <strong>📲 Hands-on:</strong> Cada participante usa o próprio smartphone para aplicar 
+                            as definições de privacidade nas suas redes sociais preferidas, com apoio individualizado.
+                        </p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                            <div style="background: #f3e8ff; padding: 12px; border-radius: 6px;">
+                                <strong>✅ O que partilhar:</strong> Hobbies, criatividade, aprendizagens
+                            </div>
+                            <div style="background: #fef2f2; padding: 12px; border-radius: 6px;">
+                                <strong>❌ O que NÃO partilhar:</strong> Localização, dados pessoais, planos
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Missão 5 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">5</div>
+                    <div class="timeline-content">
+                        <h3 style="color: var(--cicf-primary); margin-bottom: 10px;">👤 Navegação Anónima</h3>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⏰ 15 minutos</div>
+                        
+                        <div class="mission-objective">
+                            <h4>🎯 Objetivo:</h4>
+                            <p style="margin: 0; color: #155724;">Aprender a navegar na internet sem deixar rastros digitais.</p>
+                        </div>
+                        
+                        <div class="security-tools">
+                            <div class="tool-card">
+                                <span class="tool-icon">🕶️</span>
+                                <div style="font-weight: 600; margin-bottom: 5px;">Modo Incógnito</div>
+                                <div style="font-size: 0.8em;">Como e quando usar</div>
+                            </div>
+                            <div class="tool-card">
+                                <span class="tool-icon">🌐</span>
+                                <div style="font-weight: 600; margin-bottom: 5px;">VPN Básica</div>
+                                <div style="font-size: 0.8em;">Proteger a localização</div>
+                            </div>
+                            <div class="tool-card">
+                                <span class="tool-icon">🚫</span>
+                                <div style="font-weight: 600; margin-bottom: 5px;">Ad Blockers</div>
+                                <div style="font-size: 0.8em;">Bloquear trackers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Missão Final -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">🏆</div>
+                    <div class="timeline-content">
+                        <h3 style="color: var(--cicf-primary); margin-bottom: 10px;">🎖️ Quiz Final & Certificação</h3>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px;">⏰ 25 minutos</div>
+                        
+                        <div class="quiz-preview">
+                            <h4 style="margin-bottom: 15px;">📝 Exemplo de Pergunta do Quiz:</h4>
+                            <div class="quiz-question">
+                                <p style="margin-bottom: 15px; font-weight: 600;">
+                                    Recebes um email de "banco@segurann.com" a pedir para confirmares a tua palavra-passe. O que fazes?
+                                </p>
+                                <div class="quiz-options">
+                                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                                        A) Clico no link e insiro a minha password
+                                    </div>
+                                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                                        B) Ignoro o email
+                                    </div>
+                                    <div class="quiz-option" onclick="checkAnswer(this, true)">
+                                        C) Contacto o banco diretamente para verificar
+                                    </div>
+                                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                                        D) Reencaminho para os amigos
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Badge de Certificação -->
+        <div class="badge-showcase">
+            <span class="badge-icon">🏅</span>
+            <h2 style="margin-bottom: 15px;">Badge "Detetive Digital Certificado"</h2>
+            <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 20px;">
+                Participantes que completem com sucesso todas as missões e obtenham pelo menos 70% no quiz final 
+                recebem o Badge Digital oficial do CICF, que podem partilhar no LinkedIn, Instagram ou CV.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 25px;">
+                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                    <div style="font-size: 1.3em; font-weight: 700; margin-bottom: 5px;">🔐</div>
+                    <div style="font-size: 0.9em;">Passwords Seguras</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                    <div style="font-size: 1.3em; font-weight: 700; margin-bottom: 5px;">🎣</div>
+                    <div style="font-size: 0.9em;">Deteção de Phishing</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                    <div style="font-size: 1.3em; font-weight: 700; margin-bottom: 5px;">📱</div>
+                    <div style="font-size: 0.9em;">Privacidade Online</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                    <div style="font-size: 1.3em; font-weight: 700; margin-bottom: 5px;">👤</div>
+                    <div style="font-size: 0.9em;">Navegação Anónima</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cicf-grid">
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">📅</span>
+                    <div>
+                        <div class="cicf-section-title">Agendar Missão</div>
+                        <div class="cicf-section-subtitle">Torna-te um detetive digital</div>
+                    </div>
+                </div>
+                
+                <p style="margin-bottom: 20px;">
+                    Ready para proteger-te online como um verdadeiro profissional de cibersegurança?
+                </p>
+                
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="font-size: 0.9em; line-height: 1.6;">
+                        <strong>📋 Pré-requisitos:</strong><br>
+                        • Smartphone pessoal com apps instaladas<br>
+                        • Curiosidade sobre tecnologia<br>
+                        • Vontade de aprender a proteger-se online
+                    </div>
+                </div>
+                
+                <button class="cicf-btn cicf-btn-primary" onclick="bookCircuit()" style="width: 100%; margin-bottom: 10px;">
+                    🛡️ Agendar Circuito Cibersegurança
+                </button>
+                
+                <div style="font-size: 0.85em; text-align: center; color: var(--text-light);">
+                    Resposta em 24-48 horas
+                </div>
+            </div>
+
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">💡</span>
+                    <div>
+                        <div class="cicf-section-title">Para Professores</div>
+                        <div class="cicf-section-subtitle">Integração curricular</div>
+                    </div>
+                </div>
+                
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h4 style="color: #1565c0; margin-bottom: 8px;">🎓 Competências Desenvolvidas:</h4>
+                    <ul style="font-size: 0.9em; margin: 0; color: #1565c0;">
+                        <li>Cidadania Digital e Literacia Mediática</li>
+                        <li>Pensamento Crítico e Resolução de Problemas</li>
+                        <li>Competências Digitais (DigComp 2.1)</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="color: #7b1fa2; margin-bottom: 8px;">📚 Conexões Curriculares:</h4>
+                    <ul style="font-size: 0.9em; margin: 0; color: #7b1fa2;">
+                        <li>TIC (Tecnologias de Informação e Comunicação)</li>
+                        <li>Cidadania e Desenvolvimento</li>
+                        <li>Matemática (lógica, probabilidades)</li>
+                    </ul>
+                </div>
+                
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Material Pedagógico - Detetive Digital" 
+                   class="cicf-btn cicf-btn-outline" 
+                   style="text-decoration: none; width: 100%; display: block; text-align: center;">
+                    📄 Solicitar Material Pedagógico
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Detetive Digital - Circuito Cibersegurança</p>
+            <p style="margin-top: 8px;">Segurança Online • Privacidade Digital • Proteção de Dados • Janeiro 2026</p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Circuito Cibersegurança" class="cicf-footer-link" style="margin-right: 20px;">
+                    📧 Agendar Circuito
+                </a>
+                <a href="https://www.seguranet.pt/" class="cicf-footer-link" target="_blank">
+                    🔗 Recursos SeguraNet
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Guia do Circuito
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        function checkAnswer(element, isCorrect) {
+            // Remove classes anteriores
+            element.parentNode.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'wrong');
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                setTimeout(() => {
+                    alert('🎉 Correto! É sempre melhor contactar diretamente a instituição para verificar se o pedido é legítimo.');
+                }, 500);
+            } else {
+                element.classList.add('wrong');
+                // Mostrar a resposta correta
+                element.parentNode.children[2].classList.add('correct');
+                setTimeout(() => {
+                    alert('❌ Incorreto. A resposta certa é C) - nunca devemos clicar em links suspeitos!');
+                }, 500);
+            }
+        }
+
+        function bookCircuit() {
+            // Simular abertura de formulário de reserva
+            const bookingData = {
+                circuit: 'Detetive Digital - Cibersegurança',
+                duration: '2 horas',
+                participants: '8-15 pessoas',
+                age: '12-16 anos'
+            };
+            
+            alert(`🛡️ Formulário de Reserva do Circuito de Cibersegurança
+            
+📋 Resumo:
+• Circuito: ${bookingData.circuit}
+• Duração: ${bookingData.duration}  
+• Participantes: ${bookingData.participants}
+• Idade: ${bookingData.age}
+
+📧 Será redirecionado para o email com os detalhes pré-preenchidos...`);
+            
+            // Redirecionar para email com dados pré-preenchidos
+            const emailSubject = `Reserva: ${bookingData.circuit}`;
+            const emailBody = `Olá equipa CICF!
+
+Gostaria de agendar o circuito "${bookingData.circuit}" com os seguintes detalhes:
+
+📊 DETALHES DO GRUPO:
+• Número de participantes: 
+• Idade dos participantes: ${bookingData.age}
+• Escola/Instituição: 
+• Professor responsável: 
+
+📅 PREFERÊNCIAS DE AGENDAMENTO:
+• Data preferencial: 
+• Horário preferencial: 
+• Período alternativo: 
+
+📝 INFORMAÇÕES ADICIONAIS:
+• Objetivos específicos: 
+• Necessidades especiais: 
+• Observações: 
+
+Muito obrigado!`;
+            
+            window.open(`mailto:ci.carlosfiolhais@cm-maia.pt?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`);
+        }
+
+        // Animação de entrada para os cards de ameaças
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = `${Math.random() * 0.5}s`;
+                    entry.target.style.animation = 'slideInUp 0.6s ease forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.threat-card, .tool-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // CSS para animação
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

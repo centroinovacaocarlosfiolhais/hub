@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗺️ Circuitos CICF | Visitas Guiadas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../cicf-design-system.css">
+    <style>
+        .circuit-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circuit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-color: var(--cicf-primary);
+        }
+
+        .circuit-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .circuit-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+
+        .circuit-title {
+            font-size: 1.4em;
+            color: var(--cicf-primary);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .circuit-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .age-6-12 { background: #d1ecf1; color: #0c5460; }
+        .age-12-16 { background: #d4edda; color: #155724; }
+        .age-16-plus { background: #fff3cd; color: #856404; }
+        .age-all { background: #f8d7da; color: #721c24; }
+        
+        .duration-badge { background: #e2e3e5; color: #495057; }
+        .group-badge { background: #e1ecf4; color: #0c5460; }
+        .difficulty-badge { background: #f0f0f0; color: var(--text-medium); }
+
+        .circuit-description {
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .circuit-journey {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--cicf-primary);
+            margin-bottom: 20px;
+        }
+
+        .circuit-journey h4 {
+            color: var(--cicf-primary);
+            margin: 0 0 10px 0;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .journey-step {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            align-items: center;
+        }
+
+        .step-number {
+            background: var(--cicf-primary);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.75em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+
+        .step-description {
+            color: var(--text-medium);
+        }
+
+        .circuit-skills {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        .circuit-skills h4 {
+            color: #ff6b6b;
+            margin: 0 0 8px 0;
+            font-size: 0.95em;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 0.85em;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-medium);
+        }
+
+        .circuit-cta {
+            background: var(--cicf-primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .circuit-cta:hover {
+            background: var(--cicf-secondary);
+            transform: translateY(-2px);
+        }
+
+        .circuits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            padding: 0 40px 40px;
+        }
+
+        .guide-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .guide-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .featured-circuit {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b6b 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-circuit::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 4s infinite;
+            pointer-events: none;
+        }
+
+        .featured-circuit .circuit-title,
+        .featured-circuit .circuit-description {
+            color: white;
+        }
+
+        .featured-circuit .circuit-journey,
+        .featured-circuit .circuit-skills {
+            background: rgba(255,255,255,0.1);
+            border-left-color: white;
+        }
+
+        .featured-circuit .circuit-journey h4,
+        .featured-circuit .circuit-skills h4 {
+            color: white;
+        }
+
+        .featured-circuit .step-description,
+        .featured-circuit .skill-item {
+            color: rgba(255,255,255,0.9);
+        }
+
+        @media (max-width: 768px) {
+            .circuits-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px 40px;
+            }
+            .circuit-card { padding: 20px; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .featured-circuit { grid-column: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header -->
+        <div class="cicf-header">
+            <h1>🗺️ Circuitos CICF</h1>
+            <p>Visitas guiadas ao nosso ecossistema tecnológico com atividades práticas</p>
+        </div>
+
+        <div style="padding: 30px 40px 0;">
+            <a href="../index.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar ao Hub CICF
+            </a>
+        </div>
+
+        <div class="circuits-grid">
+            
+            <!-- Circuito Destaque: Escola de Circuitos -->
+            <div class="circuit-card featured-circuit" onclick="window.location.href='escola-circuitos/index.html'">
+                <div class="circuit-header">
+                    <span class="circuit-icon">🏫</span>
+                    <h3 class="circuit-title">Escola de Circuitos</h3>
+                </div>
+                
+                <div class="circuit-meta">
+                    <span class="meta-badge age-all" style="background: rgba(255,255,255,0.2); color: white;">Todas as idades</span>
+                    <span class="meta-badge duration-badge" style="background: rgba(255,255,255,0.2); color: white;">2-3h</span>
+                    <span class="meta-badge group-badge" style="background: rgba(255,255,255,0.2); color: white;">4-20 pax</span>
+                    <span class="meta-badge difficulty-badge" style="background: rgba(255,255,255,0.2); color: white;">Adaptável</span>
+                </div>
+
+                <p class="circuit-description">
+                    Experiência completa pelos diferentes universos do CICF! Visita guiada interativa que combina 
+                    demonstrações, hands-on experiences e descoberta de vocações tecnológicas.
+                </p>
+
+                <div class="circuit-journey">
+                    <h4>🛤️ Percurso da Visita:</h4>
+                    <div class="journey-step">
+                        <span class="step-number">1</span>
+                        <span class="step-description">Welcome & apresentação do CICF</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">2</span>
+                        <span class="step-description">Estação Impressão 3D - ver e tocar</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">3</span>
+                        <span class="step-description">Estação Programação - códigos simples</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">4</span>
+                        <span class="step-description">Estação Robótica - controlar robots</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">5</span>
+                        <span class="step-description">Estação Gaming - jogar e criar</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">6</span>
+                        <span class="step-description">Reflexão e próximos passos</span>
+                    </div>
+                </div>
+
+                <div class="circuit-skills">
+                    <h4>🎯 Competências Desenvolvidas:</h4>
+                    <div class="skills-grid">
+                        <div class="skill-item">💡 Pensamento computacional</div>
+                        <div class="skill-item">🔧 Resolução de problemas</div>
+                        <div class="skill-item">🎨 Criatividade tecnológica</div>
+                        <div class="skill-item">👥 Trabalho colaborativo</div>
+                        <div class="skill-item">🚀 Curiosidade científica</div>
+                        <div class="skill-item">📱 Literacia digital</div>
+                    </div>
+                </div>
+
+                <button class="circuit-cta" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white;">
+                    🏫 Explorar Escola de Circuitos
+                </button>
+            </div>
+
+            <!-- Circuito 1: Cibersegurança -->
+            <div class="circuit-card" onclick="window.location.href='ciberseguranca/index.html'">
+                <div class="circuit-header">
+                    <span class="circuit-icon">🛡️</span>
+                    <h3 class="circuit-title">Circuito Cibersegurança</h3>
+                </div>
+                
+                <div class="circuit-meta">
+                    <span class="meta-badge age-12-16">12-16 anos</span>
+                    <span class="meta-badge duration-badge">2h</span>
+                    <span class="meta-badge group-badge">8-15 pax</span>
+                    <span class="meta-badge difficulty-badge">Intermédio</span>
+                </div>
+
+                <p class="circuit-description">
+                    Torna-te um detetive digital! Aprende a proteger-te online através de desafios práticos, 
+                    simulações de ataques (éticos) e ferramentas de proteção.
+                </p>
+
+                <div class="circuit-journey">
+                    <h4>🕵️ Missões do Circuito:</h4>
+                    <div class="journey-step">
+                        <span class="step-number">1</span>
+                        <span class="step-description">Briefing: Ameaças digitais reais</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">2</span>
+                        <span class="step-description">Laboratório: Testar passwords fracas</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">3</span>
+                        <span class="step-description">Simulação: Detetar phishing</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">4</span>
+                        <span class="step-description">Hands-on: Configurar 2FA</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">5</span>
+                        <span class="step-description">Desafio: Escape room digital</span>
+                    </div>
+                </div>
+
+                <div class="guide-info">
+                    <div class="guide-name">🔒 Especialista em Cibersegurança</div>
+                    <div>Certified Ethical Hacker (CEH)</div>
+                </div>
+
+                <button class="circuit-cta">
+                    🕵️ Começar Missão
+                </button>
+            </div>
+
+            <!-- Circuito 2: MakeCode Arcade -->
+            <div class="circuit-card" onclick="window.location.href='makecode-arcade/index.html'">
+                <div class="circuit-header">
+                    <span class="circuit-icon">🎮</span>
+                    <h3 class="circuit-title">MakeCode Arcade - Jogo das Portas</h3>
+                </div>
+                
+                <div class="circuit-meta">
+                    <span class="meta-badge age-6-12">6-12 anos</span>
+                    <span class="meta-badge duration-badge">2h</span>
+                    <span class="meta-badge group-badge">6-12 pax</span>
+                    <span class="meta-badge difficulty-badge">Iniciante</span>
+                </div>
+
+                <p class="circuit-description">
+                    Cria o teu primeiro videojogo! Versão simplificada do famoso "Jogo das Portas" 
+                    usando programação visual no MakeCode Arcade.
+                </p>
+
+                <div class="circuit-journey">
+                    <h4>🎯 Fases do Jogo:</h4>
+                    <div class="journey-step">
+                        <span class="step-number">1</span>
+                        <span class="step-description">Introdução ao MakeCode Arcade</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">2</span>
+                        <span class="step-description">Criar sprites das portas</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">3</span>
+                        <span class="step-description">Programar lógica do jogo</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">4</span>
+                        <span class="step-description">Adicionar sons e efeitos</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">5</span>
+                        <span class="step-description">Testar e melhorar o jogo</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">6</span>
+                        <span class="step-description">Torneio entre participantes!</span>
+                    </div>
+                </div>
+
+                <div class="circuit-skills">
+                    <h4>🎯 Vais Aprender:</h4>
+                    <div class="skills-grid">
+                        <div class="skill-item">🧩 Programação visual</div>
+                        <div class="skill-item">🎨 Design de sprites</div>
+                        <div class="skill-item">🔊 Áudio e efeitos</div>
+                        <div class="skill-item">🎲 Lógica de probabilidades</div>
+                        <div class="skill-item">🏆 Game design</div>
+                        <div class="skill-item">🐛 Debugging</div>
+                    </div>
+                </div>
+
+                <button class="circuit-cta">
+                    🕹️ Criar Jogo
+                </button>
+            </div>
+
+            <!-- Circuito 3: Impressão 3D -->
+            <div class="circuit-card" onclick="window.location.href='impressao-3d-stencil/index.html'">
+                <div class="circuit-header">
+                    <span class="circuit-icon">🎨</span>
+                    <h3 class="circuit-title">Impressão 3D - Stencil Personalizado</h3>
+                </div>
+                
+                <div class="circuit-meta">
+                    <span class="meta-badge age-12-plus">12+ anos</span>
+                    <span class="meta-badge duration-badge">2h30</span>
+                    <span class="meta-badge group-badge">6-10 pax</span>
+                    <span class="meta-badge difficulty-badge">Fácil/Médio</span>
+                </div>
+
+                <p class="circuit-description">
+                    Combina design digital e fabricação física! Cria um stencil personalizado 
+                    e usa-o para fazer carimbos únicos que podes levar para casa.
+                </p>
+
+                <div class="circuit-journey">
+                    <h4>🎨 Processo Criativo:</h4>
+                    <div class="journey-step">
+                        <span class="step-number">1</span>
+                        <span class="step-description">Brainstorm de ideias de design</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">2</span>
+                        <span class="step-description">Criar design no Tinkercad</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">3</span>
+                        <span class="step-description">Preparar ficheiro para impressão</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">4</span>
+                        <span class="step-description">Imprimir stencil (30min)</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">5</span>
+                        <span class="step-description">Testar com tintas e papéis</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">6</span>
+                        <span class="step-description">Criar série de carimbos</span>
+                    </div>
+                </div>
+
+                <div class="circuit-skills">
+                    <h4>🎯 Competências:</h4>
+                    <div class="skills-grid">
+                        <div class="skill-item">📐 Design 3D básico</div>
+                        <div class="skill-item">🖨️ Tecnologia de impressão</div>
+                        <div class="skill-item">🎨 Arte e criatividade</div>
+                        <div class="skill-item">⚙️ Processo de fabrico</div>
+                        <div class="skill-item">🔄 Iteração e melhoria</div>
+                        <div class="skill-item">💡 Pensamento visual</div>
+                    </div>
+                </div>
+
+                <button class="circuit-cta">
+                    🖨️ Criar Stencil
+                </button>
+            </div>
+
+            <!-- Circuito 4: Robótica Básica -->
+            <div class="circuit-card" onclick="window.location.href='robotica-basica/index.html'">
+                <div class="circuit-header">
+                    <span class="circuit-icon">🤖</span>
+                    <h3 class="circuit-title">Robótica para Iniciantes</h3>
+                </div>
+                
+                <div class="circuit-meta">
+                    <span class="meta-badge age-6-12">6-12 anos</span>
+                    <span class="meta-badge duration-badge">2h</span>
+                    <span class="meta-badge group-badge">8-12 pax</span>
+                    <span class="meta-badge difficulty-badge">Iniciante</span>
+                </div>
+
+                <p class="circuit-description">
+                    Primeiros passos no mundo da robótica! Programa robots simples usando 
+                    blocos visuais e vê-os ganhar vida nos teus comandos.
+                </p>
+
+                <div class="circuit-journey">
+                    <h4>🤖 Aventura Robótica:</h4>
+                    <div class="journey-step">
+                        <span class="step-number">1</span>
+                        <span class="step-description">Conhecer os robots do CICF</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">2</span>
+                        <span class="step-description">Programação por blocos</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">3</span>
+                        <span class="step-description">Desafio: Labirinto simples</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">4</span>
+                        <span class="step-description">Sensores e decisões</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">5</span>
+                        <span class="step-description">Dança dos robots!</span>
+                    </div>
+                </div>
+
+                <button class="circuit-cta">
+                    🤖 Programar Robot
+                </button>
+            </div>
+
+            <!-- Circuito 5: Música Digital -->
+            <div class="circuit-card" onclick="window.location.href='musica-digital/index.html'">
+                <div class="circuit-header">
+                    <span class="circuit-icon">🎵</span>
+                    <h3 class="circuit-title">Música Digital & Códigos</h3>
+                </div>
+                
+                <div class="circuit-meta">
+                    <span class="meta-badge age-12-16">12-16 anos</span>
+                    <span class="meta-badge duration-badge">2h</span>
+                    <span class="meta-badge group-badge">6-8 pax</span>
+                    <span class="meta-badge difficulty-badge">Criativo</span>
+                </div>
+
+                <p class="circuit-description">
+                    Cria música usando código! Combina arte e tecnologia para compor melodias, 
+                    ritmos e efeitos sonoros através de programação.
+                </p>
+
+                <div class="circuit-journey">
+                    <h4>🎼 Composição Digital:</h4>
+                    <div class="journey-step">
+                        <span class="step-number">1</span>
+                        <span class="step-description">Introdução ao Sonic Pi</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">2</span>
+                        <span class="step-description">Primeiras notas em código</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">3</span>
+                        <span class="step-description">Criar ritmos e loops</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">4</span>
+                        <span class="step-description">Adicionar efeitos sonoros</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">5</span>
+                        <span class="step-description">Concerto final de códigos!</span>
+                    </div>
+                </div>
+
+                <button class="circuit-cta">
+                    🎹 Compor com Código
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Secção de Reservas -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">📅</span>
+                <div>
+                    <div class="cicf-section-title">Reservar Circuito</div>
+                    <div class="cicf-section-subtitle">Agenda a tua visita guiada ao CICF</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 20px 0;">
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 15px;">🏫 Grupos Escolares</h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Circuitos adaptados ao currículo escolar com materiais de apoio para professores.
+                    </p>
+                    <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Circuito Escolar CICF" class="cicf-btn cicf-btn-primary" style="text-decoration: none;">
+                        📚 Agendar Escola
+                    </a>
+                </div>
+                
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 15px;">👨‍👩‍👧‍👦 Famílias</h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Experiências familiares aos fins-de-semana para descobrir vocações tecnológicas.
+                    </p>
+                    <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Circuito Familiar CICF" class="cicf-btn cicf-btn-secondary" style="text-decoration: none;">
+                        👨‍👩‍👧‍👦 Agendar Família
+                    </a>
+                </div>
+                
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 15px;">🎂 Aniversários</h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Festas de aniversário tecnológicas inesquecíveis com atividades personalizadas.
+                    </p>
+                    <a href="../ferramentas/birthday-planner.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none;">
+                        🎉 Planear Festa
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Circuitos Tecnológicos Guiados</p>
+            <p style="margin-top: 8px;">Descoberta vocacional • Experiências hands-on • Aprendizagem através da exploração</p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt" class="cicf-footer-link" style="margin-right: 20px;">
+                    📧 ci.carlosfiolhais@cm-maia.pt
+                </a>
+                <a href="../ferramentas/calendar.html" class="cicf-footer-link">
+                    📅 Ver Disponibilidade
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Circuitos
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Animação de entrada dos cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.circuit-card');
+            
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Shimmer animation para o featured circuit
+        const shimmerKeyframes = `
+            @keyframes shimmer {
+                0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+                100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            }
+        `;
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = shimmerKeyframes;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>

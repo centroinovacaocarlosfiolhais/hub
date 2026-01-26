@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 CICF Hub | Centro de Inovação Carlos Fiolhais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cicf-design-system.css">
+    <style>
+        /* Estilos específicos para o hub principal */
+        .hero-section {
+            background: linear-gradient(135deg, var(--cicf-primary) 0%, var(--cicf-secondary) 50%, #ff6b6b 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 4s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* User Login System */
+        .user-icon {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            padding: 10px 15px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .user-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .user-avatar {
+            font-size: 1.5em;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-hint {
+            font-size: 0.9em;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .user-icon.logged-in .user-avatar {
+            background: #28a745;
+        }
+
+        .user-icon.logged-in .login-hint::after {
+            content: ' ✓';
+            color: #28a745;
+        }
+
+        /* Tools Card Locked State */
+        .tools-locked {
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .tools-locked .lock-overlay {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 5;
+        }
+
+        .lock-icon {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .lock-message {
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .lock-hint {
+            font-size: 0.7em;
+            opacity: 0.8;
+        }
+
+        .tools-unlocked {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .tools-unlocked .lock-overlay {
+            display: none;
+        }
+
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .login-modal.active {
+            display: flex;
+        }
+
+        .login-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+        }
+
+        .login-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .login-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            color: var(--text-medium);
+            font-size: 0.9em;
+        }
+
+        .login-form {
+            margin: 30px 0;
+        }
+
+        .login-field {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .login-field input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .login-field input:focus {
+            outline: none;
+            border-color: var(--cicf-primary);
+        }
+
+        .login-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .login-error {
+            background: #fee;
+            color: #c53030;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .login-success {
+            background: #f0fff4;
+            color: #38a169;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 5px 10px;
+        }
+
+        .modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        .hero-title {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-description {
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 50px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: var(--cicf-primary);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, var(--cicf-primary), var(--cicf-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 1.8em;
+            color: var(--cicf-primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .category-description {
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        .category-outcome {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--cicf-primary);
+            margin-bottom: 20px;
+        }
+
+        .category-outcome strong {
+            color: var(--cicf-primary);
+            font-weight: 600;
+        }
+
+        .category-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 8px;
+            background: var(--bg-light);
+            border-radius: 6px;
+            font-size: 0.85em;
+        }
+
+        .stat-number {
+            display: block;
+            font-weight: 700;
+            color: var(--cicf-primary);
+            font-size: 1.2em;
+        }
+
+        .category-cta {
+            background: var(--cicf-primary);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .category-cta:hover {
+            background: var(--cicf-secondary);
+            transform: translateY(-2px);
+        }
+
+        .quick-stats {
+            background: var(--bg-light);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 30px auto 0;
+        }
+
+        .global-stat {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .global-stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--cicf-primary);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .global-stat-label {
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5em; }
+            .hero-subtitle { font-size: 1.2em; }
+            .categories-grid { 
+                grid-template-columns: 1fr; 
+                padding: 30px 20px;
+                gap: 20px;
+            }
+            .category-card { padding: 25px; }
+            .category-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container" style="max-width: none; margin: 0; border-radius: 0; box-shadow: none;">
+        
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <!-- Login Icon -->
+            <div class="user-icon" onclick="showLoginModal()">
+                <div class="user-avatar">👤</div>
+                <div class="login-hint">Login</div>
+            </div>
+            
+            <h1 class="hero-title">🚀 CICF Hub</h1>
+            <p class="hero-subtitle">Centro de Inovação Carlos Fiolhais</p>
+            <p class="hero-description">
+                Explore o nosso ecossistema de aprendizagem digital! Descubra tutoriais práticos, workshops envolventes, 
+                circuitos guiados, clubes colaborativos e ferramentas inovadoras. Cada experiência é desenhada para 
+                desenvolver competências STEAMD de forma divertida e significativa.
+            </p>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="categories-grid">
+            
+            <!-- Tutoriais -->
+            <div class="category-card" onclick="window.location.href='tutoriais/index.html'">
+                <span class="category-icon">📚</span>
+                <h2 class="category-title">Tutoriais</h2>
+                <p class="category-description">
+                    Guias passo a passo e cenários de aprendizagem onde desenvolves autonomia na resolução de problemas práticos. 
+                    Aprende fazendo e ganha experiência real com tecnologias atuais.
+                </p>
+                <div class="category-outcome">
+                    <strong>Outcome:</strong> Experiência prática + Badge no teu passaporte digital
+                </div>
+                <div class="category-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        Tutoriais
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2-6h</span>
+                        Duração
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">★★★</span>
+                        Auto-ritmo
+                    </div>
+                </div>
+                <button class="category-cta">
+                    🎯 Explorar Tutoriais
+                </button>
+            </div>
+
+            <!-- Workshops -->
+            <div class="category-card" onclick="window.location.href='workshops/index.html'">
+                <span class="category-icon">🛠️</span>
+                <h2 class="category-title">Workshops</h2>
+                <p class="category-description">
+                    Sessões estruturadas com guião de professor para explicar tópicos específicos. 
+                    Formato hands-on com demonstrações práticas e exercícios guiados.
+                </p>
+                <div class="category-outcome">
+                    <strong>Outcome:</strong> Aquisição sólida de conhecimentos especializados
+                </div>
+                <div class="category-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        Workshops
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1-4h</span>
+                        Duração
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">👥</span>
+                        Grupo
+                    </div>
+                </div>
+                <button class="category-cta">
+                    🔧 Ver Workshops
+                </button>
+            </div>
+
+            <!-- Circuitos -->
+            <div class="category-card" onclick="window.location.href='circuitos/index.html'">
+                <span class="category-icon">🗺️</span>
+                <h2 class="category-title">Circuitos</h2>
+                <p class="category-description">
+                    Visitas guiadas ao espaço CICF com atividades de introdução aos nossos universos tecnológicos. 
+                    Perfeito para primeiros contactos e descoberta de novas paixões.
+                </p>
+                <div class="category-outcome">
+                    <strong>Outcome:</strong> Conhecer o CICF + Aprender uma nova competência
+                </div>
+                <div class="category-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">6</span>
+                        Circuitos
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2-3h</span>
+                        Duração
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">🚶‍♂️</span>
+                        Guiado
+                    </div>
+                </div>
+                <button class="category-cta">
+                    🧭 Descobrir Circuitos
+                </button>
+            </div>
+
+            <!-- Clubes -->
+            <div class="category-card" onclick="window.location.href='clubes/index.html'">
+                <span class="category-icon">🤝</span>
+                <h2 class="category-title">Clubes</h2>
+                <p class="category-description">
+                    Atividades de enriquecimento curricular em grupo. Aprendizagem colaborativa que desenvolve 
+                    amizades duradouras e prepara para carreiras STEAMD.
+                </p>
+                <div class="category-outcome">
+                    <strong>Outcome:</strong> Cidadania digital ativa + Amizades + Carreira STEAMD
+                </div>
+                <div class="category-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">7</span>
+                        Clubes ativos
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3 meses</span>
+                        Ciclos
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">👫</span>
+                        Colaborativo
+                    </div>
+                </div>
+                <button class="category-cta">
+                    🎪 Juntar-se aos Clubes
+                </button>
+            </div>
+
+            <!-- Ferramentas -->
+            <div class="category-card tools-locked" id="tools-card">
+                <span class="category-icon">⚡</span>
+                <div class="lock-overlay" id="lock-overlay">
+                    <div class="lock-icon">🔒</div>
+                    <div class="lock-message">Acesso Restrito</div>
+                    <div class="lock-hint">Login necessário</div>
+                </div>
+                <h2 class="category-title">Ferramentas</h2>
+                <p class="category-description">
+                    Repositório de aplicações web úteis para a equipa CICF, participantes, pais e comunidade escolar. 
+                    Soluções práticas para facilitar processos e projectos.
+                </p>
+                <div class="category-outcome">
+                    <strong>Outcome:</strong> Produtividade aumentada + Processos simplificados
+                </div>
+                <div class="category-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">15</span>
+                        Ferramentas
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">🔐</span>
+                        Restrito
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">🌐</span>
+                        Web-based
+                    </div>
+                </div>
+                <button class="category-cta" onclick="showLoginModal()" id="tools-cta">
+                    🔑 Fazer Login
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Quick Stats Section -->
+        <div class="quick-stats">
+            <h2 style="color: var(--cicf-primary); margin-bottom: 10px; font-size: 2.2em;">📊 CICF em Números</h2>
+            <p style="color: var(--text-medium); font-size: 1.1em;">O impacto da nossa comunidade de aprendizagem</p>
+            
+            <div class="stats-grid">
+                <div class="global-stat">
+                    <span class="global-stat-number">500+</span>
+                    <div class="global-stat-label">Participantes Ativos</div>
+                </div>
+                <div class="global-stat">
+                    <span class="global-stat-number">43</span>
+                    <div class="global-stat-label">Atividades Disponíveis</div>
+                </div>
+                <div class="global-stat">
+                    <span class="global-stat-number">15</span>
+                    <div class="global-stat-label">Ferramentas Criadas</div>
+                </div>
+                <div class="global-stat">
+                    <span class="global-stat-number">2,500h</span>
+                    <div class="global-stat-label">de Aprendizagem</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer CICF -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Hub de Atividades Digital v1.0</p>
+            <p style="margin-top: 8px; font-size: 0.9em;">
+                Educação STEAMD • Gaming Pedagógico • Inovação Tecnológica • Cidadania Digital
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="/cdn-cgi/l/email-protection#0162682f6260736d6e7267686e6d6960687241626c2c6c6068602f7175" class="cicf-footer-link" style="margin-right: 20px;">
+                    📧 <span class="__cf_email__" data-cfemail="c2a1abeca1a3b0aeadb1a4abadaeaaa3abb182a1afefafa3aba3ecb2b6">[email&#160;protected]</span>
+                </a>
+                <a href="https://centroinovacaocarlosfiolhais.pt" class="cicf-footer-link">
+                    🌐 centroinovacaocarlosfiolhais.pt
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Hub
+            </button>
+        </div>
+
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Animação de entrada dos cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.category-card');
+            
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        });
+
+        // Scroll suave para seções
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Estatísticas animadas
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.global-stat-number');
+            
+            statNumbers.forEach(stat => {
+                const finalNumber = stat.textContent;
+                const numValue = parseInt(finalNumber.replace(/\D/g, ''));
+                
+                if (!isNaN(numValue)) {
+                    let currentNumber = 0;
+                    const increment = Math.ceil(numValue / 50);
+                    
+                    const timer = setInterval(() => {
+                        currentNumber += increment;
+                        if (currentNumber >= numValue) {
+                            stat.textContent = finalNumber;
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = currentNumber + finalNumber.replace(/\d+/, '');
+                        }
+                    }, 30);
+                }
+            });
+        }
+
+        // Trigger animação das stats quando visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const statsSection = document.querySelector('.quick-stats');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+        });
+
+        // Estado do login
+        let isLoggedIn = localStorage.getItem('cicf_logged_in') === 'true';
+        
+        // Verificar login ao carregar página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (isLoggedIn) {
+                showToolsSection();
+                updateUserIcon(true);
+            }
+        });
+
+        function showLoginModal() {
+            if (isLoggedIn) {
+                // Se já está logado, vai direto às ferramentas
+                window.location.href = 'ferramentas/index.html';
+                return;
+            }
+            
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('username').focus();
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginSuccess').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('loginError');
+            const successDiv = document.getElementById('loginSuccess');
+            
+            // Esconder mensagens anteriores
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Verificar credenciais
+            if (username === 'cicf' && password === 'CarlosFiolhais') {
+                // Login bem-sucedido
+                isLoggedIn = true;
+                localStorage.setItem('cicf_logged_in', 'true');
+                
+                successDiv.style.display = 'block';
+                updateUserIcon(true);
+                showToolsSection();
+                
+                // Redirecionar após 2 segundos
+                setTimeout(() => {
+                    closeLoginModal();
+                    window.location.href = 'ferramentas/index.html';
+                }, 2000);
+                
+            } else {
+                // Login falhado
+                errorDiv.style.display = 'block';
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+                
+                // Shake animation no form
+                const form = document.querySelector('.login-content');
+                form.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    form.style.animation = '';
+                }, 500);
+            }
+        }
+
+        function updateUserIcon(loggedIn) {
+            const userIcon = document.querySelector('.user-icon');
+            const loginHint = document.querySelector('.login-hint');
+            
+            if (loggedIn) {
+                userIcon.classList.add('logged-in');
+                loginHint.textContent = 'CICF';
+                userIcon.onclick = () => window.location.href = 'ferramentas/index.html';
+            } else {
+                userIcon.classList.remove('logged-in');
+                loginHint.textContent = 'Login';
+                userIcon.onclick = showLoginModal;
+            }
+        }
+
+        function showToolsSection() {
+            const toolsCard = document.getElementById('tools-card');
+            const toolsCta = document.getElementById('tools-cta');
+            const lockOverlay = document.getElementById('lock-overlay');
+            
+            toolsCard.classList.remove('tools-locked');
+            toolsCard.classList.add('tools-unlocked');
+            toolsCard.onclick = () => window.location.href = 'ferramentas/index.html';
+            
+            toolsCta.innerHTML = '🧰 Aceder às Ferramentas';
+            toolsCta.onclick = () => window.location.href = 'ferramentas/index.html';
+            
+            lockOverlay.style.display = 'none';
+            
+            // Update stats
+            const restrictedStat = toolsCard.querySelector('.stat-item:nth-child(2) .stat-number');
+            restrictedStat.textContent = '∞';
+            restrictedStat.parentNode.lastChild.textContent = 'Disponível';
+        }
+
+        // Fechar modal ao clicar fora
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                closeLoginModal();
+            }
+        });
+
+        // CSS para animação de shake (erro de login)
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <button class="modal-close" onclick="closeLoginModal()">×</button>
+            
+            <div class="login-header">
+                <span class="login-icon">🔐</span>
+                <h2 class="login-title">Acesso às Ferramentas</h2>
+                <p class="login-subtitle">Área restrita da equipa CICF</p>
+            </div>
+            
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <div class="login-field">
+                    <label for="username">Utilizador:</label>
+                    <input type="text" id="username" name="username" required placeholder="Digite o utilizador">
+                </div>
+                
+                <div class="login-field">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required placeholder="Digite a password">
+                </div>
+                
+                <div class="login-error" id="loginError">
+                    ❌ Credenciais incorretas. Tente novamente.
+                </div>
+                
+                <div class="login-success" id="loginSuccess">
+                    ✅ Login realizado com sucesso! Redirecionando...
+                </div>
+                
+                <div class="login-buttons">
+                    <button type="button" class="cicf-btn cicf-btn-ghost" onclick="closeLoginModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="cicf-btn cicf-btn-primary">
+                        🔓 Entrar
+                    </button>
+                </div>
+            </form>
+            
+            <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid #f0f0f0; font-size: 0.85em; color: var(--text-light);">
+                💡 <strong>Equipa CICF:</strong> Use as credenciais fornecidas pela coordenação para aceder às ferramentas internas.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+         

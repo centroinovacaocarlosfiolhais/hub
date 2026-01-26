@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Ferramentas CICF | Webapps & Utilidades</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../cicf-design-system.css">
+    <style>
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            height: fit-content;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-color: var(--cicf-primary);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            justify-content: space-between;
+        }
+
+        .tool-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .tool-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+
+        .tool-title {
+            font-size: 1.4em;
+            color: var(--cicf-primary);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .tool-status {
+            font-size: 0.8em;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .status-live { background: #d4edda; color: #155724; }
+        .status-beta { background: #fff3cd; color: #856404; }
+        .status-new { background: #f8d7da; color: #721c24; }
+        .status-updated { background: #e1ecf4; color: #0c5460; }
+
+        .tool-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .category-productivity { background: #e1ecf4; color: #0c5460; }
+        .category-educational { background: #d4edda; color: #155724; }
+        .category-creative { background: #f8d7da; color: #721c24; }
+        .category-utility { background: #f0f0f0; color: var(--text-medium); }
+
+        .tool-description {
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .tool-features {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--cicf-primary);
+            margin-bottom: 20px;
+        }
+
+        .tool-features h4 {
+            color: var(--cicf-primary);
+            margin: 0 0 10px 0;
+            font-size: 0.95em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 0.85em;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-medium);
+        }
+
+        .tool-usage {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        .tool-usage h4 {
+            color: #ff6b6b;
+            margin: 0 0 8px 0;
+            font-size: 0.95em;
+        }
+
+        .usage-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.85em;
+        }
+
+        .usage-item {
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .usage-number {
+            display: block;
+            font-weight: 700;
+            color: #ff6b6b;
+            font-size: 1.2em;
+            margin-bottom: 2px;
+        }
+
+        .tool-cta {
+            background: var(--cicf-primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .tool-cta:hover {
+            background: var(--cicf-secondary);
+            transform: translateY(-2px);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            padding: 0 40px 40px;
+        }
+
+        .category-filter {
+            display: flex;
+            gap: 15px;
+            margin: 30px 40px 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: white;
+            color: var(--cicf-primary);
+            border: 2px solid var(--cicf-primary);
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--cicf-primary);
+            color: white;
+        }
+
+        .featured-tool {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b6b 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-tool::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 4s infinite;
+            pointer-events: none;
+        }
+
+        .featured-tool .tool-title,
+        .featured-tool .tool-description {
+            color: white;
+        }
+
+        .featured-tool .tool-features,
+        .featured-tool .tool-usage {
+            background: rgba(255,255,255,0.1);
+            border-left-color: white;
+        }
+
+        .featured-tool .tool-features h4,
+        .featured-tool .tool-usage h4 {
+            color: white;
+        }
+
+        .featured-tool .feature-item {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .developer-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+        }
+
+        .developer-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px 40px;
+            }
+            .tool-card { padding: 20px; }
+            .category-filter { margin: 20px 20px 15px; }
+            .featured-tool { grid-column: 1; }
+            .features-grid, .usage-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header -->
+        <div class="cicf-header">
+            <h1>⚡ Ferramentas CICF</h1>
+            <p>Webapps e utilidades para facilitar processos e potenciar projetos</p>
+        </div>
+
+        <div style="padding: 30px 40px 0;">
+            <a href="../index.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar ao Hub CICF
+            </a>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <div class="filter-btn active" onclick="filterTools('all')">🎯 Todas</div>
+            <div class="filter-btn" onclick="filterTools('productivity')">💼 Produtividade</div>
+            <div class="filter-btn" onclick="filterTools('educational')">📚 Educacional</div>
+            <div class="filter-btn" onclick="filterTools('creative')">🎨 Criativo</div>
+            <div class="filter-btn" onclick="filterTools('utility')">🔧 Utilidade</div>
+        </div>
+
+        <div class="tools-grid">
+            
+            <!-- Ferramenta Destaque: Canvas Projeto -->
+            <div class="tool-card featured-tool" data-category="productivity" onclick="window.location.href='canvas-projeto/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">📋</span>
+                        <h3 class="tool-title">Canvas de Projeto CICF</h3>
+                    </div>
+                    <span class="tool-status status-new" style="background: rgba(255,255,255,0.2); color: white;">Novo!</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-productivity" style="background: rgba(255,255,255,0.2); color: white;">Produtividade</span>
+                </div>
+
+                <p class="tool-description">
+                    Ferramenta visual para planear e documentar projetos educativos CICF. 
+                    Interface intuitiva que gera automaticamente documentação profissional e one-pagers.
+                </p>
+
+                <div class="tool-features">
+                    <h4>✨ Funcionalidades:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">📝 Editor visual interativo</div>
+                        <div class="feature-item">🎯 Templates por área</div>
+                        <div class="feature-item">📊 Métricas automáticas</div>
+                        <div class="feature-item">🖨️ Export PDF/HTML</div>
+                        <div class="feature-item">👥 Colaboração em tempo real</div>
+                        <div class="feature-item">💾 Auto-save local</div>
+                    </div>
+                </div>
+
+                <div class="tool-usage">
+                    <h4>📈 Utilização:</h4>
+                    <div class="usage-stats">
+                        <div class="usage-item">
+                            <span class="usage-number">47</span>
+                            <div>Projetos criados</div>
+                        </div>
+                        <div class="usage-item">
+                            <span class="usage-number">23</span>
+                            <div>Utilizadores ativos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="tool-cta" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white;">
+                    🚀 Criar Projeto
+                </button>
+            </div>
+
+            <!-- Ferramenta 1: CICF HTML Converter -->
+            <div class="tool-card" data-category="utility" onclick="window.location.href='html-converter/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">🔄</span>
+                        <h3 class="tool-title">CICF HTML Converter</h3>
+                    </div>
+                    <span class="tool-status status-live">Live</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-utility">Utilidade</span>
+                </div>
+
+                <p class="tool-description">
+                    Converte qualquer HTML para o CICF Design System. Normaliza páginas web 
+                    mantendo funcionalidade e aplicando consistência visual.
+                </p>
+
+                <div class="tool-features">
+                    <h4>⚙️ Capacidades:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">🎨 Design System automático</div>
+                        <div class="feature-item">📱 Responsive por defeito</div>
+                        <div class="feature-item">🖨️ Print-ready (A4)</div>
+                        <div class="feature-item">🔍 Análise de código</div>
+                        <div class="feature-item">💾 Download direto</div>
+                        <div class="feature-item">📋 Copy/paste fácil</div>
+                    </div>
+                </div>
+
+                <div class="developer-info">
+                    <div class="developer-name">🤖 Desenvolvido por IA</div>
+                    <div>Claude + CICF Design Team</div>
+                </div>
+
+                <button class="tool-cta">
+                    🔄 Converter HTML
+                </button>
+            </div>
+
+            <!-- Ferramenta 2: Seletor de Circuitos -->
+            <div class="tool-card" data-category="educational" onclick="window.location.href='circuit-selector/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">🗺️</span>
+                        <h3 class="tool-title">Seletor de Circuitos</h3>
+                    </div>
+                    <span class="tool-status status-beta">Beta</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-educational">Educacional</span>
+                </div>
+
+                <p class="tool-description">
+                    Quiz inteligente que recomenda o circuito CICF ideal baseado em idade, 
+                    interesses e objetivos de aprendizagem. Perfect match em 2 minutos!
+                </p>
+
+                <div class="tool-features">
+                    <h4>🎯 Como Funciona:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">🧠 Quiz personalizado</div>
+                        <div class="feature-item">📊 Algoritmo de matching</div>
+                        <div class="feature-item">📅 Verificação disponibilidade</div>
+                        <div class="feature-item">📧 Agendamento direto</div>
+                        <div class="feature-item">💡 Sugestões alternativas</div>
+                        <div class="feature-item">📱 Interface mobile-first</div>
+                    </div>
+                </div>
+
+                <div class="tool-usage">
+                    <h4>🎯 Precisão:</h4>
+                    <div class="usage-stats">
+                        <div class="usage-item">
+                            <span class="usage-number">94%</span>
+                            <div>Satisfação</div>
+                        </div>
+                        <div class="usage-item">
+                            <span class="usage-number">156</span>
+                            <div>Matches feitos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="tool-cta">
+                    🧭 Descobrir Circuito
+                </button>
+            </div>
+
+            <!-- Ferramenta 3: Calendário CICF -->
+            <div class="tool-card" data-category="productivity" onclick="window.location.href='calendar/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">📅</span>
+                        <h3 class="tool-title">Calendário CICF</h3>
+                    </div>
+                    <span class="tool-status status-updated">Atualizado</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-productivity">Produtividade</span>
+                </div>
+
+                <p class="tool-description">
+                    Visualização unificada de todas as atividades CICF: workshops, clubes, 
+                    circuitos e eventos especiais. Sincronização com Google Calendar.
+                </p>
+
+                <div class="tool-features">
+                    <h4>📋 Funcionalidades:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">🗓️ Vista mensal/semanal</div>
+                        <div class="feature-item">🔔 Notificações</div>
+                        <div class="feature-item">🔗 Sync Google Calendar</div>
+                        <div class="feature-item">🎯 Filtros por categoria</div>
+                        <div class="feature-item">📱 App mobile</div>
+                        <div class="feature-item">📧 Lembretes automáticos</div>
+                    </div>
+                </div>
+
+                <button class="tool-cta">
+                    📅 Ver Agenda
+                </button>
+            </div>
+
+            <!-- Ferramenta 4: Gerador de Badges -->
+            <div class="tool-card" data-category="educational" onclick="window.location.href='badge-generator/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">🏆</span>
+                        <h3 class="tool-title">Gerador de Badges</h3>
+                    </div>
+                    <span class="tool-status status-live">Live</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-educational">Educacional</span>
+                </div>
+
+                <p class="tool-description">
+                    Cria badges digitais para certificar competências desenvolvidas no CICF. 
+                    Integração com blockchain para verificação autêntica.
+                </p>
+
+                <div class="tool-features">
+                    <h4>🎖️ Tipos de Badge:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">📚 Tutorial completado</div>
+                        <div class="feature-item">🛠️ Workshop participado</div>
+                        <div class="feature-item">🗺️ Circuito explorado</div>
+                        <div class="feature-item">🤝 Clube membro ativo</div>
+                        <div class="feature-item">🎯 Projeto finalizado</div>
+                        <div class="feature-item">🏆 Mentor certificado</div>
+                    </div>
+                </div>
+
+                <button class="tool-cta">
+                    🏆 Gerar Badge
+                </button>
+            </div>
+
+            <!-- Ferramenta 5: Quiz Creator -->
+            <div class="tool-card" data-category="educational" onclick="window.location.href='quiz-creator/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">🧠</span>
+                        <h3 class="tool-title">Quiz Creator</h3>
+                    </div>
+                    <span class="tool-status status-live">Live</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-educational">Educacional</span>
+                </div>
+
+                <p class="tool-description">
+                    Editor visual para criar quizzes interativos e avaliações. 
+                    Templates prontos para diferentes áreas do conhecimento.
+                </p>
+
+                <div class="tool-features">
+                    <h4>🎯 Tipos de Questão:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">☑️ Múltipla escolha</div>
+                        <div class="feature-item">✍️ Resposta aberta</div>
+                        <div class="feature-item">🎚️ Escala Likert</div>
+                        <div class="feature-item">🖼️ Identificar imagem</div>
+                        <div class="feature-item">⏱️ Resposta cronometrada</div>
+                        <div class="feature-item">📊 Análise de resultados</div>
+                    </div>
+                </div>
+
+                <button class="tool-cta">
+                    🧠 Criar Quiz
+                </button>
+            </div>
+
+            <!-- Ferramenta 6: 3D Model Viewer -->
+            <div class="tool-card" data-category="creative" onclick="window.location.href='3d-viewer/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">🎨</span>
+                        <h3 class="tool-title">Visualizador 3D</h3>
+                    </div>
+                    <span class="tool-status status-beta">Beta</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-creative">Criativo</span>
+                </div>
+
+                <p class="tool-description">
+                    Visualiza modelos 3D no browser sem software adicional. 
+                    Ideal para partilhar projetos de impressão 3D e CAD.
+                </p>
+
+                <div class="tool-features">
+                    <h4>📂 Formatos Suportados:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">📁 STL, OBJ, PLY</div>
+                        <div class="feature-item">⚙️ GLTF, GLB</div>
+                        <div class="feature-item">🔄 Rotação livre</div>
+                        <div class="feature-item">🔍 Zoom avançado</div>
+                        <div class="feature-item">🎨 Materiais e texturas</div>
+                        <div class="feature-item">📸 Screenshot integrado</div>
+                    </div>
+                </div>
+
+                <button class="tool-cta">
+                    👀 Visualizar 3D
+                </button>
+            </div>
+
+            <!-- Ferramenta 7: Password Generator -->
+            <div class="tool-card" data-category="utility" onclick="window.location.href='password-gen/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">🔐</span>
+                        <h3 class="tool-title">Gerador de Passwords</h3>
+                    </div>
+                    <span class="tool-status status-live">Live</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-utility">Utilidade</span>
+                </div>
+
+                <p class="tool-description">
+                    Gera passwords seguras com diferentes níveis de complexidade. 
+                    Incluí validador de força e dicas de segurança.
+                </p>
+
+                <div class="tool-features">
+                    <h4>🔒 Opções de Segurança:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">🔤 Letras maiúsculas/minúsculas</div>
+                        <div class="feature-item">🔢 Números incluídos</div>
+                        <div class="feature-item">🔣 Símbolos especiais</div>
+                        <div class="feature-item">📏 Comprimento variável</div>
+                        <div class="feature-item">📊 Medidor de força</div>
+                        <div class="feature-item">📋 Copy one-click</div>
+                    </div>
+                </div>
+
+                <button class="tool-cta">
+                    🔐 Gerar Password
+                </button>
+            </div>
+
+            <!-- Ferramenta 8: Color Palette -->
+            <div class="tool-card" data-category="creative" onclick="window.location.href='color-palette/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">🎨</span>
+                        <h3 class="tool-title">Paleta de Cores CICF</h3>
+                    </div>
+                    <span class="tool-status status-live">Live</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-creative">Criativo</span>
+                </div>
+
+                <p class="tool-description">
+                    Ferramenta para explorar e extrair cores do CICF Design System. 
+                    Gera paletas harmoniosas para projetos educativos.
+                </p>
+
+                <div class="tool-features">
+                    <h4>🌈 Funcionalidades:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">🎨 Cores oficiais CICF</div>
+                        <div class="feature-item">🔄 Variações automáticas</div>
+                        <div class="feature-item">♿ Teste de contraste</div>
+                        <div class="feature-item">📋 Export CSS/JSON</div>
+                        <div class="feature-item">🔍 Color picker</div>
+                        <div class="feature-item">📱 Preview mobile</div>
+                    </div>
+                </div>
+
+                <button class="tool-cta">
+                    🎨 Explorar Cores
+                </button>
+            </div>
+
+            <!-- Ferramenta 9: QR Code Generator -->
+            <div class="tool-card" data-category="utility" onclick="window.location.href='qr-generator/index.html'">
+                <div class="tool-header">
+                    <div class="tool-info">
+                        <span class="tool-icon">📱</span>
+                        <h3 class="tool-title">Gerador QR Code</h3>
+                    </div>
+                    <span class="tool-status status-live">Live</span>
+                </div>
+                
+                <div class="tool-meta">
+                    <span class="meta-badge category-utility">Utilidade</span>
+                </div>
+
+                <p class="tool-description">
+                    Cria QR codes personalizados para atividades CICF. 
+                    Links, WiFi, contactos e muito mais com branding CICF.
+                </p>
+
+                <div class="tool-features">
+                    <h4>📱 Tipos de QR Code:</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">🔗 URLs e links</div>
+                        <div class="feature-item">📶 Credenciais WiFi</div>
+                        <div class="feature-item">📧 Emails pré-formatados</div>
+                        <div class="feature-item">📱 Contactos vCard</div>
+                        <div class="feature-item">🎨 Personalização visual</div>
+                        <div class="feature-item">💾 Download alta resolução</div>
+                    </div>
+                </div>
+
+                <button class="tool-cta">
+                    📱 Gerar QR Code
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Secção de Desenvolvimento -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🛠️</span>
+                <div>
+                    <div class="cicf-section-title">Desenvolver Nova Ferramenta</div>
+                    <div class="cicf-section-subtitle">Tens uma ideia para uma webapp útil?</div>
+                </div>
+            </div>
+            
+            <p style="margin-bottom: 25px; text-align: center; color: var(--text-medium); font-size: 1.1em; max-width: 600px; margin-left: auto; margin-right: auto;">
+                As ferramentas CICF nascem de necessidades reais da nossa comunidade. 
+                Partilha a tua ideia e vamos criar algo útil juntos!
+            </p>
+            
+            <div style="text-align: center; margin-bottom: 30px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Nova Ferramenta CICF&body=Olá! Tenho uma ideia para uma ferramenta que..." 
+                   class="cicf-btn cicf-btn-primary" style="text-decoration: none;">
+                    💡 Propor Ferramenta
+                </a>
+                <a href="webapp-template/index.html" class="cicf-btn cicf-btn-secondary" style="margin-left: 15px; text-decoration: none;">
+                    📋 Template WebApp
+                </a>
+            </div>
+
+            <!-- Tech Stack -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <h4 style="color: var(--cicf-primary); margin-bottom: 20px; text-align: center;">🔧 Stack Tecnológico</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; text-align: center;">
+                    <div style="padding: 15px;">
+                        <div style="font-size: 2em; margin-bottom: 8px;">🌐</div>
+                        <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 4px;">Frontend</div>
+                        <div style="font-size: 0.85em; color: var(--text-medium);">HTML5, CSS3, JS</div>
+                    </div>
+                    <div style="padding: 15px;">
+                        <div style="font-size: 2em; margin-bottom: 8px;">🎨</div>
+                        <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 4px;">Design</div>
+                        <div style="font-size: 0.85em; color: var(--text-medium);">CICF Design System</div>
+                    </div>
+                    <div style="padding: 15px;">
+                        <div style="font-size: 2em; margin-bottom: 8px;">📱</div>
+                        <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 4px;">Responsive</div>
+                        <div style="font-size: 0.85em; color: var(--text-medium);">Mobile-first</div>
+                    </div>
+                    <div style="padding: 15px;">
+                        <div style="font-size: 2em; margin-bottom: 8px;">🤖</div>
+                        <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 4px;">AI Helper</div>
+                        <div style="font-size: 0.85em; color: var(--text-medium);">Claude Assistant</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Ferramentas & Webapps</p>
+            <p style="margin-top: 8px;">Produtividade aumentada • Processos simplificados • Sempre disponível • Open Source</p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt" class="cicf-footer-link" style="margin-right: 20px;">
+                    📧 ci.carlosfiolhais@cm-maia.pt
+                </a>
+                <a href="https://github.com/cicf-tools" class="cicf-footer-link">
+                    💻 GitHub CICF
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Ferramentas
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Animação de entrada dos cards
+        document.addEventListener('DOMContentLoaded', function() {
+            filterTools('all');
+            
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Filtrar ferramentas por categoria
+        function filterTools(category) {
+            const cards = document.querySelectorAll('.tool-card');
+            const filters = document.querySelectorAll('.filter-btn');
+            
+            // Update filter buttons
+            filters.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const cardCategory = card.dataset.category || '';
+                    if (cardCategory === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Counter animation para usage stats
+        function animateCounters() {
+            const numbers = document.querySelectorAll('.usage-number');
+            
+            numbers.forEach(number => {
+                const finalValue = parseInt(number.textContent);
+                if (!isNaN(finalValue)) {
+                    let currentValue = 0;
+                    const increment = Math.ceil(finalValue / 30);
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= finalValue) {
+                            number.textContent = finalValue;
+                            clearInterval(timer);
+                        } else {
+                            number.textContent = currentValue;
+                        }
+                    }, 50);
+                }
+            });
+        }
+
+        // Trigger animação quando visível
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.disconnect();
+                }
+            });
+        });
+
+        const statsElements = document.querySelectorAll('.usage-stats');
+        statsElements.forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
