@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤝 Clubes CICF | Aprendizagem Colaborativa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../cicf-design-system.css">
+    <style>
+        .club-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            height: fit-content;
+        }
+
+        .club-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-color: var(--cicf-primary);
+        }
+
+        .club-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .club-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+            line-height: 1;
+        }
+
+        .club-info {
+            flex: 1;
+        }
+
+        .club-title {
+            font-size: 1.4em;
+            color: var(--cicf-primary);
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+
+        .club-status {
+            font-size: 0.8em;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-active { background: #d4edda; color: #155724; }
+        .status-starting { background: #fff3cd; color: #856404; }
+        .status-planning { background: #f8d7da; color: #721c24; }
+        .status-full { background: #e2e3e5; color: #495057; }
+
+        .club-meta {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .age-badge { background: #e1ecf4; color: #0c5460; }
+        .schedule-badge { background: #f0f0f0; color: var(--text-medium); }
+        .members-badge { background: #e2e3e5; color: #495057; }
+
+        .club-description {
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .club-cycle {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--cicf-primary);
+            margin-bottom: 20px;
+        }
+
+        .club-cycle h4 {
+            color: var(--cicf-primary);
+            margin: 0 0 10px 0;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cycle-item {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .cycle-month {
+            font-weight: 600;
+            color: var(--cicf-secondary);
+            min-width: 80px;
+            margin-right: 10px;
+        }
+
+        .cycle-activity {
+            color: var(--text-medium);
+            flex: 1;
+        }
+
+        .club-outcomes {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        .club-outcomes h4 {
+            color: #ff6b6b;
+            margin: 0 0 8px 0;
+            font-size: 0.95em;
+        }
+
+        .outcomes-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .outcomes-list li {
+            color: var(--text-medium);
+            font-size: 0.85em;
+            margin-bottom: 4px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .outcomes-list li::before {
+            content: '🎯';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .club-cta {
+            background: var(--cicf-primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .club-cta:hover {
+            background: var(--cicf-secondary);
+            transform: translateY(-2px);
+        }
+
+        .club-cta.full {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .club-cta.full:hover {
+            background: #6c757d;
+            transform: none;
+        }
+
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            padding: 0 40px 40px;
+        }
+
+        .coordinator-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+        }
+
+        .coordinator-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .cycle-tabs {
+            display: flex;
+            gap: 15px;
+            margin: 30px 40px 20px;
+            flex-wrap: wrap;
+        }
+
+        .cycle-tab {
+            padding: 10px 20px;
+            background: white;
+            color: var(--cicf-primary);
+            border: 2px solid var(--cicf-primary);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cycle-tab.active,
+        .cycle-tab:hover {
+            background: var(--cicf-primary);
+            color: white;
+        }
+
+        .featured-club {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b6b 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-club::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 4s infinite;
+            pointer-events: none;
+        }
+
+        .featured-club .club-title,
+        .featured-club .club-description {
+            color: white;
+        }
+
+        .featured-club .club-cycle,
+        .featured-club .club-outcomes {
+            background: rgba(255,255,255,0.1);
+            border-left-color: white;
+        }
+
+        .featured-club .club-cycle h4,
+        .featured-club .club-outcomes h4 {
+            color: white;
+        }
+
+        .featured-club .cycle-activity,
+        .featured-club .outcomes-list li {
+            color: rgba(255,255,255,0.9);
+        }
+
+        @media (max-width: 768px) {
+            .clubs-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px 40px;
+            }
+            .club-card { padding: 20px; }
+            .cycle-tabs { margin: 20px 20px 15px; }
+            .featured-club { grid-column: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header -->
+        <div class="cicf-header">
+            <h1>🤝 Clubes CICF</h1>
+            <p>Comunidades de aprendizagem colaborativa com ciclos trimestrais</p>
+        </div>
+
+        <div style="padding: 30px 40px 0;">
+            <a href="../index.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar ao Hub CICF
+            </a>
+        </div>
+
+        <!-- Cycle Tabs -->
+        <div class="cycle-tabs">
+            <div class="cycle-tab active" onclick="showCycle('all')">🎯 Todos os Clubes</div>
+            <div class="cycle-tab" onclick="showCycle('q1')">🌱 Q1 - Jan-Mar</div>
+            <div class="cycle-tab" onclick="showCycle('q2')">🌞 Q2 - Abr-Jun</div>
+            <div class="cycle-tab" onclick="showCycle('q3')">🍂 Q3 - Jul-Set</div>
+            <div class="cycle-tab" onclick="showCycle('q4')">❄️ Q4 - Out-Dez</div>
+        </div>
+
+        <div class="clubs-grid">
+            
+            <!-- Clube Destaque: Código & AI -->
+            <div class="club-card featured-club" data-cycle="q1 q2" onclick="window.location.href='codigo-ai/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">🤖</span>
+                    <div class="club-info">
+                        <h3 class="club-title">Clube de Código & AI</h3>
+                        <span class="club-status status-active" style="background: rgba(255,255,255,0.2); color: white;">Ativo - Vibe Coding</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge" style="background: rgba(255,255,255,0.2); color: white;">12-18 anos</span>
+                    <span class="meta-badge schedule-badge" style="background: rgba(255,255,255,0.2); color: white;">Sáb 14h-17h</span>
+                    <span class="meta-badge members-badge" style="background: rgba(255,255,255,0.2); color: white;">8/12 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Comunidade de jovens programadores explorando Inteligência Artificial, Machine Learning e tecnologias emergentes. 
+                    Projetos reais, hackathons internos e colaboração com startups tecnológicas.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Ciclo Trimestral (Jan-Mar 2026):</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Janeiro</span>
+                        <span class="cycle-activity">Fundamentos de Python & AI</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Fevereiro</span>
+                        <span class="cycle-activity">Machine Learning prático</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Março</span>
+                        <span class="cycle-activity">Hackathon de AI para o bem</span>
+                    </div>
+                </div>
+
+                <div class="club-outcomes">
+                    <h4>🏆 Outcomes:</h4>
+                    <ul class="outcomes-list">
+                        <li>Portfolio de projetos AI</li>
+                        <li>Certificações em plataformas online</li>
+                        <li>Rede de contactos na industria tech</li>
+                        <li>Preparação para carreiras STEM</li>
+                    </ul>
+                </div>
+
+                <div class="coordinator-info" style="background: rgba(255,255,255,0.2);">
+                    <div class="coordinator-name">💻 Coordenador: Tech Lead CICF</div>
+                    <div>Especialista em AI & Data Science</div>
+                </div>
+
+                <button class="club-cta" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white;">
+                    🚀 Integrar Clube de Código
+                </button>
+            </div>
+
+            <!-- Clube 1: Robótica -->
+            <div class="club-card" data-cycle="q1 q3" onclick="window.location.href='robotica/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">🤖</span>
+                    <div class="club-info">
+                        <h3 class="club-title">Clube de Robótica</h3>
+                        <span class="club-status status-active">Ativo</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge">10-16 anos</span>
+                    <span class="meta-badge schedule-badge">Qua 16h-18h</span>
+                    <span class="meta-badge members-badge">6/10 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Construção e programação de robots para competições. Desde LEGO Mindstorms até Arduino, 
+                    desenvolvemos soluções robóticas para problemas reais.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Ciclo Atual (Jan-Mar):</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Janeiro</span>
+                        <span class="cycle-activity">Robot seguidor de linha</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Fevereiro</span>
+                        <span class="cycle-activity">Sensores e navegação</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Março</span>
+                        <span class="cycle-activity">Competição First Lego League</span>
+                    </div>
+                </div>
+
+                <div class="coordinator-info">
+                    <div class="coordinator-name">🔧 Eng. Robótica CICF</div>
+                    <div>Mentor certificado FIRST Robotics</div>
+                </div>
+
+                <button class="club-cta">
+                    🤖 Construir Robots
+                </button>
+            </div>
+
+            <!-- Clube 2: Gaming -->
+            <div class="club-card" data-cycle="q2 q4" onclick="window.location.href='gaming/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">🎮</span>
+                    <div class="club-info">
+                        <h3 class="club-title">Clube de Gaming Educativo</h3>
+                        <span class="club-status status-active">Ativo</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge">12-18 anos</span>
+                    <span class="meta-badge schedule-badge">Sex 17h-19h</span>
+                    <span class="meta-badge members-badge">12/16 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Esports educativo focado em estratégia, trabalho em equipa e fair play. 
+                    Criação de jogos, análise de gameplay e torneios internos.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Próximo Ciclo (Abr-Jun):</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Abril</span>
+                        <span class="cycle-activity">Design de jogos indie</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Maio</span>
+                        <span class="cycle-activity">Torneio de estratégia</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Junho</span>
+                        <span class="cycle-activity">Game jam 48h</span>
+                    </div>
+                </div>
+
+                <button class="club-cta">
+                    🏆 Jogar & Criar
+                </button>
+            </div>
+
+            <!-- Clube 3: Rádio CICF -->
+            <div class="club-card" data-cycle="q1 q2 q3 q4" onclick="window.location.href='radio/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">📻</span>
+                    <div class="club-info">
+                        <h3 class="club-title">Rádio CICF</h3>
+                        <span class="club-status status-active">Ativo</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge">14+ anos</span>
+                    <span class="meta-badge schedule-badge">Ter 18h-20h</span>
+                    <span class="meta-badge members-badge">8/12 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Produção de podcasts, programas de rádio e conteúdo audio digital. 
+                    Comunicação, jornalismo digital e tecnologias de som.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Programação Permanente:</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Sempre</span>
+                        <span class="cycle-activity">Programa semanal "CICF On Air"</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Mensal</span>
+                        <span class="cycle-activity">Entrevistas com makers</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Especial</span>
+                        <span class="cycle-activity">Cobertura de eventos tech</span>
+                    </div>
+                </div>
+
+                <button class="club-cta">
+                    🎙️ Ir para o Ar
+                </button>
+            </div>
+
+            <!-- Clube 4: Jornal Digital -->
+            <div class="club-card" data-cycle="q1 q3" onclick="window.location.href='jornal/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">📰</span>
+                    <div class="club-info">
+                        <h3 class="club-title">Jornal Digital CICF</h3>
+                        <span class="club-status status-starting">A começar</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge">12+ anos</span>
+                    <span class="meta-badge schedule-badge">Dom 10h-12h</span>
+                    <span class="meta-badge members-badge">4/8 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Redação colaborativa de artigos sobre tecnologia, ciência e inovação. 
+                    Website, newsletter e redes sociais do CICF.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Cronograma Editorial:</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Semanal</span>
+                        <span class="cycle-activity">2 artigos + newsletter</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Mensal</span>
+                        <span class="cycle-activity">Revista digital temática</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Especial</span>
+                        <span class="cycle-activity">Cobertura eventos CICF</span>
+                    </div>
+                </div>
+
+                <button class="club-cta">
+                    ✍️ Escrever Futuro
+                </button>
+            </div>
+
+            <!-- Clube 5: 3D for a Cause -->
+            <div class="club-card" data-cycle="q2 q4" onclick="window.location.href='3d-cause/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">🌍</span>
+                    <div class="club-info">
+                        <h3 class="club-title">3D for a Cause</h3>
+                        <span class="club-status status-planning">Em planeamento</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge">10+ anos</span>
+                    <span class="meta-badge schedule-badge">Sáb 9h-12h</span>
+                    <span class="meta-badge members-badge">0/10 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Impressão 3D para causas sociais e ambientais. Próteses, objetos adaptativos 
+                    e soluções sustentáveis para a comunidade local.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Próximo Ciclo (Abr-Jun):</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Abril</span>
+                        <span class="cycle-activity">Parcerias com ONGs locais</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Maio</span>
+                        <span class="cycle-activity">Design para acessibilidade</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Junho</span>
+                        <span class="cycle-activity">Entrega de projetos sociais</span>
+                    </div>
+                </div>
+
+                <button class="club-cta">
+                    🌱 Imprimir Impacto
+                </button>
+            </div>
+
+            <!-- Clube 6: Jogos de Tabuleiro -->
+            <div class="club-card" data-cycle="q1 q2 q3 q4" onclick="window.location.href='tabuleiro/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">♟️</span>
+                    <div class="club-info">
+                        <h3 class="club-title">Pensamento Lógico & Tabuleiros</h3>
+                        <span class="club-status status-active">Ativo</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge">8+ anos</span>
+                    <span class="meta-badge schedule-badge">Qui 16h-18h</span>
+                    <span class="meta-badge members-badge">10/15 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Desenvolvimento do raciocínio lógico através de jogos de estratégia, 
+                    xadrez, puzzles e criação de jogos próprios.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Atividades Permanentes:</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Sempre</span>
+                        <span class="cycle-activity">Torneios de xadrez</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Mensal</span>
+                        <span class="cycle-activity">Criação de jogos novos</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Especial</span>
+                        <span class="cycle-activity">Escape rooms temáticos</span>
+                    </div>
+                </div>
+
+                <button class="club-cta">
+                    🧩 Treinar Mente
+                </button>
+            </div>
+
+            <!-- Clube 7: Maker Space -->
+            <div class="club-card" data-cycle="q3 q4" onclick="window.location.href='maker/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">🔨</span>
+                    <div class="club-info">
+                        <h3 class="club-title">Maker Space</h3>
+                        <span class="club-status status-full">Lotado</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge">12+ anos</span>
+                    <span class="meta-badge schedule-badge">Sáb 14h-18h</span>
+                    <span class="meta-badge members-badge">15/15 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Fabricação digital avançada: corte laser, impressão 3D, eletrónica e marcenaria. 
+                    Projetos de produto do conceito ao protótipo.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Próximo Ciclo (Jul-Set):</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Julho</span>
+                        <span class="cycle-activity">Projeto mobiliário sustentável</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Agosto</span>
+                        <span class="cycle-activity">IoT e casa inteligente</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Setembro</span>
+                        <span class="cycle-activity">Feira Maker local</span>
+                    </div>
+                </div>
+
+                <button class="club-cta full">
+                    ⏳ Lista de Espera
+                </button>
+            </div>
+
+            <!-- Clube 8: Ciência & Experimentação -->
+            <div class="club-card" data-cycle="q3" onclick="window.location.href='ciencia/index.html'">
+                <div class="club-header">
+                    <span class="club-icon">🔬</span>
+                    <div class="club-info">
+                        <h3 class="club-title">Laboratório de Ciências</h3>
+                        <span class="club-status status-starting">A começar</span>
+                    </div>
+                </div>
+                
+                <div class="club-meta">
+                    <span class="meta-badge age-badge">10-16 anos</span>
+                    <span class="meta-badge schedule-badge">Qua 14h-16h</span>
+                    <span class="meta-badge members-badge">2/12 membros</span>
+                </div>
+
+                <p class="club-description">
+                    Experimentação científica hands-on: física, química, biologia. 
+                    Método científico aplicado a problemas reais e curiosidades do dia a dia.
+                </p>
+
+                <div class="club-cycle">
+                    <h4>📅 Programa de Verão (Jul-Set):</h4>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Julho</span>
+                        <span class="cycle-activity">Química da cozinha</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Agosto</span>
+                        <span class="cycle-activity">Física do movimento</span>
+                    </div>
+                    <div class="cycle-item">
+                        <span class="cycle-month">Setembro</span>
+                        <span class="cycle-activity">Feira de Ciências CICF</span>
+                    </div>
+                </div>
+
+                <button class="club-cta">
+                    🧪 Experimentar Ciência
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🎪</span>
+                <div>
+                    <div class="cicf-section-title">Criar Novo Clube</div>
+                    <div class="cicf-section-subtitle">Tens uma ideia para uma nova comunidade de aprendizagem?</div>
+                </div>
+            </div>
+            
+            <p style="margin-bottom: 25px; text-align: center; color: var(--text-medium); font-size: 1.1em; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Os clubes CICF nascem das paixões e interesses da nossa comunidade. 
+                Se tens uma ideia para um novo clube, vamos conversar!
+            </p>
+            
+            <div style="text-align: center;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Proposta Novo Clube CICF&body=Olá! Tenho uma ideia para um novo clube sobre..." 
+                   class="cicf-btn cicf-btn-primary" style="text-decoration: none;">
+                    💡 Propor Novo Clube
+                </a>
+                <a href="../ferramentas/club-planner.html" class="cicf-btn cicf-btn-secondary" style="margin-left: 15px; text-decoration: none;">
+                    📋 Template de Proposta
+                </a>
+            </div>
+
+            <!-- Stats dos Clubes -->
+            <div style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <div style="font-size: 2em; font-weight: 700; color: var(--cicf-primary); margin-bottom: 8px;">8</div>
+                    <div style="color: var(--text-medium); font-weight: 500;">Clubes Ativos</div>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <div style="font-size: 2em; font-weight: 700; color: var(--cicf-primary); margin-bottom: 8px;">95</div>
+                    <div style="color: var(--text-medium); font-weight: 500;">Membros Totais</div>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <div style="font-size: 2em; font-weight: 700; color: var(--cicf-primary); margin-bottom: 8px;">4</div>
+                    <div style="color: var(--text-medium); font-weight: 500;">Ciclos por Ano</div>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <div style="font-size: 2em; font-weight: 700; color: var(--cicf-primary); margin-bottom: 8px;">87%</div>
+                    <div style="color: var(--text-medium); font-weight: 500;">Taxa de Retenção</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Clubes de Aprendizagem Colaborativa</p>
+            <p style="margin-top: 8px;">Ciclos trimestrais • Amizades duradouras • Preparação para carreiras STEAMD • Cidadania digital</p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt" class="cicf-footer-link" style="margin-right: 20px;">
+                    📧 ci.carlosfiolhais@cm-maia.pt
+                </a>
+                <a href="../ferramentas/club-calendar.html" class="cicf-footer-link">
+                    📅 Calendário de Clubes
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Clubes
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Animação de entrada dos cards
+        document.addEventListener('DOMContentLoaded', function() {
+            showCycle('all');
+            
+            const cards = document.querySelectorAll('.club-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Filtrar clubes por ciclo
+        function showCycle(cycle) {
+            const cards = document.querySelectorAll('.club-card');
+            const tabs = document.querySelectorAll('.cycle-tab');
+            
+            // Update tabs
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (cycle === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const cardCycles = card.dataset.cycle || '';
+                    if (cardCycles.includes(cycle)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Handle clicks nos botões lotados
+        document.querySelectorAll('.club-cta.full').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('📋 Este clube está lotado mas podes juntar-te à lista de espera!\n\n📧 Envia email para ci.carlosfiolhais@cm-maia.pt com o assunto "Lista de Espera - [Nome do Clube]"');
+            });
+        });
+    </script>
+</body>
+</html>

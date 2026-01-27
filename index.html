@@ -467,7 +467,7 @@
         <div class="categories-grid">
             
             <!-- Tutoriais -->
-            <div class="category-card" onclick="window.location.href='tutoriais/index.html'">
+            <div class="category-card" onclick="window.location.href='tutoriais/tutoriais.html'">
                 <span class="category-icon">📚</span>
                 <h2 class="category-title">Tutoriais</h2>
                 <p class="category-description">
@@ -497,7 +497,7 @@
             </div>
 
             <!-- Workshops -->
-            <div class="category-card" onclick="window.location.href='workshops/index.html'">
+            <div class="category-card" onclick="window.location.href='workshops/workshops.html'">
                 <span class="category-icon">🛠️</span>
                 <h2 class="category-title">Workshops</h2>
                 <p class="category-description">
@@ -527,7 +527,7 @@
             </div>
 
             <!-- Circuitos -->
-            <div class="category-card" onclick="window.location.href='circuitos/index.html'">
+            <div class="category-card" onclick="window.location.href='circuitos/circuitos.html'">
                 <span class="category-icon">🗺️</span>
                 <h2 class="category-title">Circuitos</h2>
                 <p class="category-description">
@@ -557,7 +557,7 @@
             </div>
 
             <!-- Clubes -->
-            <div class="category-card" onclick="window.location.href='clubes/index.html'">
+            <div class="category-card" onclick="window.location.href='clubes/clubes.html'">
                 <span class="category-icon">🤝</span>
                 <h2 class="category-title">Clubes</h2>
                 <p class="category-description">
@@ -750,7 +750,7 @@
         function showLoginModal() {
             if (isLoggedIn) {
                 // Se já está logado, vai direto às ferramentas
-                window.location.href = 'ferramentas/index.html';
+                window.location.href = 'ferramentas/ferramentas.html';
                 return;
             }
             
@@ -791,7 +791,7 @@
                 // Redirecionar após 2 segundos
                 setTimeout(() => {
                     closeLoginModal();
-                    window.location.href = 'ferramentas/index.html';
+                    window.location.href = 'ferramentas/ferramentas.html';
                 }, 2000);
                 
             } else {
@@ -816,7 +816,7 @@
             if (loggedIn) {
                 userIcon.classList.add('logged-in');
                 loginHint.textContent = 'CICF';
-                userIcon.onclick = () => window.location.href = 'ferramentas/index.html';
+                userIcon.onclick = () => window.location.href = 'ferramentas/ferramentas.html';
             } else {
                 userIcon.classList.remove('logged-in');
                 loginHint.textContent = 'Login';
@@ -831,10 +831,10 @@
             
             toolsCard.classList.remove('tools-locked');
             toolsCard.classList.add('tools-unlocked');
-            toolsCard.onclick = () => window.location.href = 'ferramentas/index.html';
+            toolsCard.onclick = () => window.location.href = 'ferramentas/ferramentas.html';
             
             toolsCta.innerHTML = '🧰 Aceder às Ferramentas';
-            toolsCta.onclick = () => window.location.href = 'ferramentas/index.html';
+            toolsCta.onclick = () => window.location.href = 'ferramentas/ferramentas.html';
             
             lockOverlay.style.display = 'none';
             

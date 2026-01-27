@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💻 Tutorial: Instalar Linux Mint com Balena Etcher | CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        /* Estilos específicos para tutorial Linux */
+        .tutorial-header {
+            background: linear-gradient(135deg, #68D391, #38A169, #2F855A);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tutorial-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: linuxShimmer 6s infinite;
+        }
+        
+        @keyframes linuxShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .tutorial-title {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 2;
+            position: relative;
+        }
+        
+        .tutorial-subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .tutorial-meta {
+            background: #F7FAFC;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #68D391;
+            margin: 25px 0;
+        }
+        
+        .step-container {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .step-container:hover {
+            border-color: #68D391;
+            box-shadow: 0 8px 25px rgba(104, 211, 145, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .step-number {
+            background: #68D391;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            position: absolute;
+            top: -10px;
+            left: 25px;
+            box-shadow: 0 4px 15px rgba(104, 211, 145, 0.3);
+        }
+        
+        .step-content {
+            margin-left: 60px;
+            margin-top: 15px;
+        }
+        
+        .step-title {
+            color: #2F855A;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .tutorial-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 20px auto;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border: 2px solid #E2E8F0;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .tutorial-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            color: #718096;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+        
+        .step-list {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .step-list li {
+            margin-bottom: 10px;
+            color: var(--text-medium);
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #FED7D7, #FEB2B2);
+            border: 2px solid #FC8181;
+            color: #742A2A;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .highlight-box::before {
+            content: '⚠️';
+            font-size: 1.5em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+        
+        .highlight-content {
+            margin-left: 40px;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #C6F6D5, #9AE6B4);
+            border: 2px solid #68D391;
+            color: #22543D;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .success-box::before {
+            content: '🎉';
+            font-size: 1.5em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+        
+        .success-content {
+            margin-left: 40px;
+        }
+        
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .requirement-item {
+            background: #F7FAFC;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #68D391;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .requirement-icon {
+            font-size: 1.5em;
+        }
+        
+        .download-link {
+            color: #2F855A;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        
+        .download-link:hover {
+            border-bottom-color: #68D391;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header do Tutorial -->
+        <div class="tutorial-header">
+            <h1 class="tutorial-title">💻 Tutorial: Instalar Linux Mint com Balena Etcher</h1>
+            <p class="tutorial-subtitle">Guia passo a passo para iniciantes • Edgar, Janeiro 2026</p>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="padding: 0 40px 30px;">
+            <a href="../tutoriais.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Tutoriais
+            </a>
+        </div>
+
+        <!-- Introdução -->
+        <div class="tutorial-meta">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🐧</span>
+                <div>
+                    <div class="cicf-section-title">Introdução</div>
+                    <div class="cicf-section-subtitle">O que precisas saber</div>
+                </div>
+            </div>
+            
+            <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                O <strong>Linux Mint</strong> é um sistema operativo gratuito, bonito e fácil de usar, muito parecido com o Windows, 
+                mas mais rápido e sem vírus. Este tutorial mostra como instalar a versão <strong>Cinnamon</strong> (a mais popular) 
+                usando o <strong>Balena Etcher</strong> para criar uma pen USB bootável.
+            </p>
+            
+            <div class="requirements-grid">
+                <div class="requirement-item">
+                    <span class="requirement-icon">⏱️</span>
+                    <div>
+                        <strong>Tempo estimado:</strong><br>
+                        30–60 minutos
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <span class="requirement-icon">💽</span>
+                    <div>
+                        <strong>Pen USB:</strong><br>
+                        8 GB ou mais
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <span class="requirement-icon">🌐</span>
+                    <div>
+                        <strong>Internet:</strong><br>
+                        Para downloads
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <span class="requirement-icon">💻</span>
+                    <div>
+                        <strong>Computador:</strong><br>
+                        Windows/Mac/Linux
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aviso Importante -->
+        <div class="highlight-box">
+            <div class="highlight-content">
+                <strong>Aviso:</strong> A pen USB será apagada completamente! Faz backup antes.
+            </div>
+        </div>
+
+        <!-- Passo 1: Descarregar Linux Mint -->
+        <div class="step-container">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h2 class="step-title">Descarregar o Linux Mint</h2>
+                
+                <img src="./imagens/downloadlinux.png" alt="Página de download do Linux Mint" class="tutorial-image">
+                <p class="image-caption">Página inicial do download do Linux Mint</p>
+                
+                <ol class="step-list">
+                    <li>Abre o browser e vai ao site oficial: <a href="https://linuxmint.com/download.php" class="download-link" target="_blank">linuxmint.com/download.php</a></li>
+                    <li>Escolhe a edição <strong>Cinnamon</strong> (a mais parecida com o Windows).</li>
+                    <li>Clica em <strong>Download</strong> para a versão 64-bit.</li>
+                    <li>Escolhe um mirror próximo (ex: Portugal) para descarregar mais rápido.</li>
+                </ol>
+                
+                <img src="./imagens/mirror.png" alt="Escolha de mirror no download" class="tutorial-image">
+                <p class="image-caption">Escolha de mirror (ex: Portugal - Universidade do Porto)</p>
+                
+                <ol class="step-list" start="5">
+                    <li>Espera o ficheiro .iso descarregar (cerca de 2–3 GB).</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Passo 2: Descarregar Balena Etcher -->
+        <div class="step-container">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h2 class="step-title">Descarregar o Balena Etcher</h2>
+                
+                <ol class="step-list">
+                    <li>Vai ao site: <a href="https://etcher.balena.io/" class="download-link" target="_blank">etcher.balena.io</a></li>
+                </ol>
+                
+                <img src="./imagens/balena.png" alt="Página de download do Balena Etcher" class="tutorial-image">
+                <p class="image-caption">Página oficial do Balena Etcher</p>
+                
+                <ol class="step-list" start="2">
+                    <li>Clica em <strong>Download Etcher</strong>.</li>
+                    <li>Instala o programa normalmente.</li>
+                    <li>Abre o Balena Etcher.</li>
+                </ol>
+                
+                <img src="./imagens/etcher.png" alt="Interface do Balena Etcher" class="tutorial-image">
+                <p class="image-caption">Interface do Balena Etcher aberta</p>
+            </div>
+        </div>
+
+        <!-- Passo 3: Criar Pen USB Bootável -->
+        <div class="step-container">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h2 class="step-title">Criar a pen USB bootável</h2>
+                
+                <ol class="step-list">
+                    <li>Insere a pen USB no computador.</li>
+                    <li>Abre o Balena Etcher.</li>
+                    <li>Clica em <strong>Flash from file</strong> e seleciona o ficheiro .iso do Linux Mint.</li>
+                    <li>Clica em <strong>Select target</strong> e escolhe a pen USB (confirma bem o nome).</li>
+                    <li>Clica em <strong>Flash!</strong> e espera (5–15 minutos).</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Passo 4: Boot pela Pen USB -->
+        <div class="step-container">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h2 class="step-title">Arrancar com a pen USB (Boot)</h2>
+                
+                <ol class="step-list">
+                    <li>Desliga o computador.</li>
+                    <li>Insere a pen USB.</li>
+                    <li>Liga o computador e entra no menu de boot (aperta <strong>F12, F10, F2, Esc</strong> ou <strong>Del</strong> ao ligar).</li>
+                    <li>Escolhe a pen USB no menu.</li>
+                    <li>Carrega <strong>Enter</strong> — o Linux Mint arranca.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Passo 5: Instalar Linux Mint -->
+        <div class="step-container">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h2 class="step-title">Instalar o Linux Mint</h2>
+                
+                <ol class="step-list">
+                    <li>No ecrã inicial, clica em <strong>Install Linux Mint</strong>.</li>
+                    <li>Escolhe <strong>Português (Portugal)</strong> como idioma.</li>
+                    <li>Seleciona o teclado <strong>Português</strong>.</li>
+                    <li>Liga ao <strong>Wi-Fi</strong> se necessário.</li>
+                    <li>Escolhe o tipo de instalação (<strong>Apagar disco</strong> ou <strong>Ao lado do Windows</strong>).</li>
+                    <li>Cria utilizador e senha.</li>
+                    <li>Clica em <strong>Instalar agora</strong> e espera.</li>
+                    <li>Reinicia e tira a pen USB.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Conclusão -->
+        <div class="success-box">
+            <div class="success-content">
+                <h2 style="color: #22543D; margin: 0 0 15px 0;">Parabéns! O Linux Mint está instalado!</h2>
+                <p style="margin: 0 0 15px 0; color: #22543D;">
+                    Abre o <strong>Gestor de Atualizações</strong> e instala tudo o que aparecer. Se tiveres problemas, 
+                    procura no fórum oficial ou no YouTube.
+                </p>
+                <p style="margin: 0; color: #22543D; font-weight: 600;">
+                    Boa sorte e diverte-te com o teu novo sistema operativo!
+                </p>
+            </div>
+        </div>
+
+        <!-- Recursos Adicionais -->
+        <div class="cicf-grid">
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🔗</span>
+                    <div>
+                        <div class="cicf-section-title">Links Úteis</div>
+                        <div class="cicf-section-subtitle">Recursos adicionais</div>
+                    </div>
+                </div>
+                
+                <ul style="line-height: 1.8; color: var(--text-medium);">
+                    <li><a href="https://linuxmint.com/" class="download-link" target="_blank">Site oficial Linux Mint</a></li>
+                    <li><a href="https://forums.linuxmint.com/" class="download-link" target="_blank">Fórum da comunidade</a></li>
+                    <li><a href="https://etcher.balena.io/" class="download-link" target="_blank">Balena Etcher</a></li>
+                    <li><a href="https://linuxmint-user-guide.readthedocs.io/" class="download-link" target="_blank">Guia do utilizador</a></li>
+                </ul>
+            </div>
+
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">❓</span>
+                    <div>
+                        <div class="cicf-section-title">Suporte CICF</div>
+                        <div class="cicf-section-subtitle">Precisa de ajuda?</div>
+                    </div>
+                </div>
+                
+                <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                    Se encontraste dificuldades ou tens dúvidas sobre este tutorial:
+                </p>
+                
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Dúvida Tutorial Linux Mint" 
+                   class="cicf-btn cicf-btn-primary" 
+                   style="text-decoration: none; width: 100%; display: block; text-align: center;">
+                    📧 Contactar Suporte CICF
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Tutorial Linux Mint</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                Sistema Operativo Livre • Tutorial por Edgar • Braga, Janeiro 2026
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Feedback Tutorial Linux" class="cicf-footer-link" style="margin-right: 20px;">
+                    💌 Feedback sobre o Tutorial
+                </a>
+                <a href="https://linuxmint.com/" class="cicf-footer-link" target="_blank">
+                    🐧 Saber Mais sobre Linux
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Tutorial
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Animação dos passos conforme scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const steps = document.querySelectorAll('.step-container');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            steps.forEach(step => {
+                step.style.opacity = '0';
+                step.style.transform = 'translateY(30px)';
+                step.style.transition = 'all 0.6s ease';
+                observer.observe(step);
+            });
+        });
+    </script>
+</body>
+</html>

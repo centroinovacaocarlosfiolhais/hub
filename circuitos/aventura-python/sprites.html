@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template de Sprites - Aventura Python</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .sprite-card {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .sprite-card h3 {
+            margin-top: 0;
+            color: #ffd700;
+            font-size: 1.3em;
+        }
+        
+        .canvas-container {
+            background: #1a1a2e;
+            border: 2px solid #00d9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        
+        canvas {
+            display: block;
+            image-rendering: pixelated;
+        }
+        
+        .dimensions {
+            background: rgba(0,217,255,0.2);
+            border-left: 4px solid #00d9ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .dimensions h4 {
+            margin-top: 0;
+            color: #00d9ff;
+        }
+        
+        .code-block {
+            background: #1a1a2e;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .highlight {
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        .note {
+            background: rgba(255,215,0,0.2);
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .full-example {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        
+        .info-box {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Template de Sprites - Aventura Python</h1>
+        <p class="subtitle">Guia visual com dimensões exatas para cada sprite</p>
+
+        <div class="note">
+            <strong>📐 Tamanho base da célula:</strong> 64×64 pixels<br>
+            <strong>🎯 Regra de ouro:</strong> Deixa sempre margem para as sprites não encostarem nas bordas!
+        </div>
+
+        <div class="grid">
+            <!-- PLAYER -->
+            <div class="sprite-card">
+                <h3>👤 Player (Herói)</h3>
+                <div class="canvas-container">
+                    <canvas id="player-canvas" width="64" height="64"></canvas>
+                </div>
+                
+                <div class="dimensions">
+                    <h4>Dimensões:</h4>
+                    <div class="info-box">Sprite: <span class="highlight">48×48px</span></div>
+                    <div class="info-box">Offset: <span class="highlight">8px</span> de cada lado</div>
+                    <div class="info-box">Célula: 64×64px</div>
+                </div>
+                
+                <div class="code-block">
+player: {<br>
+  &nbsp;&nbsp;url: 'URL_AQUI.png',<br>
+  &nbsp;&nbsp;size: { <span class="highlight">width: 48, height: 48</span> },<br>
+  &nbsp;&nbsp;offset: { <span class="highlight">x: 8, y: 8</span> }<br>
+}
+                </div>
+                
+                <p style="font-size: 0.9em; opacity: 0.8;">
+                    💡 Deve ser menor que a célula para ter espaço de movimento visual
+                </p>
+            </div>
+
+            <!-- TREASURE -->
+            <div class="sprite-card">
+                <h3>🏆 Treasure (Tesouro)</h3>
+                <div class="canvas-container">
+                    <canvas id="treasure-canvas" width="64" height="64"></canvas>
+                </div>
+                
+                <div class="dimensions">
+                    <h4>Dimensões:</h4>
+                    <div class="info-box">Sprite: <span class="highlight">56×56px</span></div>
+                    <div class="info-box">Offset: <span class="highlight">4px</span> de cada lado</div>
+                    <div class="info-box">Célula: 64×64px</div>
+                </div>
+                
+                <div class="code-block">
+treasure: {<br>
+  &nbsp;&nbsp;url: 'URL_AQUI.png',<br>
+  &nbsp;&nbsp;size: { <span class="highlight">width: 56, height: 56</span> },<br>
+  &nbsp;&nbsp;offset: { <span class="highlight">x: 4, y: 4</span> }<br>
+}
+                </div>
+                
+                <p style="font-size: 0.9em; opacity: 0.8;">
+                    💡 Ligeiramente maior que o player para se destacar
+                </p>
+            </div>
+
+            <!-- GEM -->
+            <div class="sprite-card">
+                <h3>💎 Gem (Gema)</h3>
+                <div class="canvas-container">
+                    <canvas id="gem-canvas" width="64" height="64"></canvas>
+                </div>
+                
+                <div class="dimensions">
+                    <h4>Dimensões:</h4>
+                    <div class="info-box">Sprite: <span class="highlight">40×40px</span></div>
+                    <div class="info-box">Offset: <span class="highlight">12px</span> de cada lado</div>
+                    <div class="info-box">Célula: 64×64px</div>
+                </div>
+                
+                <div class="code-block">
+gem: {<br>
+  &nbsp;&nbsp;url: 'URL_AQUI.png',<br>
+  &nbsp;&nbsp;size: { <span class="highlight">width: 40, height: 40</span> },<br>
+  &nbsp;&nbsp;offset: { <span class="highlight">x: 12, y: 12</span> }<br>
+}
+                </div>
+                
+                <p style="font-size: 0.9em; opacity: 0.8;">
+                    💡 Menor para não competir visualmente com objectivos principais
+                </p>
+            </div>
+
+            <!-- WALL -->
+            <div class="sprite-card">
+                <h3>🧱 Wall (Parede)</h3>
+                <div class="canvas-container">
+                    <canvas id="wall-canvas" width="64" height="64"></canvas>
+                </div>
+                
+                <div class="dimensions">
+                    <h4>Dimensões:</h4>
+                    <div class="info-box">Sprite: <span class="highlight">64×64px</span></div>
+                    <div class="info-box">Offset: <span class="highlight">0px</span> (preenche tudo)</div>
+                    <div class="info-box">Célula: 64×64px</div>
+                </div>
+                
+                <div class="code-block">
+wall: {<br>
+  &nbsp;&nbsp;url: 'URL_AQUI.png',<br>
+  &nbsp;&nbsp;size: { <span class="highlight">width: 64, height: 64</span> },<br>
+  &nbsp;&nbsp;offset: { <span class="highlight">x: 0, y: 0</span> }<br>
+}
+                </div>
+                
+                <p style="font-size: 0.9em; opacity: 0.8;">
+                    💡 Preenche toda a célula, deve ser tileable (repetível)
+                </p>
+            </div>
+
+            <!-- FLOOR -->
+            <div class="sprite-card">
+                <h3>⬛ Floor (Chão)</h3>
+                <div class="canvas-container">
+                    <canvas id="floor-canvas" width="64" height="64"></canvas>
+                </div>
+                
+                <div class="dimensions">
+                    <h4>Dimensões:</h4>
+                    <div class="info-box">Sprite: <span class="highlight">64×64px</span></div>
+                    <div class="info-box">Offset: <span class="highlight">0px</span> (preenche tudo)</div>
+                    <div class="info-box">Célula: 64×64px</div>
+                </div>
+                
+                <div class="code-block">
+floor: {<br>
+  &nbsp;&nbsp;url: 'URL_AQUI.png',<br>
+  &nbsp;&nbsp;size: { <span class="highlight">width: 64, height: 64</span> },<br>
+  &nbsp;&nbsp;offset: { <span class="highlight">x: 0, y: 0</span> }<br>
+}
+                </div>
+                
+                <p style="font-size: 0.9em; opacity: 0.8;">
+                    💡 Textura de fundo, deve ser tileable e subtil
+                </p>
+            </div>
+
+            <!-- BACKGROUND -->
+            <div class="sprite-card">
+                <h3>🗺️ Background (Fundo)</h3>
+                <div class="canvas-container">
+                    <canvas id="background-canvas" width="128" height="128"></canvas>
+                </div>
+                
+                <div class="dimensions">
+                    <h4>Opções:</h4>
+                    <div class="info-box">Tile: <span class="highlight">64×64</span> ou <span class="highlight">128×128px</span></div>
+                    <div class="info-box">Completo: <span class="highlight">Largura×Altura mapa</span></div>
+                </div>
+                
+                <div class="code-block">
+background: {<br>
+  &nbsp;&nbsp;url: 'URL_AQUI.png',<br>
+  &nbsp;&nbsp;<span class="highlight">repeat: true</span> // ou false<br>
+}
+                </div>
+                
+                <p style="font-size: 0.9em; opacity: 0.8;">
+                    💡 Se repeat=true, imagem repete como padrão. Se false, estica para preencher
+                </p>
+            </div>
+        </div>
+
+        <!-- EXEMPLO COMPLETO -->
+        <div class="full-example">
+            <h2 style="text-align: center; margin-bottom: 30px;">🎮 Exemplo Completo: Mapa 7×3</h2>
+            
+            <div style="text-align: center;">
+                <div class="canvas-container">
+                    <canvas id="full-map" width="448" height="192"></canvas>
+                </div>
+            </div>
+            
+            <div class="note" style="margin-top: 20px;">
+                <strong>📊 Cálculo do tamanho total:</strong><br>
+                Largura: 7 células × 64px = <span class="highlight">448px</span><br>
+                Altura: 3 células × 64px = <span class="highlight">192px</span><br><br>
+                Se background não repetir (repeat: false), cria uma imagem de 448×192px
+            </div>
+        </div>
+
+        <!-- DICAS RÁPIDAS -->
+        <div class="note" style="margin-top: 40px;">
+            <h3>⚡ Dicas Rápidas:</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>Formato:</strong> PNG com transparência para sprites, JPG para backgrounds</li>
+                <li><strong>Tamanho ficheiro:</strong> Mantém abaixo de 100KB cada para carregar rápido</li>
+                <li><strong>Ferramentas:</strong> Piskel (pixel art), Photopea (editor), TinyPNG (compressão)</li>
+                <li><strong>Teste:</strong> Visualiza a 100% de zoom antes de usar</li>
+                <li><strong>Consistência:</strong> Mantém o mesmo estilo artístico em todas as sprites</li>
+            </ul>
+        </div>
+
+        <!-- RECURSOS -->
+        <div style="background: rgba(0,217,255,0.1); padding: 30px; border-radius: 15px; margin-top: 30px;">
+            <h3 style="color: #00d9ff; text-align: center;">📦 Onde Encontrar Sprites Prontas:</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px;">
+                    <strong>OpenGameArt.org</strong><br>
+                    <small>Biblioteca enorme, tudo grátis</small>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px;">
+                    <strong>Kenney.nl</strong><br>
+                    <small>Qualidade profissional, CC0</small>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px;">
+                    <strong>Itch.io/game-assets</strong><br>
+                    <small>Muitos packs pixel art</small>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px;">
+                    <strong>CraftPix.net</strong><br>
+                    <small>Assets free e premium</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Desenhar exemplos visuais
+        function drawGrid(canvas, cellSize, cols, rows) {
+            const ctx = canvas.getContext('2d');
+            ctx.strokeStyle = 'rgba(0,217,255,0.3)';
+            ctx.lineWidth = 1;
+            
+            for (let x = 0; x <= cols; x++) {
+                ctx.beginPath();
+                ctx.moveTo(x * cellSize, 0);
+                ctx.lineTo(x * cellSize, rows * cellSize);
+                ctx.stroke();
+            }
+            
+            for (let y = 0; y <= rows; y++) {
+                ctx.beginPath();
+                ctx.moveTo(0, y * cellSize);
+                ctx.lineTo(cols * cellSize, y * cellSize);
+                ctx.stroke();
+            }
+        }
+
+        function drawDimensions(ctx, x, y, width, height, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, width, height);
+            
+            ctx.strokeStyle = '#00d9ff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, width, height);
+            
+            // Texto centralizado
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${width}×${height}`, x + width/2, y + height/2);
+        }
+
+        // Player
+        const playerCtx = document.getElementById('player-canvas').getContext('2d');
+        drawGrid(document.getElementById('player-canvas'), 64, 1, 1);
+        drawDimensions(playerCtx, 8, 8, 48, 48, 'rgba(255,0,110,0.7)');
+
+        // Treasure
+        const treasureCtx = document.getElementById('treasure-canvas').getContext('2d');
+        drawGrid(document.getElementById('treasure-canvas'), 64, 1, 1);
+        drawDimensions(treasureCtx, 4, 4, 56, 56, 'rgba(255,215,0,0.7)');
+
+        // Gem
+        const gemCtx = document.getElementById('gem-canvas').getContext('2d');
+        drawGrid(document.getElementById('gem-canvas'), 64, 1, 1);
+        drawDimensions(gemCtx, 12, 12, 40, 40, 'rgba(0,217,255,0.7)');
+
+        // Wall
+        const wallCtx = document.getElementById('wall-canvas').getContext('2d');
+        drawGrid(document.getElementById('wall-canvas'), 64, 1, 1);
+        drawDimensions(wallCtx, 0, 0, 64, 64, 'rgba(45,53,97,0.9)');
+
+        // Floor
+        const floorCtx = document.getElementById('floor-canvas').getContext('2d');
+        drawGrid(document.getElementById('floor-canvas'), 64, 1, 1);
+        drawDimensions(floorCtx, 0, 0, 64, 64, 'rgba(15,15,30,0.9)');
+
+        // Background
+        const bgCtx = document.getElementById('background-canvas').getContext('2d');
+        drawGrid(document.getElementById('background-canvas'), 64, 2, 2);
+        const gradient = bgCtx.createLinearGradient(0, 0, 128, 128);
+        gradient.addColorStop(0, 'rgba(102,126,234,0.5)');
+        gradient.addColorStop(1, 'rgba(118,75,162,0.5)');
+        bgCtx.fillStyle = gradient;
+        bgCtx.fillRect(0, 0, 128, 128);
+        bgCtx.fillStyle = 'white';
+        bgCtx.font = 'bold 14px Arial';
+        bgCtx.textAlign = 'center';
+        bgCtx.fillText('Padrão', 64, 64);
+
+        // Full Map
+        const mapCanvas = document.getElementById('full-map');
+        const mapCtx = mapCanvas.getContext('2d');
+        
+        // Background
+        const mapGradient = mapCtx.createLinearGradient(0, 0, 448, 192);
+        mapGradient.addColorStop(0, '#1a1a2e');
+        mapGradient.addColorStop(1, '#16213e');
+        mapCtx.fillStyle = mapGradient;
+        mapCtx.fillRect(0, 0, 448, 192);
+        
+        // Grid
+        drawGrid(mapCanvas, 64, 7, 3);
+        
+        // Exemplo de nível
+        const exampleMap = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 3, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1]
+        ];
+        
+        exampleMap.forEach((row, y) => {
+            row.forEach((cell, x) => {
+                if (cell === 1) {
+                    // Wall
+                    mapCtx.fillStyle = '#2d3561';
+                    mapCtx.fillRect(x * 64, y * 64, 64, 64);
+                } else if (cell === 3) {
+                    // Treasure
+                    mapCtx.fillStyle = '#ffd700';
+                    mapCtx.fillRect(x * 64 + 4, y * 64 + 4, 56, 56);
+                }
+            });
+        });
+        
+        // Player
+        mapCtx.fillStyle = '#ff006e';
+        mapCtx.beginPath();
+        mapCtx.arc(64 + 32, 64 + 32, 20, 0, Math.PI * 2);
+        mapCtx.fill();
+        
+        // Labels
+        mapCtx.fillStyle = 'white';
+        mapCtx.font = 'bold 14px Arial';
+        mapCtx.fillText('Player (48×48)', 64 + 32, 64 + 70);
+        mapCtx.fillText('Treasure (56×56)', 256 + 32, 64 + 70);
+        mapCtx.fillText('Wall (64×64)', 64, 20);
+    </script>
+</body>
+</html>

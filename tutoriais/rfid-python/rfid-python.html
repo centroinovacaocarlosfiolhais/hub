@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔑 Sistema RFID Python | CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        .cicf-code-block {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            border: 1px solid #ddd;
+            margin: 15px 0;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+        
+        .cicf-img-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .cicf-img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .cicf-img-container.small img {
+            max-width: 60%;
+        }
+        
+        .cicf-img-caption {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+        
+        .cicf-equipment-card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--cicf-primary);
+            margin: 20px 0;
+        }
+
+        .equipment-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .equipment-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .equipment-list li:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            background: var(--cicf-primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .step-section {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header -->
+        <div class="cicf-header">
+            <h1>🔑 Sistema Check-in/Check-out RFID</h1>
+            <p>Tutorial completo para criar sistema de presença com Python e Raspberry Pi</p>
+        </div>
+
+        <div style="padding: 30px 40px 0;">
+            <a href="../tutoriais.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Tutoriais
+            </a>
+        </div>
+
+        <!-- Grid Principal -->
+        <div class="cicf-grid">
+            
+            <!-- Seção 1: Objetivo -->
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🎯</span>
+                    <div>
+                        <div class="cicf-section-title">Objetivo do Projeto</div>
+                        <div class="cicf-section-subtitle">O que vamos construir</div>
+                    </div>
+                </div>
+                
+                <p style="margin-bottom: 15px;">
+                    Criar um sistema completo de controlo de presença utilizando cartões RFID/NFC, 
+                    Raspberry Pi e Python. O sistema regista entradas e saídas automaticamente, 
+                    calcula tempos de permanência e armazena dados numa base de dados SQLite.
+                </p>
+
+                <div class="cicf-tags">
+                    <span class="cicf-tag">Python</span>
+                    <span class="cicf-tag">RFID</span>
+                    <span class="cicf-tag">SQLite</span>
+                    <span class="cicf-tag">IoT</span>
+                </div>
+            </div>
+
+            <!-- Seção 2: Equipamentos Necessários -->
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🛠️</span>
+                    <div>
+                        <div class="cicf-section-title">Material Necessário</div>
+                        <div class="cicf-section-subtitle">Hardware e software</div>
+                    </div>
+                </div>
+
+                <div class="cicf-equipment-card">
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 15px;">Hardware:</h4>
+                    <ul class="equipment-list">
+                        <li>
+                            <span>Joy-Pi Raspberry Pi 4</span>
+                            <span style="color: #28a745;">✅ Disponível</span>
+                        </li>
+                        <li>
+                            <span>Leitor RFID MFRC522</span>
+                            <span style="color: #28a745;">✅ Integrado</span>
+                        </li>
+                        <li>
+                            <span>Cartões NFC/RFID</span>
+                            <span style="color: #28a745;">✅ Incluídos</span>
+                        </li>
+                        <li>
+                            <span>Pen USB (backup)</span>
+                            <span style="color: #ffc107;">⚠️ Opcional</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cicf-img-container small">
+                    <img src="./imagens/MSR98RFProdutMedia2-815779.webp" alt="Joy-Pi Raspberry Pi com leitor RFID integrado">
+                    <p class="cicf-img-caption">Joy-Pi: Raspberry Pi 4 com módulos integrados</p>
+                </div>
+            </div>
+
+            <!-- Seção 3: Configuração Inicial -->
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">⚙️</span>
+                    <div>
+                        <div class="cicf-section-title">Setup do Sistema</div>
+                        <div class="cicf-section-subtitle">Preparar ambiente de desenvolvimento</div>
+                    </div>
+                </div>
+
+                <div class="step-section">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <h4>Instalar Dependências Python</h4>
+                        <pre class="cicf-code-block">sudo apt update
+sudo apt install python3-pip
+pip3 install RPi.GPIO mfrc522 sqlite3</pre>
+                    </div>
+                </div>
+
+                <div class="step-section">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <h4>Testar Leitor RFID</h4>
+                        <p style="margin-bottom: 10px;">Verificar se o leitor MFRC522 está a funcionar corretamente:</p>
+                        <pre class="cicf-code-block">python3 -c "
+from mfrc522 import SimpleMFRC522
+reader = SimpleMFRC522()
+print('Aproxime um cartão...')
+id, text = reader.read()
+print(f'ID: {id}, Conteúdo: {text}')
+"</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 4: Estrutura da Base de Dados -->
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🗄️</span>
+                    <div>
+                        <div class="cicf-section-title">Base de Dados</div>
+                        <div class="cicf-section-subtitle">Estrutura SQLite</div>
+                    </div>
+                </div>
+
+                <p style="margin-bottom: 15px;">
+                    O sistema usa uma base de dados SQLite simples com apenas uma tabela para registar todos os movimentos:
+                </p>
+
+                <pre class="cicf-code-block">CREATE TABLE IF NOT EXISTS movimentos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uid TEXT NOT NULL,
+    nome TEXT NOT NULL,
+    tipo TEXT NOT NULL,          -- 'entrada' ou 'saida'
+    data_hora TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);</pre>
+
+                <div style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <strong>💡 Vantagem desta abordagem:</strong>
+                    <br>• Simplicidade máxima
+                    <br>• Histórico completo preservado
+                    <br>• Fácil análise posterior dos dados
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Seção Full-Width: Código Principal -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">💻</span>
+                <div>
+                    <div class="cicf-section-title">Código Python Principal</div>
+                    <div class="cicf-section-subtitle">Sistema completo check-in/check-out</div>
+                </div>
+            </div>
+            
+            <pre class="cicf-code-block">#!/usr/bin/env python3
+"""
+Sistema Check-in/Check-out - CICF
+Autor: Edgar (adaptado para tutorial)
+"""
+
+import time
+from datetime import datetime
+import sqlite3
+import os
+import RPi.GPIO as GPIO
+from mfrc522 import SimpleMFRC522
+
+# Configurações
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(SCRIPT_DIR, "attendance.db")
+print(f"Base de dados: {DB_PATH}")
+
+# Configurar GPIO
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+
+# Inicializar leitor RFID
+print("Inicializando leitor MFRC522...")
+reader = SimpleMFRC522()
+print("Leitor inicializado!")
+
+print("=== SISTEMA CHECK-IN/CHECK-OUT CICF ===")
+print("Aproxime o cartão NFC... (Ctrl+C para sair)\n")
+
+# Criar tabela se não existir
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS movimentos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        uid TEXT NOT NULL,
+        nome TEXT NOT NULL,
+        tipo TEXT NOT NULL,
+        data_hora TEXT NOT NULL,
+        timestamp INTEGER NOT NULL
+    )
+''')
+
+conn.commit()
+conn.close()
+
+# Controlo de presença em memória
+presentes = {}  # uid: hora_entrada
+
+try:
+    while True:
+        print(".", end="", flush=True)
+        id_cartao, texto = reader.read_no_block()
+        
+        if id_cartao is not None:
+            uid_str = str(id_cartao)
+            
+            # Nome baseado no UID (ou usar dicionário de utilizadores)
+            nome = f"Utilizador_{uid_str[-6:]}"
+            
+            print(f"\n\n🔑 TAG DETECTADA! UID: {uid_str}")
+            if texto.strip():
+                print(f"📝 Texto: '{texto.strip()}'")
+            
+            agora = datetime.now()
+            data_hora_str = agora.strftime("%Y-%m-%d %H:%M:%S")
+            timestamp = int(time.time())
+            
+            # Conectar à base de dados
+            conn = sqlite3.connect(DB_PATH)
+            cursor = conn.cursor()
+            
+            if uid_str in presentes:
+                # CHECK-OUT
+                entrada = presentes[uid_str]
+                tempo = agora - entrada
+                print(f"🚪 CHECK-OUT → {nome}")
+                print(f"⏰ Entrou: {entrada.strftime('%H:%M:%S')}")
+                print(f"⏰ Saiu:   {agora.strftime('%H:%M:%S')}")
+                print(f"⏱️  Tempo:  {str(tempo).split('.')[0]}")
+                
+                # Registar saída
+                cursor.execute('''
+                    INSERT INTO movimentos (uid, nome, tipo, data_hora, timestamp)
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (uid_str, nome, 'saida', data_hora_str, timestamp))
+                
+                # Remover do controlo
+                del presentes[uid_str]
+                
+            else:
+                # CHECK-IN
+                print(f"🚪 CHECK-IN → {nome}")
+                print(f"⏰ Entrada: {agora.strftime('%H:%M:%S')}")
+                
+                # Registar entrada
+                cursor.execute('''
+                    INSERT INTO movimentos (uid, nome, tipo, data_hora, timestamp)
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (uid_str, nome, 'entrada', data_hora_str, timestamp))
+                
+                # Adicionar ao controlo
+                presentes[uid_str] = agora
+            
+            conn.commit()
+            conn.close()
+            
+            print(f"💾 Registado na base de dados!")
+            print("-" * 40)
+            
+            # Pausa para evitar leituras múltiplas
+            time.sleep(2)
+
+except KeyboardInterrupt:
+    print("\n\n👋 Sistema encerrado!")
+    print(f"📊 Base de dados guardada em: {DB_PATH}")
+    GPIO.cleanup()</pre>
+        </div>
+
+        <!-- Grid Secundário: Resultados e Análise -->
+        <div class="cicf-grid">
+            
+            <!-- Seção 5: Visualização de Dados -->
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">📊</span>
+                    <div>
+                        <div class="cicf-section-title">Análise de Dados</div>
+                        <div class="cicf-section-subtitle">Consultar registos</div>
+                    </div>
+                </div>
+
+                <p style="margin-bottom: 15px;">
+                    Para visualizar os dados recolhidos, podes usar o DB Browser for SQLite ou consultas SQL diretas:
+                </p>
+
+                <pre class="cicf-code-block">-- Ver últimos 10 registos
+SELECT * FROM movimentos 
+ORDER BY timestamp DESC 
+LIMIT 10;
+
+-- Calcular tempo de permanência
+SELECT 
+    uid, nome,
+    data_hora as entrada,
+    LEAD(data_hora) OVER (PARTITION BY uid ORDER BY timestamp) as saida
+FROM movimentos 
+WHERE tipo = 'entrada';</pre>
+
+                <div class="cicf-img-container">
+                    <img src="./imagens/Content.png" alt="Base de dados com registos de exemplo">
+                    <p class="cicf-img-caption">Exemplo da tabela movimentos com dados reais</p>
+                </div>
+            </div>
+
+            <!-- Seção 6: Expansões Possíveis -->
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🚀</span>
+                    <div>
+                        <div class="cicf-section-title">Melhorias Futuras</div>
+                        <div class="cicf-section-subtitle">Próximos passos</div>
+                    </div>
+                </div>
+
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0; border-left: 3px solid var(--cicf-primary); padding-left: 15px; margin-bottom: 10px;">
+                        <strong>🌐 Interface Web:</strong> Flask/FastAPI para consultar dados online
+                    </li>
+                    <li style="padding: 8px 0; border-left: 3px solid var(--cicf-secondary); padding-left: 15px; margin-bottom: 10px;">
+                        <strong>📱 App Mobile:</strong> Notificações push para entradas/saídas
+                    </li>
+                    <li style="padding: 8px 0; border-left: 3px solid #ff6b6b; padding-left: 15px; margin-bottom: 10px;">
+                        <strong>📈 Dashboard:</strong> Gráficos de ocupação em tempo real
+                    </li>
+                    <li style="padding: 8px 0; border-left: 3px solid #28a745; padding-left: 15px; margin-bottom: 10px;">
+                        <strong>🔔 Alertas:</strong> Emails automáticos para administração
+                    </li>
+                    <li style="padding: 8px 0; border-left: 3px solid #ffc107; padding-left: 15px;">
+                        <strong>☁️ Backup Cloud:</strong> Sincronização automática com Google Drive
+                    </li>
+                </ul>
+
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
+                    <strong>🎓 Competências Desenvolvidas:</strong>
+                    <br>Python • Hardware • Bases de Dados • IoT • Debugging
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cicf-highlight-section" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🏆</span>
+                <div>
+                    <div class="cicf-section-title" style="color: white;">Completaste o Tutorial!</div>
+                    <div class="cicf-section-subtitle" style="color: rgba(255,255,255,0.9);">Próximos passos e certificação</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <p style="font-size: 1.1em; margin-bottom: 20px;">
+                    🎉 Parabéns! Criaste um sistema RFID funcional do zero!
+                </p>
+                
+                <a href="/cdn-cgi/l/email-protection#13707a3d7072617f7c60757a7c7f7b727a6053707e3e7e727a723d63672c606671797670672e4766677c617a727f3341555a5733507c7e637f76677c35717c776a2e5c7fd0b23233507c7e637f7667767a337c336766677c617a727f3377763341555a5733436a677b7c7d337633747c606772617a723377763361767076717661337c337e766633717277747633777633707661677a757a7072d0b4d0b07c32" class="cicf-btn cicf-btn-primary" style="background: white; color: var(--cicf-primary); text-decoration: none; margin-right: 15px;">
+                    🏆 Receber Badge
+                </a>
+                
+                <a href="../index.html" class="cicf-btn cicf-btn-outline" 
+                   style="border-color: white; color: white; text-decoration: none;">
+                    📚 Mais Tutoriais
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Tutorial Sistema RFID Python</p>
+            <p style="margin-top: 8px;">Desenvolvido por Edgar • Adaptado pela equipa CICF • Tutorial interativo</p>
+            <div style="margin-top: 15px;">
+                <a href="/cdn-cgi/l/email-protection#d3b0bafdb0b2a1bfbca0b5babcbfbbb2baa093b0befebeb2bab2fda3a7" class="cicf-footer-link" style="margin-right: 20px;">
+                    📧 <span class="__cf_email__" data-cfemail="2c4f45024f4d5e40435f4a454340444d455f6c4f4101414d454d025c58">[email&#160;protected]</span>
+                </a>
+                <a href="https://github.com/cicf-tutorials/rfid-python" class="cicf-footer-link">
+                    💻 Ver no GitHub
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Tutorial
+            </button>
+        </div>
+
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Scroll suave para seções
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight código ao fazer scroll
+        const codeBlocks = document.querySelectorAll('.cicf-code-block');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.borderLeft = '4px solid var(--cicf-primary)';
+                    entry.target.style.transition = 'all 0.3s ease';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        codeBlocks.forEach(block => observer.observe(block));
+
+        // Copy code functionality
+        codeBlocks.forEach(block => {
+            block.addEventListener('dblclick', func

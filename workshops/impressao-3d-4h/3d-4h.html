@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Masterclass Impressão 3D (4h) | Workshop CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        .timeline-item {
+            display: flex;
+            margin-bottom: 25px;
+            align-items: flex-start;
+        }
+        
+        .time-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9em;
+            min-width: 100px;
+            text-align: center;
+            margin-right: 25px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+        }
+        
+        .activity-content {
+            flex: 1;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #f0f0f0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .activity-content:hover {
+            border-color: var(--cicf-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .activity-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            border-bottom: 2px solid var(--cicf-primary);
+            padding-bottom: 8px;
+        }
+        
+        .activity-description {
+            color: var(--text-medium);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .advanced-techniques {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            margin-top: 12px;
+        }
+        
+        .advanced-techniques h4 {
+            color: #1565c0;
+            margin-bottom: 8px;
+        }
+        
+        .material-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .material-card {
+            background: white;
+            border: 2px solid var(--bg-light);
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .material-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--cicf-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .material-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .material-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .material-name {
+            font-weight: 700;
+            color: var(--cicf-primary);
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .material-temp {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin: 5px 0;
+            display: inline-block;
+        }
+        
+        .expert-tip {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .expert-tip::before {
+            content: '💡';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #fff3cd;
+            padding: 0 8px;
+            font-size: 1.2em;
+        }
+        
+        .expert-tip h4 {
+            color: #856404;
+            margin-bottom: 8px;
+            margin-top: 5px;
+        }
+        
+        .software-advanced {
+            background: #f8f9fa;
+            border: 2px solid var(--cicf-secondary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .software-feature {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid var(--cicf-secondary);
+        }
+        
+        .feature-icon {
+            font-size: 1.5em;
+            margin-right: 12px;
+        }
+        
+        .feature-content {
+            flex: 1;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 3px;
+        }
+        
+        .feature-description {
+            font-size: 0.9em;
+            color: var(--text-medium);
+        }
+        
+        .project-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .showcase-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .showcase-item:hover {
+            transform: translateY(-8px);
+        }
+        
+        .showcase-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .difficulty-expert {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .participant-limit {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .participant-limit .number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .certification-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .certification-badge::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header -->
+        <div class="cicf-header">
+            <h1>🚀 Masterclass Impressão 3D</h1>
+            <p>Workshop Avançado de 4 horas • Materiais especiais e técnicas profissionais</p>
+        </div>
+
+        <div style="padding: 30px 40px 0;">
+            <a href="../index.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Workshops
+            </a>
+        </div>
+
+        <!-- Grid Principal -->
+        <div class="cicf-grid">
+            
+            <!-- Seção 1: Pré-requisitos -->
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🎯</span>
+                    <div>
+                        <div class="cicf-section-title">Pré-requisitos</div>
+                        <div class="cicf-section-subtitle">Workshop para utilizadores experientes</div>
+                    </div>
+                </div>
+
+                <div class="difficulty-expert">
+                    <h3 style="margin-bottom: 15px;">⚠️ Nível Avançado</h3>
+                    <div style="font-size: 0.95em; line-height: 1.6;">
+                        Este workshop destina-se a participantes que já dominam os conceitos básicos de impressão 3D
+                    </div>
+                </div>
+                
+                <div style="background: #f8d7da; border-left: 4px solid #dc3545; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                    <h4 style="color: #721c24; margin-bottom: 10px;">✅ Obrigatório:</h4>
+                    <ul style="margin: 0; padding-left: 18px; color: #721c24;">
+                        <li>Workshop 2h concluído OU experiência equivalente</li>
+                        <li>Conhecimento de Tinkercad/Fusion 360 básico</li>
+                        <li>Compreensão dos parâmetros de slice</li>
+                        <li>Já ter imprimido 5+ objetos com sucesso</li>
+                    </ul>
+                </div>
+
+                <div style="background: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; border-radius: 6px;">
+                    <h4 style="color: #0c5460; margin-bottom: 10px;">💡 Recomendado:</h4>
+                    <ul style="margin: 0; padding-left: 18px; color: #0c5460;">
+                        <li>Noções básicas de CAD (Fusion 360)</li>
+                        <li>Experiência com diferentes filamentos</li>
+                        <li>Projeto específico em mente para desenvolver</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Seção 2: Objetivos Avançados -->
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🏆</span>
+                    <div>
+                        <div class="cicf-section-title">Objetivos Masterclass</div>
+                        <div class="cicf-section-subtitle">Competências de nível profissional</div>
+                    </div>
+                </div>
+
+                <div class="participant-limit">
+                    <span class="number">4-8</span>
+                    <div>Participantes máximo</div>
+                    <div style="font-size: 0.9em; margin-top: 5px; opacity: 0.9;">Para acompanhamento especializado</div>
+                </div>
+
+                <ul style="list-style: none; padding: 0; margin-top: 20px;">
+                    <li style="padding: 10px 0; border-left: 4px solid #ff6b6b; padding-left: 15px; margin-bottom: 10px;">
+                        <strong>🔥 Materiais Avançados</strong><br>
+                        <small>PETG, ABS, TPU e filamentos especiais</small>
+                    </li>
+                    <li style="padding: 10px 0; border-left: 4px solid #2196f3; padding-left: 15px; margin-bottom: 10px;">
+                        <strong>⚙️ Otimização Extrema</strong><br>
+                        <small>Configurações custom para cada material</small>
+                    </li>
+                    <li style="padding: 10px 0; border-left: 4px solid #9c27b0; padding-left: 15px; margin-bottom: 10px;">
+                        <strong>🎨 Post-processamento</strong><br>
+                        <small>Acetone smoothing, sanding, painting</small>
+                    </li>
+                    <li style="padding: 10px 0; border-left: 4px solid #4caf50; padding-left: 15px;">
+                        <strong>🔧 Troubleshooting Avançado</strong><br>
+                        <small>Resolver problemas complexos de impressão</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Materiais Avançados -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🧪</span>
+                <div>
+                    <div class="cicf-section-title">Materiais e Propriedades</div>
+                    <div class="cicf-section-subtitle">Comparação técnica dos filamentos</div>
+                </div>
+            </div>
+            
+            <div class="material-comparison">
+                <div class="material-card">
+                    <div class="material-name">PLA+</div>
+                    <div class="material-temp">210°C / 60°C</div>
+                    <div style="color: var(--text-medium); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Vantagens:</strong> Mais resistente que PLA normal<br>
+                        <strong>Aplicações:</strong> Peças funcionais, protótipos
+                    </div>
+                </div>
+                
+                <div class="material-card">
+                    <div class="material-name">PETG</div>
+                    <div class="material-temp">235°C / 80°C</div>
+                    <div style="color: var(--text-medium); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Vantagens:</strong> Transparente, químicamente resistente<br>
+                        <strong>Aplicações:</strong> Recipientes, peças médicas
+                    </div>
+                </div>
+                
+                <div class="material-card">
+                    <div class="material-name">ABS</div>
+                    <div class="material-temp">250°C / 100°C</div>
+                    <div style="color: var(--text-medium); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Vantagens:</strong> Muito resistente, acetone smoothing<br>
+                        <strong>Aplicações:</strong> Peças automóveis, caixas eletrónicas
+                    </div>
+                </div>
+                
+                <div class="material-card">
+                    <div class="material-name">TPU</div>
+                    <div class="material-temp">220°C / 50°C</div>
+                    <div style="color: var(--text-medium); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Vantagens:</strong> Flexível, borracha-like<br>
+                        <strong>Aplicações:</strong> Capas telemóvel, vedantes
+                    </div>
+                </div>
+            </div>
+
+            <div class="expert-tip">
+                <h4>Configuração de Temperatura por Material:</h4>
+                <div style="color: #856404; font-size: 0.9em;">
+                    <strong>PLA+:</strong> Hotend 210°C, Bed 60°C, Velocidade 50mm/s<br>
+                    <strong>PETG:</strong> Hotend 235°C, Bed 80°C, Velocidade 30mm/s, Retração 2mm<br>
+                    <strong>ABS:</strong> Hotend 250°C, Bed 100°C, Enclosure recomendado<br>
+                    <strong>TPU:</strong> Hotend 220°C, Bed 50°C, Velocidade 20mm/s, Retração 1mm
+                </div>
+            </div>
+        </div>
+
+        <!-- Cronograma da Masterclass -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">⏰</span>
+                <div>
+                    <div class="cicf-section-title">Cronograma Masterclass</div>
+                    <div class="cicf-section-subtitle">4 horas de formação intensiva</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 25px;">
+                
+                <!-- Bloco 1 -->
+                <div class="timeline-item">
+                    <div class="time-badge">0-45 min</div>
+                    <div class="activity-content">
+                        <div class="activity-title">🔬 Ciência dos Materiais</div>
+                        <div class="activity-description">
+                            <strong>Teoria avançada:</strong> Propriedades físicas dos termoplásticos, temperatura de transição vítrea, 
+                            cristalização, comportamento térmico. <strong>Laboratório:</strong> Testar amostras de cada material, 
+                            observar diferenças de flexibilidade, resistência e acabamento.
+                        </div>
+                        <div class="advanced-techniques">
+                            <h4>🧪 Testes Práticos:</h4>
+                            <div style="color: #1565c0; font-size: 0.9em;">
+                                • Teste de resistência à flexão<br>
+                                • Análise de transparência (PETG)<br>
+                                • Teste de flexibilidade (TPU)<br>
+                                • Resistência térmica comparativa
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bloco 2 -->
+                <div class="timeline-item">
+                    <div class="time-badge">45-105 min</div>
+                    <div class="activity-content">
+                        <div class="activity-title">⚙️ Design para Fabricação Avançado</div>
+                        <div class="activity-description">
+                            <strong>CAD Profissional:</strong> Introdução ao Fusion 360 para impressão 3D. 
+                            Design thinking para diferentes materiais. <strong>Projeto prático:</strong> 
+                            Cada participante cria uma peça complexa com requisitos específicos de material.
+                        </div>
+                        
+                        <div class="software-advanced">
+                            <h4 style="color: var(--cicf-secondary); margin-bottom: 15px;">🚀 Fusion 360 - Funcionalidades Avançadas:</h4>
+                            
+                            <div class="software-feature">
+                                <span class="feature-icon">📐</span>
+                                <div class="feature-content">
+                                    <div class="feature-title">Parametric Design</div>
+                                    <div class="feature-description">Criar modelos editáveis com parâmetros</div>
+                                </div>
+                            </div>
+                            
+                            <div class="software-feature">
+                                <span class="feature-icon">🔄</span>
+                                <div class="feature-content">
+                                    <div class="feature-title">Assemblies</div>
+                                    <div class="feature-description">Peças múltiplas que encaixam perfeitamente</div>
+                                </div>
+                            </div>
+                            
+                            <div class="software-feature">
+                                <span class="feature-icon">📊</span>
+                                <div class="feature-content">
+                                    <div class="feature-title">Simulation</div>
+                                    <div class="feature-description">Testar stresses antes de imprimir</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pausa -->
+                <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                    <h3 style="color: var(--cicf-primary);">☕ Pausa de 15 minutos</h3>
+                    <p style="color: var(--text-medium); margin: 5px 0;">Tempo para assimilar conceitos e preparar para a prática</p>
+                </div>
+                
+                <!-- Bloco 3 -->
+                <div class="timeline-item">
+                    <div class="time-badge">120-180 min</div>
+                    <div class="activity-content">
+                        <div class="activity-title">🖨️ Impressão Multi-Material</div>
+                        <div class="activity-description">
+                            <strong>Sessão prática intensiva:</strong> 3 impressoras funcionando em simultâneo com diferentes materiais. 
+                            Cada participante configura e inicia impressões em PETG, ABS e TPU. 
+                            <strong>Análise em tempo real</strong> dos diferentes comportamentos durante a impressão.
+                        </div>
+                        <div class="advanced-techniques">
+                            <h4>🎯 Configurações Específicas por Material:</h4>
+                            <div style="color: #1565c0; font-size: 0.9em;">
+                                • <strong>PETG:</strong> Temperatura torre + Fan cooling customizado<br>
+                                • <strong>ABS:</strong> Enclosure setup + Acetone vapor polishing<br>
+                                • <strong>TPU:</strong> Direct drive settings + Flexible supports
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bloco 4 -->
+                <div class="timeline-item">
+                    <div class="time-badge">180-240 min</div>
+                    <div class="activity-content">
+                        <div class="activity-title">✨ Post-Processamento Profissional</div>
+                        <div class="activity-description">
+                            <strong>Acabamentos de qualidade industrial:</strong> Sanding progressivo, acetone smoothing para ABS, 
+                            primer e pintura, inserção de roscas metálicas, colagem química. 
+                            <strong>Showcase final:</strong> Comparação antes/depois de cada técnica aplicada.
+                        </div>
+                        <div class="advanced-techniques">
+                            <h4>🎨 Técnicas Profissionais:</h4>
+                            <div style="color: #1565c0; font-size: 0.9em;">
+                                • <strong>Acetone Smoothing:</strong> ABS em câmara de vapor controlada<br>
+                                • <strong>Support Removal:</strong> Ferramentas especializadas + técnicas<br>
+                                • <strong>Threaded Inserts:</strong> Criar roscas metálicas permanentes<br>
+                                • <strong>Multi-color:</strong> Pintura e masking profissional
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Projetos Exemplo -->
+        <div class="cicf-grid">
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🏗️</span>
+                    <div>
+                        <div class="cicf-section-title">Projetos da Masterclass</div>
+                        <div class="cicf-section-subtitle">Exemplos de complexidade avançada</div>
+                    </div>
+                </div>
+
+                <div class="project-showcase">
+                    <div class="showcase-item">
+                        <span class="showcase-icon">⚙️</span>
+                        <h4>Caixa com Roscas</h4>
+                        <div style="font-size: 0.8em; color: #666; margin-top: 8px;">
+                            Assembly multi-peça<br>PETG + Insertos metálicos
+                        </div>
+                    </div>
+                    
+                    <div class="showcase-item">
+                        <span class="showcase-icon">📱</span>
+                        <h4>Capa Flexível</h4>
+                        <div style="font-size: 0.8em; color: #666; margin-top: 8px;">
+                            TPU personalizado<br>Geometric patterns
+                        </div>
+                    </div>
+                    
+                    <div class="showcase-item">
+                        <span class="showcase-icon">🔧</span>
+                        <h4>Ferramenta Custom</h4>
+                        <div style="font-size: 0.8em; color: #666; margin-top: 8px;">
+                            ABS reforçado<br>Stress simulation
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🛠️</span>
+                    <div>
+                        <div class="cicf-section-title">Ferramentas Especializadas</div>
+                        <div class="cicf-section-subtitle">Equipment profissional usado</div>
+                    </div>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 15px;">🔧 Hardware Avançado:</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="padding: 8px 0; border-left: 3px solid #28a745; padding-left: 12px; margin-bottom: 8px;">
+                            <strong>Prusa i3 MK3s+</strong> - Multi-material upgrade
+                        </li>
+                        <li style="padding: 8px 0; border-left: 3px solid #ffc107; padding-left: 12px; margin-bottom: 8px;">
+                            <strong>Enclosure</strong> - Controlo temperatura ambiente
+                        </li>
+                        <li style="padding: 8px 0; border-left: 3px solid #dc3545; padding-left: 12px; margin-bottom: 8px;">
+                            <strong>Acetone Chamber</strong> - Smoothing seguro
+                        </li>
+                        <li style="padding: 8px 0; border-left: 3px solid #6c757d; padding-left: 12px;">
+                            <strong>Post-processing Kit</strong> - Limas, primer, tintas
+                        </li>
+                    </ul>
+                </div>
+
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                    <h4 style="color: #388e3c; margin-bottom: 15px;">💻 Software Profissional:</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="padding: 6px 0; color: #388e3c;">• <strong>Fusion 360</strong> - CAD paramétrico</li>
+                        <li style="padding: 6px 0; color: #388e3c;">• <strong>PrusaSlicer</strong> - Profiles customizados</li>
+                        <li style="padding: 6px 0; color: #388e3c;">• <strong>Meshmixer</strong> - Suportes avançados</li>
+                        <li style="padding: 6px 0; color: #388e3c;">• <strong>OctoPrint</strong> - Monitorização remota</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificação -->
+        <div class="certification-badge">
+            <h2 style="margin-bottom: 15px; position: relative; z-index: 2;">🏅 Certificação CICF</h2>
+            <div style="font-size: 1.1em; line-height: 1.6; position: relative; z-index: 2;">
+                <strong>Participantes que completem esta masterclass recebem:</strong><br><br>
+                ✅ <strong>Certificado Digital</strong> de "Advanced 3D Printing Specialist"<br>
+                ✅ <strong>Badge LinkedIn</strong> verificado pelo CICF<br>
+                ✅ <strong>Acesso vitalício</strong> ao grupo privado de alumni<br>
+                ✅ <strong>10% desconto</strong> em filamentos e consumíveis CICF
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cicf-highlight-section" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🎓</span>
+                <div>
+                    <div class="cicf-section-title" style="color: white;">Pronto para o Próximo Nível?</div>
+                    <div class="cicf-section-subtitle" style="color: rgba(255,255,255,0.9);">Torna-te num especialista reconhecido</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 25px 0;">
+                <p style="font-size: 1.2em; margin-bottom: 25px; font-weight: 600;">
+                    🚀 Esta masterclass é o culminar do nosso programa de impressão 3D
+                </p>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; margin: 20px 0;">
+                    <h3 style="margin-bottom: 15px;">📊 Estatísticas dos Alumni:</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center;">
+                        <div>
+                            <div style="font-size: 2em; font-weight: 700;">94%</div>
+                            <div style="font-size: 0.9em;">Satisfação geral</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2em; font-weight: 700;">78%</div>
+                            <div style="font-size: 0.9em;">Aplicaram no trabalho</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2em; font-weight: 700;">45%</div>
+                            <div style="font-size: 0.9em;">Inicaram negócio</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Inscrição Masterclass 3D&body=Olá! Gostaria de me inscrever na Masterclass de Impressão 3D (4h). Confirmo que tenho experiência prévia com impressão 3D." 
+                   class="cicf-btn cicf-btn-primary" 
+                   style="background: white; color: var(--cicf-primary); text-decoration: none; padding: 18px 35px; font-size: 1.1em; margin-right: 15px;">
+                    🎯 Inscrever na Masterclass
+                </a>
+                
+                <div style="margin-top: 25px; font-size: 0.95em; opacity: 0.9;">
+                    <strong>💡 Nota:</strong> Esta masterclass tem lista de espera. Inscrições abertas 30 dias antes de cada sessão.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Masterclass Impressão 3D Avançada (4h)</p>
+            <p style="margin-top: 8px;">Formação profissional • Certificação reconhecida • Versão 3.0 • Janeiro 2026</p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Info Masterclass 3D" class="cicf-footer-link" style="margin-right: 20px;">
+                    📧 Mais Informações
+                </a>
+                <a href="https://www.autodesk.com/products/fusion-360/students-teachers-educators" class="cicf-footer-link">
+                    🔗 Fusion 360 Educacional
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Currículo Masterclass
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Parallax effect no header
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.cicf-header');
+            header.style.transform = `translateY(${scrolled * 0.3}px)`;
+            header.style.opacity = 1 - scrolled * 0.001;
+        });
+
+        // Counter animation para estatísticas
+        function animateCounters() {
+            const stats = document.querySelectorAll('[style*="font-size: 2em"]');
+            
+            stats.forEach(stat => {
+                if (stat.textContent.includes('%')) {
+                    const finalNumber = parseInt(stat.textContent);
+                    let currentNumber = 0;
+                    
+                    const timer = setInterval(() => {
+                        currentNumber += 2;
+                        if (currentNumber >= finalNumber) {
+                            stat.textContent = finalNumber + '%';
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = currentNumber + '%';
+                        }
+                    }, 30);
+                }
+            });
+        }
+
+        // Trigger contador quando estatísticas ficam visíveis
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.disconnect();
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.certification-badge');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Material comparison interativo
+        document.querySelectorAll('.material-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const materialName = this.querySelector('.material-name').textContent;
+                const temp = this.querySelector('.material-temp').textContent;
+                
+                // Remove seleção anterior
+                document.querySelectorAll('.material-card').forEach(c => {
+                    c.style.borderColor = '';
+                    c.style.transform = '';
+                });
+                
+                // Destaca o selecionado
+                this.style.borderColor = 'var(--cicf-primary)';
+                this.style.transform = 'scale(1.05)';
+                this.style.zIndex = '10';
+                
+                // Mostra info adicional
+                const info = document.createElement('div');
+                info.innerHTML = `
+                    <div style="background: var(--cicf-primary); color: white; padding: 15px; border-radius: 8px; margin-top: 10px; position: relative;">
+                        <strong>${materialName}</strong> - ${temp}<br>
+                        <small>Clique noutra material para comparar</small>
+                        <div style="position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 8px solid var(--cicf-primary);"></div>
+                    </div>
+                `;
+                
+                // Remove info anterior
+                const oldInfo = document.querySelector('.material-info');
+                if (oldInfo) oldInfo.remove();
+                
+                info.className = 'material-info';
+                this.appendChild(info);
+                
+                // Remove após 3 segundos
+                setTimeout(() => {
+                    if (info.parentNode) {
+                        info.remove();
+                        this.style.transform = '';
+                        this.style.zIndex = '';
+                    }
+                }, 3000);
+            });
+        });
+
+        // Easter egg: Konami code para mostrar specs técnicas
+        let konamiCode = [];
+        const konami = [38,38,40,40,37,39,37,39,66,65]; // ↑↑↓↓←→←→BA
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.keyCode);
+            konamiCode.splice(-konami.length - 1, konamiCode.length - konami.length);
+            
+            if (konamiCode.join('').indexOf(konami.join('')) >= 0) {
+                const techSpecs = document.createElement('div');
+                techSpecs.innerHTML = `
+                    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                        <h3>🔧 SPECS TÉCNICAS DESBLOQUEADAS!</h3>
+                        <p style="margin: 15px 0;">
+                            <strong>Prusa i3 MK3s+:</strong><br>
+                            • Build volume: 250×210×210mm<br>
+                            • Layer height: 0.05-0.35mm<br>
+                            • Filament: 1.75mm<br>
+                            • Max speed: 200mm/s<br>
+                            • Nozzle temp: 300°C max
+                        </p>
+                        <button onclick="this.parentNode.parentNode.remove()" style="background: white; color: var(--cicf-primary); border: none; padding: 10px 20px; border-radius: 5px; font-weight: 600;">Fechar</button>
+                    </div>
+                `;
+                document.body.appendChild(techSpecs);
+            }
+        });
+    </script>
+</body>
+</html>

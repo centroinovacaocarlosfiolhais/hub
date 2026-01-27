@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛠️ Workshops CICF | Sessões Estruturadas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../cicf-design-system.css">
+    <style>
+        .workshop-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workshop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-color: var(--cicf-primary);
+        }
+
+        .workshop-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .workshop-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+
+        .workshop-title {
+            font-size: 1.4em;
+            color: var(--cicf-primary);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .workshop-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .level-beginner { background: #d4edda; color: #155724; }
+        .level-intermediate { background: #fff3cd; color: #856404; }
+        .level-advanced { background: #f8d7da; color: #721c24; }
+        
+        .duration-badge { background: #e1ecf4; color: #0c5460; }
+        .group-badge { background: #e2e3e5; color: #41464b; }
+        .format-badge { background: #f0f0f0; color: var(--text-medium); }
+
+        .workshop-description {
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .workshop-agenda {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--cicf-secondary);
+            margin-bottom: 20px;
+        }
+
+        .workshop-agenda h4 {
+            color: var(--cicf-secondary);
+            margin: 0 0 10px 0;
+            font-size: 0.95em;
+        }
+
+        .agenda-item {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .agenda-time {
+            font-weight: 600;
+            color: var(--cicf-primary);
+            min-width: 60px;
+            margin-right: 10px;
+        }
+
+        .agenda-activity {
+            color: var(--text-medium);
+        }
+
+        .workshop-resources {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        .workshop-resources h4 {
+            color: #ff6b6b;
+            margin: 0 0 8px 0;
+            font-size: 0.95em;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.85em;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-medium);
+        }
+
+        .workshop-cta {
+            background: var(--cicf-primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .workshop-cta:hover {
+            background: var(--cicf-secondary);
+            transform: translateY(-2px);
+        }
+
+        .workshops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            padding: 0 40px 40px;
+        }
+
+        .instructor-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .instructor-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .workshops-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px 40px;
+            }
+            .workshop-card { padding: 20px; }
+            .resources-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header -->
+        <div class="cicf-header">
+            <h1>🛠️ Workshops CICF</h1>
+            <p>Sessões estruturadas com guião de professor para aquisição sólida de conhecimentos</p>
+        </div>
+
+        <div style="padding: 30px 40px 0;">
+            <a href="../index.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar ao Hub CICF
+            </a>
+        </div>
+
+        <div class="workshops-grid">
+            
+            <!-- Workshop 1: Impressão 3D - 2 horas -->
+            <div class="workshop-card" onclick="window.location.href='impressao-3d-2h/3d-2h.html'">
+                <div class="workshop-header">
+                    <span class="workshop-icon">🎯</span>
+                    <h3 class="workshop-title">Impressão 3D Prática</h3>
+                </div>
+                
+                <div class="workshop-meta">
+                    <span class="meta-badge level-intermediate">Intermédio</span>
+                    <span class="meta-badge duration-badge">2h</span>
+                    <span class="meta-badge group-badge">6-10 pax</span>
+                    <span class="meta-badge format-badge">Projeto</span>
+                </div>
+
+                <p class="workshop-description">
+                    Workshop aprofundado onde cada participante cria e imprime um projeto personalizado. 
+                    Inclui design 3D básico e configurações avançadas de impressão.
+                </p>
+
+                <div class="workshop-agenda">
+                    <h4>📋 Agenda da Sessão:</h4>
+                    <div class="agenda-item">
+                        <span class="agenda-time">20min</span>
+                        <span class="agenda-activity">Design 3D no Tinkercad</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">30min</span>
+                        <span class="agenda-activity">Configuração do Slicer</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">60min</span>
+                        <span class="agenda-activity">Impressão supervisionada</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">10min</span>
+                        <span class="agenda-activity">Avaliação e melhorias</span>
+                    </div>
+                </div>
+
+                <div class="workshop-resources">
+                    <h4>🧰 Recursos Incluídos:</h4>
+                    <div class="resources-grid">
+                        <div class="resource-item">📐 Acesso ao Tinkercad</div>
+                        <div class="resource-item">🖨️ Filamento PLA</div>
+                        <div class="resource-item">📚 Guia de referência</div>
+                        <div class="resource-item">💾 Ficheiros do projeto</div>
+                    </div>
+                </div>
+
+                <button class="workshop-cta">
+                    🎨 Criar e Imprimir
+                </button>
+            </div>
+
+            <!-- Workshop 2: Impressão 3D Avançado - 4 horas -->
+            <div class="workshop-card" onclick="window.location.href='impressao-3d-4h/3d-4h.html'">
+                <div class="workshop-header">
+                    <span class="workshop-icon">🚀</span>
+                    <h3 class="workshop-title">Impressão 3D Avançada</h3>
+                </div>
+                
+                <div class="workshop-meta">
+                    <span class="meta-badge level-advanced">Avançado</span>
+                    <span class="meta-badge duration-badge">4h</span>
+                    <span class="meta-badge group-badge">4-8 pax</span>
+                    <span class="meta-badge format-badge">Masterclass</span>
+                </div>
+
+                <p class="workshop-description">
+                    Masterclass completa de impressão 3D. Trabalha com materiais avançados, 
+                    aprende técnicas de post-processamento e resolve problemas complexos.
+                </p>
+
+                <div class="workshop-agenda">
+                    <h4>📋 Agenda da Sessão:</h4>
+                    <div class="agenda-item">
+                        <span class="agenda-time">45min</span>
+                        <span class="agenda-activity">Materiais avançados (PETG, ABS, TPU)</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">60min</span>
+                        <span class="agenda-activity">Design para impressão 3D</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">90min</span>
+                        <span class="agenda-activity">Projeto complexo com suportes</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">45min</span>
+                        <span class="agenda-activity">Post-processamento e acabamentos</span>
+                    </div>
+                </div>
+
+                <div class="instructor-info">
+                    <div class="instructor-name">👩‍🔬 Especialista em Fabricação</div>
+                    <div>Certificação em Design Industrial e Prototipagem</div>
+                </div>
+
+                <button class="workshop-cta">
+                    🎓 Masterclass Avançada
+                </button>
+            </div>
+
+            <!-- Workshop 3: Corte a Laser -->
+            <div class="workshop-card" onclick="window.location.href='corte-laser/index.html'">
+                <div class="workshop-header">
+                    <span class="workshop-icon">⚡</span>
+                    <h3 class="workshop-title">Corte a Laser</h3>
+                </div>
+                
+                <div class="workshop-meta">
+                    <span class="meta-badge level-intermediate">Intermédio</span>
+                    <span class="meta-badge duration-badge">3h</span>
+                    <span class="meta-badge group-badge">6-8 pax</span>
+                    <span class="meta-badge format-badge">Projeto</span>
+                </div>
+
+                <p class="workshop-description">
+                    Domina a tecnologia de corte a laser para criar projetos precisos em diferentes materiais. 
+                    Desde o design vetorial até ao produto final.
+                </p>
+
+                <div class="workshop-agenda">
+                    <h4>📋 Agenda da Sessão:</h4>
+                    <div class="agenda-item">
+                        <span class="agenda-time">30min</span>
+                        <span class="agenda-activity">Segurança e funcionamento</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">45min</span>
+                        <span class="agenda-activity">Design vetorial (Inkscape)</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">90min</span>
+                        <span class="agenda-activity">Corte em diferentes materiais</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">15min</span>
+                        <span class="agenda-activity">Montagem e finalização</span>
+                    </div>
+                </div>
+
+                <div class="workshop-resources">
+                    <h4>🧰 Recursos Incluídos:</h4>
+                    <div class="resources-grid">
+                        <div class="resource-item">📐 Acesso ao Inkscape</div>
+                        <div class="resource-item">🪵 Madeira contraplacada</div>
+                        <div class="resource-item">📑 Papel e cartão</div>
+                        <div class="resource-item">🔧 Kit de montagem</div>
+                    </div>
+                </div>
+
+                <button class="workshop-cta">
+                    ⚡ Cortar com Precisão
+                </button>
+            </div>
+
+            <!-- Workshop 4: Design Thinking -->
+            <div class="workshop-card" onclick="window.location.href='design-thinking/index.html'">
+                <div class="workshop-header">
+                    <span class="workshop-icon">💡</span>
+                    <h3 class="workshop-title">Design Thinking</h3>
+                </div>
+                
+                <div class="workshop-meta">
+                    <span class="meta-badge level-beginner">Iniciante</span>
+                    <span class="meta-badge duration-badge">3h</span>
+                    <span class="meta-badge group-badge">8-15 pax</span>
+                    <span class="meta-badge format-badge">Colaborativo</span>
+                </div>
+
+                <p class="workshop-description">
+                    Metodologia centrada no utilizador para resolver problemas de forma criativa. 
+                    Workshop prático com desafio real e prototipagem rápida.
+                </p>
+
+                <div class="workshop-agenda">
+                    <h4>📋 Agenda da Sessão:</h4>
+                    <div class="agenda-item">
+                        <span class="agenda-time">30min</span>
+                        <span class="agenda-activity">Empatizar - Compreender o problema</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">45min</span>
+                        <span class="agenda-activity">Definir - Sintetizar insights</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">60min</span>
+                        <span class="agenda-activity">Idear - Brainstorm de soluções</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">45min</span>
+                        <span class="agenda-activity">Prototipar e testar</span>
+                    </div>
+                </div>
+
+                <div class="instructor-info">
+                    <div class="instructor-name">🎨 Design Facilitator</div>
+                    <div>Certificação em Design Thinking (IDEO)</div>
+                </div>
+
+                <button class="workshop-cta">
+                    🧠 Pensar como Designer
+                </button>
+            </div>
+
+            <!-- Workshop 5: Programação Criativa -->
+            <div class="workshop-card" onclick="window.location.href='programacao-criativa/index.html'">
+                <div class="workshop-header">
+                    <span class="workshop-icon">🎨</span>
+                    <h3 class="workshop-title">Programação Criativa</h3>
+                </div>
+                
+                <div class="workshop-meta">
+                    <span class="meta-badge level-beginner">Iniciante</span>
+                    <span class="meta-badge duration-badge">2h</span>
+                    <span class="meta-badge group-badge">6-12 pax</span>
+                    <span class="meta-badge format-badge">Arte Digital</span>
+                </div>
+
+                <p class="workshop-description">
+                    Cria arte digital usando código! Introdução ao Processing/p5.js para gerar 
+                    padrões, animações e visualizações interativas.
+                </p>
+
+                <div class="workshop-agenda">
+                    <h4>📋 Agenda da Sessão:</h4>
+                    <div class="agenda-item">
+                        <span class="agenda-time">20min</span>
+                        <span class="agenda-activity">Introdução ao p5.js</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">40min</span>
+                        <span class="agenda-activity">Formas e cores básicas</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">45min</span>
+                        <span class="agenda-activity">Animações e interação</span>
+                    </div>
+                    <div class="agenda-item">
+                        <span class="agenda-time">15min</span>
+                        <span class="agenda-activity">Galeria de criações</span>
+                    </div>
+                </div>
+
+                <button class="workshop-cta">
+                    🖼️ Criar Arte com Código
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">📅</span>
+                <div>
+                    <div class="cicf-section-title">Agendar Workshop</div>
+                    <div class="cicf-section-subtitle">Personaliza a sessão para o teu grupo</div>
+                </div>
+            </div>
+            
+            <p style="margin-bottom: 20px; text-align: center; color: var(--text-medium); font-size: 1.1em;">
+                Todos os workshops podem ser adaptados às necessidades do teu grupo. Entra em contacto para agendar!
+            </p>
+            
+            <div style="text-align: center;">
+                <a href="/cdn-cgi/l/email-protection#43202a6d2022312f2c30252a2c2f2b222a3003202e6e2e222a226d33377c303621292620377e0224262d27222e262d372c63142c3128302b2c3363000a000565212c273a7e0c2f80e26263042c303722312a22632726632224262d27223163362e63342c3128302b2c3363302c2131266d6d6d" class="cicf-btn cicf-btn-primary">
+                    📞 Agendar Workshop
+                </a>
+                <a href="../ferramentas/calendar.html" class="cicf-btn cicf-btn-secondary" style="margin-left: 15px;">
+                    📅 Ver Calendário
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Workshops Estruturados</p>
+            <p style="margin-top: 8px;">Sessões com guião de professor • Aquisição sólida de conhecimentos • Certificação incluída</p>
+            <a href="/cdn-cgi/l/email-protection#fd9e94d39e9c8f91928e9b949291959c948ebd9e90d0909c949cd38d89" class="cicf-footer-link">
+                📧 <span class="__cf_email__" data-cfemail="096a60276a687b65667a6f6066656168607a496a64246468606827797d">[email&#160;protected]</span>
+            </a>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Workshops
+            </button>
+        </div>
+
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Animação de entrada dos cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.workshop-card');
+            
+            cards.forEach((card, index) => {
+                card.style.opaci

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guião de Professor - Aventura Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* LOGIN SCREEN */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: rgba(45, 53, 97, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #fbbf24;
+            text-align: center;
+        }
+
+        .login-subtitle {
+            color: #90cdf4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-label {
+            color: #90cdf4;
+            font-weight: 600;
+        }
+
+        .form-input {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 8px;
+            color: white;
+            font-size: 1em;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        .btn-login {
+            padding: 12px;
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background: #7c3aed;
+        }
+
+        .error-message {
+            color: #f56565;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* MAIN APP */
+        .main-app {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .main-app.hidden {
+            display: none;
+        }
+
+        .header {
+            background: rgba(45, 53, 97, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 2em;
+            color: #fbbf24;
+        }
+
+        .btn-logout {
+            padding: 10px 20px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+        }
+
+        .content {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            background: rgba(45, 53, 97, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            width: 300px;
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #90cdf4;
+        }
+
+        .session-group {
+            margin-bottom: 20px;
+        }
+
+        .session-title {
+            color: #b794f4;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .level-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 8px;
+            text-align: left;
+            font-size: 0.95em;
+            transition: all 0.3s;
+        }
+
+        .level-btn:hover {
+            background: rgba(139, 92, 246, 0.4);
+            border-color: #8b5cf6;
+        }
+
+        .level-btn.active {
+            background: #8b5cf6;
+            border-color: #7c3aed;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            background: rgba(45, 53, 97, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid rgba(138, 43, 226, 0.5);
+        }
+
+        .level-header {
+            border-bottom: 2px solid #8b5cf6;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .level-title {
+            font-size: 2em;
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+
+        .level-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: #90cdf4;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #8b5cf6;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .code-block {
+            background: #1a202c;
+            color: #48bb78;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #8b5cf6;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .password-badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        .tips-box {
+            background: rgba(49, 130, 206, 0.2);
+            border: 1px solid rgba(49, 130, 206, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .errors-box {
+            background: rgba(245, 101, 101, 0.2);
+            border: 1px solid rgba(245, 101, 101, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 1000px) {
+            .content {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h1 class="login-title">👨‍🏫 Guião de Professor</h1>
+            <p class="login-subtitle">Aventura Python - CICF</p>
+            
+            <form class="login-form" onsubmit="login(event)">
+                <div class="form-group">
+                    <label class="form-label">Utilizador:</label>
+                    <input type="text" id="username" class="form-input" placeholder="cicf" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password:</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="btn-login">🔓 Entrar</button>
+                
+                <p class="error-message" id="errorMessage">❌ Credenciais incorretas!</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="main-app hidden" id="mainApp">
+        <div class="header">
+            <div class="header-top">
+                <h1 class="header-title">👨‍🏫 Guião de Professor - Aventura Python</h1>
+                <button class="btn-logout" onclick="logout()">Sair</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+                <h2 class="sidebar-title">📚 Níveis</h2>
+                <div id="levelsList"></div>
+            </div>
+
+            <!-- MAIN CONTENT -->
+            <div class="main-content" id="mainContent">
+                <p style="text-align: center; color: #90cdf4;">Seleciona um nível na barra lateral</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🔐 CREDENCIAIS
+        const CREDENTIALS = {
+            username: "cicf",
+            password: "CarlosFiolhais"
+        };
+
+        // 📚 DADOS DOS NÍVEIS (com todas as informações pedagógicas)
+        const levelsData = [
+            {
+                session: "Sessão 1: Movimento Básico",
+                title: "Primeiro Passo",
+                password: "INICIO2025",
+                duration: "20 min",
+                objective: "Move o herói 3 passos para a direita para chegar ao tesouro",
+                hint: "usa: heroi.direita()",
+                solution: "heroi.direita()\nheroi.direita()\nheroi.direita()",
+                explanation: "1. Herói começa em (1, 1)\n2. heroi.direita() → move para (2, 1)\n3. heroi.direita() → move para (3, 1)\n4. heroi.direita() → move para (4, 1) [TESOURO!]\n5. ✅ Nível completado",
+                concepts: [
+                    "Comandos básicos: Instruções que o computador executa",
+                    "Sequência: Ordem importa! direita() 3 vezes ≠ 1 vez",
+                    "Sintaxe: heroi.direita() - objeto.método()",
+                    "Parênteses: Sempre necessários para chamar funções"
+                ],
+                commonErrors: [
+                    "Esquecer parênteses: heroi.direita (ERRADO)",
+                    "Maiúsculas erradas: Heroi.direita() (ERRADO)",
+                    "Pouco movimento: Só 2 direita() - não chega ao tesouro",
+                    "Muito movimento: 4 direita() - bate na parede"
+                ],
+                tips: [
+                    "Explicar que cada linha é uma instrução",
+                    "Demonstrar visualmente o movimento",
+                    "Enfatizar que ordem das linhas importa",
+                    "Deixar alunos experimentarem errar (bater parede)"
+                ]
+            },
+            {
+                session: "Sessão 1: Movimento Básico",
+                title: "Caminho em L",
+                password: "CURVA2025",
+                duration: "25 min",
+                objective: "Move o herói em forma de L para pegar a chave",
+                hint: "combina: heroi.direita() e heroi.baixo()",
+                solution: "heroi.direita()\nheroi.direita()\nheroi.baixo()\nheroi.baixo()",
+                explanation: "1. Herói em (1, 1)\n2. direita() → (2, 1)\n3. direita() → (3, 1)\n4. baixo() → (3, 2)\n5. baixo() → (3, 3) [TESOURO!]",
+                concepts: [
+                    "Combinação de direções: Não é só direita!",
+                    "Visualização espacial: Planejar caminho antes de codificar",
+                    "Coordenadas: (x, y) - horizontal, vertical"
+                ],
+                commonErrors: [
+                    "Ir só para baixo primeiro (bate em parede)",
+                    "Ir direita demais (bate em parede)",
+                    "Não completar o caminho",
+                    "Confundir direita com baixo"
+                ],
+                tips: [
+                    "Pedir aos alunos para 'desenharem' o caminho primeiro",
+                    "Explicar que paredes bloqueiam",
+                    "Introduzir conceito de planeamento"
+                ]
+            },
+            {
+                session: "Sessão 1: Movimento Básico",
+                title: "Usa Ciclos",
+                password: "LOOP2025",
+                duration: "45 min",
+                objective: "Usa um ciclo for para mover 5 passos",
+                hint: "for i in range(5):",
+                solution: "for i in range(5):\n    heroi.direita()",
+                explanation: "1. for i in range(5): - repete 5 vezes\n2. Iteração 1: heroi.direita() → (2, 1)\n3. Iteração 2: heroi.direita() → (3, 1)\n4. Iteração 3: heroi.direita() → (4, 1)\n5. Iteração 4: heroi.direita() → (5, 1)\n6. Iteração 5: heroi.direita() → (6, 1) [TESOURO!]",
+                concepts: [
+                    "Ciclos for: Repetição automática",
+                    "range(n): Gera números de 0 a n-1",
+                    "Indentação: Espaços importam! (4 espaços ou Tab)",
+                    "Variável de iteração: i conta as repetições",
+                    "DRY: Don't Repeat Yourself"
+                ],
+                commonErrors: [
+                    "Indentação errada: Sem espaços antes de heroi.direita()",
+                    "Esquecer dois pontos: for i in range(5) sem :",
+                    "Range errado: range(4) só repete 4 vezes",
+                    "Não indentar: heroi.direita() alinhado à esquerda"
+                ],
+                tips: [
+                    "Explicar que range(5) = [0, 1, 2, 3, 4]",
+                    "Demonstrar indentação visualmente",
+                    "Mostrar que for poupa escrever 5 linhas",
+                    "Praticar com range diferente"
+                ]
+            },
+            {
+                session: "Sessão 2: Ciclos e Repetição",
+                title: "Padrão em Escada",
+                password: "ESCADA2025",
+                duration: "35 min",
+                objective: "Cria um padrão: direita, baixo, direita, baixo",
+                hint: "usa um ciclo for com múltiplos comandos",
+                solution: "for i in range(2):\n    heroi.direita()\n    heroi.baixo()\nheroi.direita()\nheroi.baixo()",
+                explanation: "1. Iteração 1 do for: direita() → (2,1), baixo() → (2,2)\n2. Iteração 2 do for: direita() → (3,2), baixo() → (3,3)\n3. Fora do for: direita() → (4,3)\n4. Fora do for: baixo() → (4,4) [TESOURO!]",
+                concepts: [
+                    "Múltiplos comandos no loop: Indentar TODOS",
+                    "Blocos de código: Tudo indentado executa junto",
+                    "Padrões repetitivos: Identificar o que se repete"
+                ],
+                commonErrors: [
+                    "Só indentar primeiro comando",
+                    "Repetir só direita() ou só baixo()",
+                    "Não adicionar movimentos finais fora do loop",
+                    "Indentar os comandos finais por engano"
+                ],
+                tips: [
+                    "Desenhar o padrão primeiro",
+                    "Mostrar diferença entre dentro/fora do loop",
+                    "Usar cores para demonstrar indentação"
+                ]
+            },
+            {
+                session: "Sessão 2: Ciclos e Repetição",
+                title: "Coleta Todas as Gemas",
+                password: "GEMAS2025",
+                duration: "55 min",
+                objective: "Percorre o corredor, coleta 4 gemas e chega ao tesouro",
+                hint: "usa range() para repetir",
+                solution: "for i in range(4):\n    heroi.direita()\n    heroi.coletar()\nheroi.direita()",
+                explanation: "1. Iteração 1: direita() → (2,1), coletar() → Gema 1 ✅\n2. Iteração 2: direita() → (3,1), coletar() → Gema 2 ✅\n3. Iteração 3: direita() → (4,1), coletar() → Gema 3 ✅\n4. Iteração 4: direita() → (5,1), coletar() → Gema 4 ✅\n5. Fora do for: direita() → (6,1) [TESOURO!]",
+                concepts: [
+                    "Novo comando: heroi.coletar()",
+                    "Ações combinadas: Mover E coletar",
+                    "Condição de vitória: Coletar TODAS + chegar ao tesouro",
+                    "Sequência lógica: Pensar no que fazer em cada passo"
+                ],
+                commonErrors: [
+                    "Esquecer coletar(): Só se movimenta",
+                    "Não chegar ao tesouro: Esquece último direita()",
+                    "coletar() fora do loop: Só coleta 1 gema",
+                    "Range errado: range(5) move demais"
+                ],
+                tips: [
+                    "Enfatizar que são DUAS ações por iteração",
+                    "Contar as gemas visualmente",
+                    "Lembrar do movimento final"
+                ]
+            },
+            {
+                session: "Sessão 3: Condições e Decisões",
+                title: "Decisão no Caminho",
+                password: "DECISAO2025",
+                duration: "40 min",
+                objective: "Verifica se há tesouro à direita antes de mover",
+                hint: "usa: if heroi.ver_direita() == 'tesouro':",
+                solution: "if heroi.ver_direita() == 'tesouro':\n    heroi.direita()",
+                explanation: "1. heroi.ver_direita() retorna 'tesouro'\n2. Comparação: 'tesouro' == 'tesouro' → True\n3. Condição é verdadeira, executa bloco if\n4. heroi.direita() → (2, 1) [TESOURO!]",
+                concepts: [
+                    "Condições if: Se... então...",
+                    "Comparação: == (igual a)",
+                    "Valores booleanos: True/False",
+                    "Funções que retornam: ver_direita() devolve string",
+                    "Indentação no if: Comandos condicionais indentados"
+                ],
+                commonErrors: [
+                    "Usar = em vez de ==: Atribuição vs comparação",
+                    "Esquecer aspas: tesouro vs 'tesouro'",
+                    "Não indentar: Código do if sem espaços",
+                    "Esquecer dois pontos: if precisa de :"
+                ],
+                tips: [
+                    "Explicar diferença entre = e ==",
+                    "Mostrar que ver_direita() é como 'olhar'",
+                    "Exemplo da vida real: SE está a chover ENTÃO levo guarda-chuva"
+                ]
+            },
+            {
+                session: "Sessão 3: Condições e Decisões",
+                title: "Chave e Porta",
+                password: "PORTA2025",
+                duration: "50 min",
+                objective: "Coleta a chave, navega até à porta e abre-a",
+                hint: "usa heroi.pegar_chave() e heroi.abrir_porta()",
+                solution: "# Pegar a chave\nheroi.direita()\nheroi.pegar_chave()\n\n# Navegar até à porta\nheroi.direita()\nheroi.baixo()\nheroi.baixo()\nheroi.direita()\n\n# Abrir porta\nif heroi.tem_chave():\n    heroi.abrir_porta()\n    heroi.direita()\n    heroi.baixo()\n    heroi.direita()",
+                explanation: "1. direita() → (2, 1) - posição da chave\n2. pegar_chave() → Chave obtida! 🔑\n3. direita() → (3, 1) - CRUCIAL!\n4. baixo() → (3, 2)\n5. baixo() → (3, 3)\n6. direita() → (4, 3) - porta\n7. tem_chave() → True\n8. abrir_porta() → Porta aberta! 🚪\n9-11. direita(), baixo(), direita() → (6, 4) [TESOURO!]",
+                concepts: [
+                    "Estado persistente: Chave permanece coletada",
+                    "Funções de verificação: tem_chave() retorna True/False",
+                    "Interação com objetos: pegar_chave(), abrir_porta()",
+                    "Bloqueio condicional: Porta só abre SE tens chave",
+                    "Planeamento multi-etapas: 3 fases (chave → porta → tesouro)"
+                ],
+                commonErrors: [
+                    "Esquecer direita() após pegar chave: Caminho errado!",
+                    "Tentar abrir porta sem if: Funciona mas má prática",
+                    "Não pegar chave: Porta fica trancada",
+                    "Confundir ordem: Tentar abrir antes de ter chave"
+                ],
+                tips: [
+                    "Enfatizar planeamento: Desenhem o caminho!",
+                    "Explicar que porta = obstáculo condicional",
+                    "Mostrar mudança visual da porta (vermelho → verde)",
+                    "Discutir aplicações reais: autenticação"
+                ]
+            },
+            {
+                session: "Sessão 4: Funções e Desafios",
+                title: "Cria uma Função",
+                password: "FUNCAO2025",
+                duration: "45 min",
+                objective: "Define função mover_e_coletar() e usa-a 3 vezes",
+                hint: "def mover_e_coletar():",
+                solution: "def mover_e_coletar():\n    heroi.direita()\n    heroi.coletar()\n\nfor i in range(3):\n    mover_e_coletar()\nheroi.direita()",
+                explanation: "1. Definição da função: Cria 'receita' mover_e_coletar\n2. Iteração 1: mover_e_coletar() executa direita() + coletar()\n3. Iteração 2: mover_e_coletar() executa direita() + coletar()\n4. Iteração 3: mover_e_coletar() executa direita() + coletar()\n5. Fora do loop: direita() → [TESOURO!]",
+                concepts: [
+                    "Definição de função: def nome():",
+                    "Chamada de função: nome()",
+                    "Abstração: Dar nome a sequência de ações",
+                    "Reutilização: Escrever uma vez, usar várias",
+                    "DRY Avançado: Função + loop = poder!"
+                ],
+                commonErrors: [
+                    "Esquecer def: Só escrever o nome da função",
+                    "Parênteses na definição: def mover_e_coletar sem ()",
+                    "Chamar função sem definir: Ordem importa!",
+                    "Indentação: Corpo da função precisa estar indentado"
+                ],
+                tips: [
+                    "Comparar função a 'receita de culinária'",
+                    "Explicar que definição ≠ execução",
+                    "Mostrar que função pode ser chamada múltiplas vezes",
+                    "Praticar com funções simples primeiro"
+                ]
+            },
+            {
+                session: "Sessão 4: Funções e Desafios",
+                title: "Desafio Final",
+                password: "MESTRE2025",
+                duration: "45 min",
+                objective: "Usa tudo o que aprendeste! Coleta 4 gemas e chega ao tesouro",
+                hint: "combina funções, ciclos e condições. Planeia o caminho!",
+                solution: "# Linha superior - gemas em (2,1) e (5,1)\nheroi.direita()\nheroi.coletar()\nfor i in range(3):\n    heroi.direita()\nheroi.coletar()\n\n# Descer pela direita\nheroi.direita()\nheroi.baixo()\nheroi.baixo()\n\n# Linha inferior - gemas em (5,3) e (2,3)\nheroi.esquerda()\nheroi.coletar()\nfor i in range(3):\n    heroi.esquerda()\nheroi.coletar()\n\n# Ir para o tesouro em (6,4)\nheroi.esquerda()\nheroi.baixo()\nfor i in range(5):\n    heroi.direita()",
+                explanation: "FASE 1: Gemas superiores\n- direita(), coletar() → Gema 1 em (2,1)\n- loop direita() x3 + coletar() → Gema 2 em (5,1)\n\nFASE 2: Posicionar\n- direita(), baixo() x2 → posição (6,3)\n\nFASE 3: Gemas inferiores\n- esquerda(), coletar() → Gema 3 em (5,3)\n- loop esquerda() x3 + coletar() → Gema 4 em (2,3)\n\nFASE 4: Tesouro\n- esquerda(), baixo() → (1,4)\n- loop direita() x5 → (6,4) TESOURO!",
+                concepts: [
+                    "Movimento em 4 direções",
+                    "Ciclos for com range()",
+                    "Coleção de múltiplos items",
+                    "Planeamento de caminho complexo",
+                    "Otimização (usar loops onde possível)"
+                ],
+                commonErrors: [
+                    "Caminho errado: Não planear antes de codificar",
+                    "Não coletar todas: Esquecer alguma gema",
+                    "Não usar loops: Escrever tudo manualmente",
+                    "Perder-se: Não acompanhar posição mental"
+                ],
+                tips: [
+                    "PEDIR PARA DESENHAR CAMINHO NO PAPEL PRIMEIRO",
+                    "Dividir problema em fases",
+                    "Testar fase a fase",
+                    "Discutir diferentes soluções (há várias!)",
+                    "Celebrar conclusão - é um desafio significativo!"
+                ]
+            }
+        ];
+
+        // 🔐 LOGIN
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === CREDENTIALS.username && password === CREDENTIALS.password) {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                renderLevelsList();
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // 📚 RENDERIZAÇÃO
+        function renderLevelsList() {
+            const container = document.getElementById('levelsList');
+            container.innerHTML = '';
+            
+            let currentSession = '';
+            levelsData.forEach((level, index) => {
+                if (level.session !== currentSession) {
+                    currentSession = level.session;
+                    const sessionDiv = document.createElement('div');
+                    sessionDiv.className = 'session-group';
+                    sessionDiv.innerHTML = `<div class="session-title">${level.session}</div>`;
+                    container.appendChild(sessionDiv);
+                }
+                
+                const btn = document.createElement('button');
+                btn.className = 'level-btn';
+                if (index === 0) btn.classList.add('active');
+                btn.textContent = level.title;
+                btn.onclick = () => showLevel(index);
+                container.lastChild.appendChild(btn);
+            });
+            
+            // Mostrar primeiro nível por padrão
+            showLevel(0);
+        }
+
+        function showLevel(index) {
+            const level = levelsData[index];
+            
+            // Atualizar botões ativos
+            document.querySelectorAll('.level-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+            
+            // Renderizar conteúdo
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="level-header">
+                    <h1 class="level-title">${level.title}</h1>
+                    <div class="level-meta">
+                        <span>⏱️ ${level.duration}</span>
+                        <span>🔑 Password: <span class="password-badge">${level.password}</span></span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">🎯 Objetivo</h2>
+                    <div class="section-content">
+                        <p>${level.objective}</p>
+                        <div class="tips-box">
+                            <strong>💡 Dica para alunos:</strong> ${level.hint}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">✅ Solução</h2>
+                    <div class="section-content">
+                        <div class="code-block">${level.solution}</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">📖 Explicação Passo a Passo</h2>
+                    <div class="section-content">
+                        <pre style="color: #e2e8f0; white-space: pre-wrap;">${level.explanation}</pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">🎓 Conceitos a Ensinar</h2>
+                    <div class="section-content">
+                        <ul class="objectives-list">
+                            ${level.concepts.map(c => `<li>${c}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">⚠️ Erros Comuns dos Alunos</h2>
+                    <div class="section-content">
+                        <div class="errors-box">
+                            <ul>
+                                ${level.commonErrors.map(e => `<li>${e}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">💬 Dicas para o Professor</h2>
+                    <div class="section-content">
+                        <div class="tips-box">
+                            <ul>
+                                ${level.tips.map(t => `<li>${t}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

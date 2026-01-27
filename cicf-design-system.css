@@ -67,6 +67,24 @@ body {
     --spacing-lg: 20px;
     --spacing-xl: 30px;
     --spacing-xxl: 40px;
+    
+    /* Contexto de botões (padrão: fundo claro) */
+    --btn-outline-bg: white;
+    --btn-outline-color: var(--cicf-primary);
+    --btn-outline-border: var(--cicf-primary);
+    --btn-outline-hover-bg: var(--bg-hover);
+}
+
+/* Contexto automático para fundos coloridos */
+[style*="background: linear-gradient"],
+[style*="background-image"],
+.cicf-header,
+.colored-bg,
+.gradient-bg {
+    --btn-outline-bg: rgba(255, 255, 255, 0.1);
+    --btn-outline-color: white;
+    --btn-outline-border: white;
+    --btn-outline-hover-bg: rgba(255, 255, 255, 0.2);
 }
 
 /* ========================================
@@ -143,30 +161,18 @@ body {
 .cicf-btn-secondary:hover {
     background: var(--cicf-secondary-hover);
 }
-/* Por defeito (fundo claro) */
-:root {
-    --btn-outline-bg: white;
-    --btn-outline-color: #667eea;
-    --btn-outline-border: #667eea;
-}
-
-/* Auto-detecção de fundos coloridos */
-[style*="background: linear-gradient"],
-.cicf-header {
-    --btn-outline-bg: rgba(255, 255, 255, 0.1);
-    --btn-outline-color: white;
-    --btn-outline-border: white;
-}
 
 .cicf-btn-outline {
     background: var(--btn-outline-bg);
     color: var(--btn-outline-color);
     border: 2px solid var(--btn-outline-border);
-}
+    backdrop-filter: blur(10px);
 }
 
 .cicf-btn-outline:hover {
-    background: var(--bg-hover);
+    background: var(--btn-outline-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.1);
 }
 
 .cicf-btn-ghost {

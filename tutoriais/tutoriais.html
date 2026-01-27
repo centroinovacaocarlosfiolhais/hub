@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Tutoriais CICF | Aprendizagem Autónoma</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../cicf-design-system.css">
+    <style>
+        .tutorial-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-color: var(--cicf-primary);
+        }
+
+        .tutorial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--cicf-primary), var(--cicf-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tutorial-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tutorial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tutorial-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+
+        .tutorial-title {
+            font-size: 1.4em;
+            color: var(--cicf-primary);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .tutorial-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .difficulty-easy { background: #d4edda; color: #155724; }
+        .difficulty-medium { background: #fff3cd; color: #856404; }
+        .difficulty-hard { background: #f8d7da; color: #721c24; }
+        
+        .duration-badge { background: #e1ecf4; color: #0c5460; }
+        .tech-badge { background: #f0f0f0; color: var(--text-medium); }
+
+        .tutorial-description {
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tutorial-outcomes {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--cicf-primary);
+            margin-bottom: 20px;
+        }
+
+        .tutorial-outcomes h4 {
+            color: var(--cicf-primary);
+            margin: 0 0 8px 0;
+            font-size: 0.95em;
+        }
+
+        .tutorial-outcomes ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .tutorial-outcomes li {
+            color: var(--text-medium);
+            font-size: 0.9em;
+            margin-bottom: 4px;
+        }
+
+        .tutorial-cta {
+            background: var(--cicf-primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tutorial-cta:hover {
+            background: var(--cicf-secondary);
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            background: white;
+            color: var(--cicf-primary);
+            border: 2px solid var(--cicf-primary);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .back-button:hover {
+            background: var(--cicf-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .coming-soon {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .coming-soon-badge {
+            background: #6c757d;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .tutorials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            padding: 0 40px 40px;
+        }
+
+        @media (max-width: 768px) {
+            .tutorials-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px 40px;
+            }
+            .tutorial-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header -->
+        <div class="cicf-header">
+            <h1>📚 Tutoriais CICF</h1>
+            <p>Guias passo a passo para desenvolver autonomia e ganhar experiência prática</p>
+        </div>
+
+        <div style="padding: 30px 40px 0;">
+            <a href="../index.html" class="back-button">
+                ← Voltar ao Hub CICF
+            </a>
+        </div>
+
+        <div class="tutorials-grid">
+            
+            <!-- Tutorial 1: RFID Python -->
+            <div class="tutorial-card" onclick="window.location.href='rfid-python/rfid-python.html'">
+                <div class="tutorial-header">
+                    <span class="tutorial-icon">🔑</span>
+                    <h3 class="tutorial-title">Sistema RFID em Python</h3>
+                </div>
+                
+                <div class="tutorial-meta">
+                    <span class="meta-badge difficulty-medium">Médio</span>
+                    <span class="meta-badge duration-badge">4-6h</span>
+                    <span class="meta-badge tech-badge">Python</span>
+                    <span class="meta-badge tech-badge">RFID</span>
+                    <span class="meta-badge tech-badge">SQLite</span>
+                </div>
+
+                <p class="tutorial-description">
+                    Cria um sistema completo de check-in/check-out usando cartões RFID com Raspberry Pi. 
+                    Aprende a integrar hardware e software, trabalhar com bases de dados e criar interfaces de utilizador.
+                </p>
+
+                <div class="tutorial-outcomes">
+                    <h4>🎯 Vais Aprender:</h4>
+                    <ul>
+                        <li>Programação em Python para IoT</li>
+                        <li>Integração hardware/software com RFID</li>
+                        <li>Bases de dados SQLite</li>
+                        <li>Gestão de dados em tempo real</li>
+                        <li>Debugging e resolução de problemas</li>
+                    </ul>
+                </div>
+
+                <button class="tutorial-cta">
+                    🚀 Começar Tutorial
+                </button>
+            </div>
+
+            <!-- Tutorial 2: Linux Mint -->
+            <div class="tutorial-card" onclick="window.location.href='linux-mint/linux-mint.html'">
+                <div class="tutorial-header">
+                    <span class="tutorial-icon">🐧</span>
+                    <h3 class="tutorial-title">Instalação Linux Mint</h3>
+                </div>
+                
+                <div class="tutorial-meta">
+                    <span class="meta-badge difficulty-easy">Fácil</span>
+                    <span class="meta-badge duration-badge">2-3h</span>
+                    <span class="meta-badge tech-badge">Linux</span>
+                    <span class="meta-badge tech-badge">Sistemas</span>
+                </div>
+
+                <p class="tutorial-description">
+                    Aprende a instalar e configurar Linux Mint nos computadores do CICF. 
+                    Tutorial completo desde o download até à configuração inicial do sistema operativo.
+                </p>
+
+                <div class="tutorial-outcomes">
+                    <h4>🎯 Vais Aprender:</h4>
+                    <ul>
+                        <li>Conceitos de sistemas operativos</li>
+                        <li>Criação de USB bootável</li>
+                        <li>Processo de instalação Linux</li>
+                        <li>Configuração inicial do sistema</li>
+                        <li>Gestão de utilizadores e permissões</li>
+                    </ul>
+                </div>
+
+                <button class="tutorial-cta">
+                    🖥️ Instalar Linux Mint
+                </button>
+            </div>
+
+            <!-- Tutorial 3: Impressão 3D Prusa -->
+            <div class="tutorial-card" onclick="window.location.href='impressao-prusa/index.html'">
+                <div class="tutorial-header">
+                    <span class="tutorial-icon">🖨️</span>
+                    <h3 class="tutorial-title">Impressão 3D - Prusa i3 MK3s</h3>
+                </div>
+                
+                <div class="tutorial-meta">
+                    <span class="meta-badge difficulty-medium">Médio</span>
+                    <span class="meta-badge duration-badge">3-4h</span>
+                    <span class="meta-badge tech-badge">3D</span>
+                    <span class="meta-badge tech-badge">Prusa</span>
+                </div>
+
+                <p class="tutorial-description">
+                    Domina a impressora Prusa i3 MK3s do CICF. Desde o setup inicial até à impressão de objetos complexos, 
+                    incluindo resolução de problemas comuns.
+                </p>
+
+                <div class="tutorial-outcomes">
+                    <h4>🎯 Vais Aprender:</h4>
+                    <ul>
+                        <li>Setup e calibração da Prusa i3 MK3s</li>
+                        <li>PrusaSlicer e configurações de impressão</li>
+                        <li>Gestão de materiais (PLA, PETG, ABS)</li>
+                        <li>Resolução de problemas comuns</li>
+                        <li>Post-processamento e acabamentos</li>
+                    </ul>
+                </div>
+
+                <button class="tutorial-cta">
+                    🎨 Começar a Imprimir
+                </button>
+            </div>
+
+            <!-- Tutorial 4: Impressão 3D Creality -->
+            <div class="tutorial-card" onclick="window.location.href='impressao-creality/index.html'">
+                <div class="tutorial-header">
+                    <span class="tutorial-icon">🏭</span>
+                    <h3 class="tutorial-title">Impressão 3D - Creality CR-X</h3>
+                </div>
+                
+                <div class="tutorial-meta">
+                    <span class="meta-badge difficulty-medium">Médio</span>
+                    <span class="meta-badge duration-badge">3-4h</span>
+                    <span class="meta-badge tech-badge">3D</span>
+                    <span class="meta-badge tech-badge">Creality</span>
+                </div>
+
+                <p class="tutorial-description">
+                    Aprende a usar a impressora Creality CR-X para projetos avançados. 
+                    Inclui técnicas de impressão dual-extrusor e materiais especiais.
+                </p>
+
+                <div class="tutorial-outcomes">
+                    <h4>🎯 Vais Aprender:</h4>
+                    <ul>
+                        <li>Setup da Creality CR-X</li>
+                        <li>Impressão dual-extrusor</li>
+                        <li>Cura Slicer e perfis avançados</li>
+                        <li>Impressão com suportes solúveis</li>
+                        <li>Manutenção preventiva</li>
+                    </ul>
+                </div>
+
+                <button class="tutorial-cta">
+                    ⚙️ Dominar CR-X
+                </button>
+            </div>
+
+            <!-- Tutorial 5: Web Development CICF -->
+            <div class="tutorial-card coming-soon">
+                <div class="tutorial-header">
+                    <span class="tutorial-icon">💻</span>
+                    <h3 class="tutorial-title">Desenvolvimento Web CICF</h3>
+                </div>
+                
+                <div class="tutorial-meta">
+                    <span class="coming-soon-badge">Em Breve</span>
+                    <span class="meta-badge difficulty-medium">Médio</span>
+                    <span class="meta-badge duration-badge">6-8h</span>
+                    <span class="meta-badge tech-badge">HTML/CSS</span>
+                    <span class="meta-badge tech-badge">JavaScript</span>
+                </div>
+
+                <p class="tutorial-description">
+                    Cria websites e aplicações web usando o CICF Design System. 
+                    Aprende HTML, CSS, JavaScript e as melhores práticas de desenvolvimento.
+                </p>
+
+                <div class="tutorial-outcomes">
+                    <h4>🎯 Vais Aprender:</h4>
+                    <ul>
+                        <li>Fundamentos de HTML e CSS</li>
+                        <li>JavaScript interativo</li>
+                        <li>CICF Design System</li>
+                        <li>Responsive design</li>
+                        <li>Deploy e hosting</li>
+                    </ul>
+                </div>
+
+                <button class="tutorial-cta">
+                    ⏳ Disponível em Breve
+                </button>
+            </div>
+
+            <!-- Tutorial 6: Arduino & Sensores -->
+            <div class="tutorial-card coming-soon">
+                <div class="tutorial-header">
+                    <span class="tutorial-icon">🔧</span>
+                    <h3 class="tutorial-title">Arduino & Sensores</h3>
+                </div>
+                
+                <div class="tutorial-meta">
+                    <span class="coming-soon-badge">Em Breve</span>
+                    <span class="meta-badge difficulty-easy">Fácil</span>
+                    <span class="meta-badge duration-badge">4-5h</span>
+                    <span class="meta-badge tech-badge">Arduino</span>
+                    <span class="meta-badge tech-badge">IoT</span>
+                </div>
+
+                <p class="tutorial-description">
+                    Introdução ao mundo Arduino com projetos práticos usando sensores. 
+                    Perfeito para começar na programação de microcontroladores.
+                </p>
+
+                <div class="tutorial-outcomes">
+                    <h4>🎯 Vais Aprender:</h4>
+                    <ul>
+                        <li>Programação Arduino (C++)</li>
+                        <li>Circuitos eletrónicos básicos</li>
+                        <li>Sensores e atuadores</li>
+                        <li>Projetos IoT simples</li>
+                        <li>Debugging hardware/software</li>
+                    </ul>
+                </div>
+
+                <button class="tutorial-cta">
+                    ⏳ Disponível em Breve
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">💡</span>
+                <div>
+                    <div class="cicf-section-title">Contribui com um Tutorial</div>
+                    <div class="cicf-section-subtitle">Partilha o teu conhecimento com a comunidade CICF</div>
+                </div>
+            </div>
+            
+            <p style="margin-bottom: 20px; text-align: center; color: var(--text-medium); font-size: 1.1em;">
+                Tens uma competência que gostarias de ensinar? Cria um tutorial e ajuda outros a aprender!
+            </p>
+            
+            <div style="text-align: center;">
+                <a href="/cdn-cgi/l/email-protection#690a00470a081b05061a0f0006050108001a290a04440408000847191d561a1c0b030c0a1d5427061f06493d1c1d061b000805492a202a2f4f0b060d10542605aac848492e061a1d081b0008490d0c490a06071d1b000b1c001b490a0604491c04491d1c1d061b000805491a060b1b0c474747" class="cicf-btn cicf-btn-primary">
+                    📝 Propor Tutorial
+                </a>
+                <a href="../ferramentas/tutorial-creator.html" class="cicf-btn cicf-btn-secondary" style="margin-left: 15px;">
+                    🛠️ Usar Template
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Tutoriais de Aprendizagem Autónoma</p>
+            <p style="margin-top: 8px;">Desenvolve competências práticas ao teu ritmo • Ganha badges no teu passaporte digital</p>
+            <a href="/cdn-cgi/l/email-protection#2e4d47004d4f5c42415d48474142464f475d6e4d4303434f474f005e5a" class="cicf-footer-link">
+                📧 <span class="__cf_email__" data-cfemail="b2d1db9cd1d3c0deddc1d4dbdddedad3dbc1f2d1df9fdfd3dbd39cc2c6">[email&#160;protected]</span>
+            </a>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Tutoriais
+            </button>
+        </div>
+
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Animação de entrada dos cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.tutorial-card');
+            
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Tooltip para coming soon
