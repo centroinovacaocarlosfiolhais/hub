@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 Workshop: Laser Cutting com RDWorks | CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        .workshop-header {
+            background: linear-gradient(135deg, #DC2626, #EF4444, #F97316);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .workshop-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: laserBeam 4s infinite;
+        }
+        
+        @keyframes laserBeam {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .laser-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .spec-card {
+            background: #FFF5F5;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #DC2626;
+            text-align: center;
+        }
+
+        .spec-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #DC2626;
+        }
+
+        .spec-label {
+            color: var(--text-medium);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .safety-critical {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            border: 3px solid #DC2626;
+            color: #991B1B;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .safety-critical::before {
+            content: '🚨';
+            font-size: 2em;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .safety-content {
+            margin-left: 60px;
+        }
+
+        .power-settings {
+            background: #F0F0F0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #DC2626;
+            margin: 15px 0;
+        }
+
+        .material-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .material-table th {
+            background: #DC2626;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .material-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .material-table tr:hover {
+            background: #FFF5F5;
+        }
+
+        .rdworks-interface {
+            background: #1F2937;
+            color: #F9FAFB;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .rdworks-menu {
+            background: #374151;
+            padding: 8px 15px;
+            margin: 5px 0;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header do Workshop -->
+        <div class="workshop-header">
+            <h1 style="font-size: 2.5em; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 2; position: relative;">
+                🔥 Workshop: Laser Cutting & Engraving
+            </h1>
+            <p style="font-size: 1.1em; opacity: 0.95; z-index: 2; position: relative;">
+                RDWorks8 • Controlador Ruida • Projetos Práticos
+            </p>
+            <div style="margin-top: 20px; z-index: 2; position: relative;">
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">3 Horas</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">6-8 Participantes</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">Prático</span>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="padding: 0 40px 30px;">
+            <a href="../workshops.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Workshops
+            </a>
+        </div>
+
+        <!-- Especificações da Máquina -->
+        <div style="padding: 0 40px;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">⚡</span>
+                <div>
+                    <div class="cicf-section-title">Máquina Laser CICF</div>
+                    <div class="cicf-section-subtitle">Controlador Ruida | RDWorks8</div>
+                </div>
+            </div>
+            
+            <div class="laser-specs">
+                <div class="spec-card">
+                    <div class="spec-value">80W</div>
+                    <div class="spec-label">Potência Laser CO₂</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">600×900mm</div>
+                    <div class="spec-label">Área de Trabalho</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">0.1mm</div>
+                    <div class="spec-label">Precisão Mínima</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">15mm</div>
+                    <div class="spec-label">Altura Máxima</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segurança Crítica -->
+        <div style="padding: 0 40px;">
+            <div class="safety-critical">
+                <div class="safety-content">
+                    <h3 style="margin: 0 0 15px 0; font-size: 1.4em;">SEGURANÇA LASER - OBRIGATÓRIO</h3>
+                    <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Óculos de proteção SEMPRE</strong> - Laser CO₂ é invisível e perigoso</li>
+                        <li><strong>Nunca operar sem exaustão</strong> - Fumos tóxicos podem ser letais</li>
+                        <li><strong>Material aprovado apenas</strong> - PVC, vinil produzem gases mortais</li>
+                        <li><strong>Supervisão constante</strong> - Risco de incêndio sempre presente</li>
+                        <li><strong>Extintor CO₂ acessível</strong> - Água condutor elétrico = MORTE</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Programa do Workshop -->
+        <div style="padding: 0 40px;">
+            
+            <!-- Módulo 1: Introdução e Segurança -->
+            <div class="step-container">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h2 style="color: #DC2626; font-size: 1.4em; font-weight: 600; margin-bottom: 15px;">
+                        Introdução e Segurança (30min)
+                    </h2>
+                    
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 10px;">🎯 Objetivos</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.8; margin-bottom: 20px;">
+                        <li>Entender princípios do corte laser CO₂</li>
+                        <li>Dominar protocolos de segurança obrigatórios</li>
+                        <li>Conhecer materiais permitidos e proibidos</li>
+                        <li>Familiarizar com a interface RDWorks8</li>
+                    </ul>
+
+                    <div style="background: #FEF3C7; padding: 15px; border-radius: 8px; border-left: 4px solid #F59E0B; margin: 15px 0;">
+                        <h4 style="color: #92400E; margin-bottom: 10px;">⚠️ Materiais PROIBIDOS</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; color: #92400E;">
+                            <div>
+                                <strong>MORTAIS:</strong>
+                                <ul style="margin: 5px 0 0 15px;">
+                                    <li>PVC (liberta cloro)</li>
+                                    <li>Vinil (cloreto de vinil)</li>
+                                    <li>Teflon (gases fluorados)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>PERIGOSOS:</strong>
+                                <ul style="margin: 5px 0 0 15px;">
+                                    <li>Fibra de carbono</li>
+                                    <li>Materiais cromados</li>
+                                    <li>ABS (ftalatos)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--cicf-primary); margin: 20px 0 10px;">📋 Atividades</h4>
+                    <ol style="color: var(--text-medium); line-height: 1.8;">
+                        <li>Inspeção visual da máquina e sistemas de segurança</li>
+                        <li>Teste do sistema de exaustão e alarmes</li>
+                        <li>Verificação dos EPIs (óculos, máscara)</li>
+                        <li>Apresentação da interface RDWorks8</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Módulo 2: Setup e Calibração -->
+            <div class="step-container">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h2 style="color: #DC2626; font-size: 1.4em; font-weight: 600; margin-bottom: 15px;">
+                        Setup RDWorks8 e Calibração (45min)
+                    </h2>
+                    
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 10px;">🎯 Objetivos</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.8; margin-bottom: 20px;">
+                        <li>Configurar RDWorks8 para controlador Ruida</li>
+                        <li>Calibrar origem e área de trabalho</li>
+                        <li>Ajustar foco do laser para diferentes materiais</li>
+                        <li>Configurar velocidades e potências base</li>
+                    </ul>
+
+                    <div class="rdworks-interface">
+                        <h4 style="margin-bottom: 15px;">🖥️ Interface RDWorks8</h4>
+                        <div style="margin-bottom: 10px;">
+                            <span class="rdworks-menu">File</span>
+                            <span class="rdworks-menu">Edit</span>
+                            <span class="rdworks-menu">Draw</span>
+                            <span class="rdworks-menu">Laser</span>
+                            <span class="rdworks-menu">Tools</span>
+                        </div>
+                        <div style="background: #111827; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                            <strong>Menu Laser → Device Settings:</strong><br>
+                            • Communication: USB<br>
+                            • Work Size: 600mm × 900mm<br>
+                            • Home Position: Left-Bottom<br>
+                            • Origin: Current Position
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--cicf-primary); margin: 20px 0 10px;">⚙️ Calibração Passo-a-Passo</h4>
+                    <ol style="color: var(--text-medium); line-height: 1.8;">
+                        <li><strong>Ligação USB:</strong> Connectar PC ao controlador Ruida</li>
+                        <li><strong>Home Position:</strong> Mover laser para origem (0,0)</li>
+                        <li><strong>Focus Height:</strong> Usar ferramenta de foco (régua incluída)</li>
+                        <li><strong>Test Fire:</strong> Pulso baixa potência (5%) para verificar alinhamento</li>
+                        <li><strong>Speed Test:</strong> Linha reta a diferentes velocidades</li>
+                    </ol>
+
+                    <div class="power-settings">
+                        CONFIGURAÇÕES BASE MATERIAIS:<br>
+                        📄 Papel 160g: Speed=80%, Power=20%<br>
+                        🪵 MDF 3mm: Speed=15%, Power=85%<br>
+                        🧱 Acrílico 3mm: Speed=8%, Power=75%<br>
+                        🌿 Contraplacado 4mm: Speed=12%, Power=90%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 3: Projeto Prático 1 -->
+            <div class="step-container">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h2 style="color: #DC2626; font-size: 1.4em; font-weight: 600; margin-bottom: 15px;">
+                        Projeto 1: Keychain Personalizado (30min)
+                    </h2>
+                    
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 10px;">🎯 Objetivos</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.8; margin-bottom: 20px;">
+                        <li>Criar design simples com texto e formas</li>
+                        <li>Configurar layers de corte e gravação</li>
+                        <li>Executar primeiro corte supervisionado</li>
+                        <li>Aprender finishing e remoção</li>
+                    </ul>
+
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 10px;">🛠️ Material: MDF 3mm</h4>
+                    <div style="background: #FEF3C7; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <strong>Especificações do Projeto:</strong>
+                        <ul style="margin: 8px 0 0 20px;">
+                            <li><strong>Dimensões:</strong> 40×25mm (tamanho keychain)</li>
+                            <li><strong>Design:</strong> Nome + logo CICF + furo 3mm</li>
+                            <li><strong>Layers:</strong> Gravação texto (vermelho) + Corte contorno (azul)</li>
+                            <li><strong>Tempo estimado:</strong> 3-5 minutos por peça</li>
+                        </ul>
+                    </div>
+
+                    <h4 style="color: var(--cicf-primary); margin: 20px 0 10px;">📐 Processo de Design</h4>
+                    <ol style="color: var(--text-medium); line-height: 1.8;">
+                        <li><strong>Novo documento:</strong> File → New (600×400mm)</li>
+                        <li><strong>Desenhar keychain:</strong> Rectangle tool 40×25mm</li>
+                        <li><strong>Adicionar furo:</strong> Circle tool ⌀3mm no canto</li>
+                        <li><strong>Inserir texto:</strong> Nome do participante</li>
+                        <li><strong>Configurar cores:</strong> Texto vermelho, contorno azul</li>
+                        <li><strong>Layer settings:</strong> Configurar potências por cor</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Módulo 4: Projeto Prático 2 -->
+            <div class="step-container">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h2 style="color: #DC2626; font-size: 1.4em; font-weight: 600; margin-bottom: 15px;">
+                        Projeto 2: Caixa com Encaixes (45min)
+                    </h2>
+                    
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 10px;">🎯 Objetivos</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.8; margin-bottom: 20px;">
+                        <li>Trabalhar com medidas precisas e tolerâncias</li>
+                        <li>Criar encaixes tipo finger joints</li>
+                        <li>Otimizar layout para minimizar desperdício</li>
+                        <li>Montagem sem colas ou parafusos</li>
+                    </ul>
+
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 10px;">📦 Projeto: Caixa 60×60×40mm</h4>
+                    
+                    <table class="material-table">
+                        <thead>
+                            <tr>
+                                <th>Peça</th>
+                                <th>Dimensões (mm)</th>
+                                <th>Quantidade</th>
+                                <th>Notas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Base/Tampa</td>
+                                <td>60 × 60</td>
+                                <td>2</td>
+                                <td>Sem encaixes</td>
+                            </tr>
+                            <tr>
+                                <td>Laterais</td>
+                                <td>56.5 × 40</td>
+                                <td>2</td>
+                                <td>Encaixes 3.2mm</td>
+                            </tr>
+                            <tr>
+                                <td>Frente/Trás</td>
+                                <td>60 × 40</td>
+                                <td>2</td>
+                                <td>Encaixes 3.2mm</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="background: #E0F2FE; padding: 15px; border-radius: 8px; border-left: 4px solid #0891B2; margin: 15px 0;">
+                        <h4 style="color: #0C4A6E; margin-bottom: 8px;">💡 Tolerâncias e Kerf</h4>
+                        <p style="color: #0C4A6E; margin: 0; line-height: 1.6;">
+                            <strong>Kerf do laser:</strong> ~0.15mm (metade da largura do feixe)<br>
+                            <strong>Tolerância encaixes:</strong> +0.05mm para ajuste perfeito<br>
+                            <strong>MDF 3mm real:</strong> Medir sempre! Pode variar 2.8-3.2mm
+                        </p>
+                    </div>
+
+                    <h4 style="color: var(--cicf-primary); margin: 20px 0 10px;">🔧 Processo de Execução</h4>
+                    <ol style="color: var(--text-medium); line-height: 1.8;">
+                        <li><strong>Desenho técnico:</strong> Todas as peças com cotas precisas</li>
+                        <li><strong>Layout otimizado:</strong> Aproveitamento máximo da chapa</li>
+                        <li><strong>Test cut:</strong> Uma pequena amostra para verificar encaixes</li>
+                        <li><strong>Corte principal:</strong> Supervisão constante</li>
+                        <li><strong>Montagem:</strong> Encaixe sem força excessiva</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Módulo 5: Troubleshooting e Manutenção -->
+            <div class="step-container">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h2 style="color: #DC2626; font-size: 1.4em; font-weight: 600; margin-bottom: 15px;">
+                        Troubleshooting e Manutenção (30min)
+                    </h2>
+                    
+                    <h4 style="color: var(--cicf-primary); margin-bottom: 10px;">🎯 Objetivos</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.8; margin-bottom: 20px;">
+                        <li>Identificar problemas comuns de corte</li>
+                        <li>Ajustar potência e velocidade em tempo real</li>
+                        <li>Manutenção preventiva básica</li>
+                        <li>Limpeza de lentes e espelhos</li>
+                    </ul>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: #FEF2F2; padding: 20px; border-radius: 10px; border-left: 4px solid #EF4444;">
+                            <h4 style="color: #DC2626; margin-bottom: 10px;">🔥 Corte Incompleto</h4>
+                            <p style="color: #7F1D1D; font-size: 0.9em; margin-bottom: 8px;"><strong>Sintomas:</strong> Material não corta completamente</p>
+                            <ul style="color: #7F1D1D; font-size: 0.9em; margin: 0; padding-left: 15px;">
+                                <li>Aumentar potência +5-10%</li>
+                                <li>Diminuir velocidade</li>
+                                <li>Verificar foco do laser</li>
+                                <li>Limpar lente inferior</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #FFFBEB; padding: 20px; border-radius: 10px; border-left: 4px solid #F59E0B;">
+                            <h4 style="color: #D97706; margin-bottom: 10px;">🔥 Queimado Excessivo</h4>
+                            <p style="color: #92400E; font-size: 0.9em; margin-bottom: 8px;"><strong>Sintomas:</strong> Bordas muito escuras</p>
+                            <ul style="color: #92400E; font-size: 0.9em; margin: 0; padding-left: 15px;">
+                                <li>Reduzir potência -10-15%</li>
+                                <li>Aumentar velocidade</li>
+                                <li>Verificar air assist</li>
+                                <li>Material muito resinoso</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #F0FDF4; padding: 20px; border-radius: 10px; border-left: 4px solid #22C55E;">
+                            <h4 style="color: #16A34A; margin-bottom: 10px;">⚡ Gravação Irregular</h4>
+                            <p style="color: #15803D; font-size: 0.9em; margin-bottom: 8px;"><strong>Sintomas:</strong> Profundidade inconsistente</p>
+                            <ul style="color: #15803D; font-size: 0.9em; margin: 0; padding-left: 15px;">
+                                <li>Verificar nivelamento da mesa</li>
+                                <li>Limpar trilhos e correias</li>
+                                <li>Ajustar tensão das correias</li>
+                                <li>Calibrar steps per mm</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="background: #1F2937; color: #F9FAFB; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4 style="margin-bottom: 15px;">🧽 Rotina de Limpeza Diária</h4>
+                        <ol style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong>Lente inferior:</strong> Álcool isopropílico + cotonete</li>
+                            <li><strong>Mesa de corte:</strong> Aspirador + pano húmido</li>
+                            <li><strong>Exaustão:</strong> Verificar filtros e fluxo de ar</li>
+                            <li><strong>Trilhos:</strong> Lubrificação ligeira (óleo 3-em-1)</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Recursos e Próximos Passos -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🚀</span>
+                <div>
+                    <div class="cicf-section-title">Recursos e Próximos Passos</div>
+                    <div class="cicf-section-subtitle">Continue a aprender</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 25px 0;">
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #DC2626; margin-bottom: 15px;">📚 Recursos Online</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><a href="https://rdworkslab.com/" style="color: #DC2626; text-decoration: none;" target="_blank">RDWorks Learning Lab</a></li>
+                        <li><a href="https://www.thingiverse.com/search?q=laser+cut" style="color: #DC2626; text-decoration: none;" target="_blank">Thingiverse Laser Projects</a></li>
+                        <li><a href="https://makercase.com/" style="color: #DC2626; text-decoration: none;" target="_blank">MakerCase (gerador de caixas)</a></li>
+                        <li><a href="https://boxes.py/" style="color: #DC2626; text-decoration: none;" target="_blank">Boxes.py (encaixes paramétricos)</a></li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #DC2626; margin-bottom: 15px;">🎯 Projetos Sugeridos</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Puzzle personalizado</strong> - Combinação de gravação + corte</li>
+                        <li><strong>Luminária LED</strong> - Acrílico + madeira</li>
+                        <li><strong>Organizador de mesa</strong> - Encaixes complexos</li>
+                        <li><strong>Marcadores livros</strong> - Gravação detalhada</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #DC2626; margin-bottom: 15px;">🏆 Certificação CICF</h4>
+                    <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                        Complete 3 projetos independentes para receber a certificação de operador laser CICF:
+                    </p>
+                    <div style="background: #FEF3C7; padding: 12px; border-radius: 6px;">
+                        <small style="color: #92400E;">
+                            ✅ Projeto de precisão (tolerâncias <0.1mm)<br>
+                            ✅ Combinação materiais diferentes<br>
+                            ✅ Design original com 5+ operações
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Workshop Laser Cutting</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                Fabricação Digital • RDWorks8 • Controlador Ruida • Janeiro 2026
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Workshop Laser - Dúvidas" 
+                   style="color: var(--cicf-primary); text-decoration: none; margin-right: 20px;">
+                    🔥 Dúvidas Técnicas
+                </a>
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Agendamento Laser" 
+                   style="color: var(--cicf-primary); text-decoration: none;">
+                    📅 Agendar Sessão
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Guia
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Animação dos módulos conforme scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const modules = document.querySelectorAll('.step-container');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            modules.forEach(module => {
+                module.style.opacity = '0';
+                module.style.transform = 'translateY(30px)';
+                module.style.transition = 'all 0.6s ease';
+                observer.observe(module);
+            });
+        });
+    </script>
+</body>
+</html>

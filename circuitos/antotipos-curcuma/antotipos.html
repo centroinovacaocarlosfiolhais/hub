@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Circuito: Antótipos com Curcuma | CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        .chemistry-header {
+            background: linear-gradient(135deg, #F39C12, #E67E22, #D35400);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chemistry-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.15) 40%, transparent 50%, rgba(255,255,255,0.1) 60%, transparent 70%);
+            animation: chemicalReaction 6s infinite;
+        }
+        
+        @keyframes chemicalReaction {
+            0% { transform: translateX(-100%) rotate(0deg) scale(1); }
+            50% { transform: translateX(0%) rotate(180deg) scale(1.1); }
+            100% { transform: translateX(100%) rotate(360deg) scale(1); }
+        }
+
+        .experiment-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #F39C12;
+            transition: all 0.3s ease;
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .experiment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .experiment-icon {
+            background: linear-gradient(135deg, #F39C12, #E67E22);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            margin-right: 20px;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .experiment-title {
+            color: #D35400;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .experiment-duration {
+            color: var(--text-medium);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .chemistry-concept {
+            background: linear-gradient(135deg, #FDF2E9, #FCF3CF);
+            border: 2px solid #F4D03F;
+            color: #8D6E63;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .chemistry-concept::before {
+            content: '⚗️';
+            font-size: 1.8em;
+            margin-right: 12px;
+        }
+
+        .hands-on-lab {
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            border: 2px solid #4CAF50;
+            color: #2E7D32;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .hands-on-lab::before {
+            content: '🧪';
+            font-size: 1.8em;
+            margin-right: 12px;
+        }
+
+        .materials-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .material-item {
+            background: #FFF8F3;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #FFE0B2;
+            transition: all 0.3s ease;
+        }
+
+        .material-item:hover {
+            border-color: #F39C12;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.2);
+        }
+
+        .material-item::before {
+            content: attr(data-icon);
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .safety-alert {
+            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+            border: 2px solid #F44336;
+            color: #C62828;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .safety-alert::before {
+            content: '⚠️';
+            font-size: 1.8em;
+            margin-right: 12px;
+        }
+
+        .chemical-equation {
+            background: #1E1E1E;
+            color: #E8E8E8;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 20px 0;
+            text-align: center;
+            border: 3px solid #F39C12;
+        }
+
+        .chemical-formula {
+            color: #F39C12;
+            font-weight: bold;
+        }
+
+        .uv-reaction {
+            background: linear-gradient(135deg, #E1F5FE, #B3E5FC);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .pigment-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .pigment-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #E0E0E0;
+            transition: all 0.3s ease;
+        }
+
+        .pigment-card:hover {
+            border-color: #F39C12;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .pigment-color {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 3px solid #333;
+        }
+
+        .curcuma { background: linear-gradient(45deg, #F39C12, #F1C40F); }
+        .indigo { background: linear-gradient(45deg, #3F51B5, #5C6BC0); }
+        .chlorophyll { background: linear-gradient(45deg, #4CAF50, #8BC34A); }
+        .beetroot { background: linear-gradient(45deg, #E91E63, #F06292); }
+
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .timeline-step {
+            background: white;
+            border: 3px solid #E5E7EB;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            position: relative;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-step.active {
+            border-color: #F39C12;
+            background: #F39C12;
+            color: white;
+        }
+
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -25px;
+            width: 30px;
+            height: 3px;
+            background: #E5E7EB;
+            z-index: -1;
+        }
+
+        .timeline-step:last-child::after {
+            display: none;
+        }
+
+        .timeline-label {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            color: var(--text-medium);
+            white-space: nowrap;
+        }
+
+        .scientific-method {
+            background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 5px solid #9C27B0;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header do Circuito -->
+        <div class="chemistry-header">
+            <h1 style="font-size: 2.5em; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 2; position: relative;">
+                🌟 Circuito: Antótipos com Curcuma
+            </h1>
+            <p style="font-size: 1.1em; opacity: 0.95; z-index: 2; position: relative;">
+                Físico-Química • Pigmentos Naturais • Fotografia Alternativa • Reação UV
+            </p>
+            <div style="margin-top: 20px; z-index: 2; position: relative;">
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">4 Experiências</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">2 Horas</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">12+ anos</span>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="padding: 0 40px 30px;">
+            <a href="../circuitos.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Circuitos
+            </a>
+        </div>
+
+        <!-- Visão Geral -->
+        <div style="background: #FFF8F3; padding: 25px 40px; margin: 0 40px 30px; border-radius: 10px; border-left: 5px solid #F39C12;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">⚗️</span>
+                <div>
+                    <div class="cicf-section-title">Visão Geral do Circuito</div>
+                    <div class="cicf-section-subtitle">Da química dos pigmentos às imagens fotográficas</div>
+                </div>
+            </div>
+            
+            <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 20px;">
+                Descobre a fascinante química dos pigmentos naturais através da técnica histórica dos Antótipos! 
+                Usa curcuma para criar fotografias permanentes, explora reações fotoquímicas e compara diferentes 
+                pigmentos naturais na sua resposta à radiação UV.
+            </p>
+
+            <div class="materials-showcase">
+                <div class="material-item" data-icon="🧄">
+                    <h4 style="color: #F39C12; margin-bottom: 8px;">Curcuma</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">Pigmento curcumina</p>
+                </div>
+                <div class="material-item" data-icon="☀️">
+                    <h4 style="color: #F39C12; margin-bottom: 8px;">Luz UV</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">Radiação fotoquímica</p>
+                </div>
+                <div class="material-item" data-icon="📷">
+                    <h4 style="color: #F39C12; margin-bottom: 8px;">Negativos</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">Imagens para transferir</p>
+                </div>
+                <div class="material-item" data-icon="📄">
+                    <h4 style="color: #F39C12; margin-bottom: 8px;">Papel Aquarela</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">Suporte fotográfico</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progressão do Circuito -->
+        <div style="padding: 0 40px;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🧪</span>
+                <div>
+                    <div class="cicf-section-title">Progressão das Experiências</div>
+                    <div class="cicf-section-subtitle">Método científico aplicado</div>
+                </div>
+            </div>
+
+            <div class="timeline-steps">
+                <div class="timeline-step active">
+                    ⚗️
+                    <div class="timeline-label">Preparação</div>
+                </div>
+                <div class="timeline-step">
+                    🌟
+                    <div class="timeline-label">Sensibilização</div>
+                </div>
+                <div class="timeline-step">
+                    ☀️
+                    <div class="timeline-label">Exposição UV</div>
+                </div>
+                <div class="timeline-step">
+                    📷
+                    <div class="timeline-label">Revelação</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experiências do Circuito -->
+        <div style="padding: 0 40px;">
+            
+            <!-- Experiência 1 -->
+            <div class="experiment-card">
+                <div class="experiment-header">
+                    <div class="experiment-icon">1</div>
+                    <div>
+                        <h3 class="experiment-title">Química dos Pigmentos Naturais</h3>
+                        <p class="experiment-duration">⏱️ 20 minutos | 🎯 Conceitos fundamentais</p>
+                    </div>
+                </div>
+
+                <div class="chemistry-concept">
+                    <h4 style="margin: 0 0 15px 40px; color: #8D6E63;">Fundamentos Químicos</h4>
+                    <p style="color: #5D4037; margin: 0; line-height: 1.6;">
+                        <strong>Curcumina (C₂₁H₂₀O₆):</strong> Molécula orgânica responsável pela cor amarela da cúrcuma. 
+                        Quando exposta à radiação UV, sofre degradação fotoquímica (fotólise), alterando sua estrutura 
+                        molecular e perdendo a cor característica.
+                    </p>
+                </div>
+
+                <div class="chemical-equation">
+                    <div style="font-size: 16px; margin-bottom: 15px;">⚗️ Reação Fotoquímica da Curcumina</div>
+                    <div>
+                        <span class="chemical-formula">Curcumina</span> + <span class="chemical-formula">UV</span> → 
+                        <span class="chemical-formula">Produtos degradados</span> + <span class="chemical-formula">∆cor</span>
+                    </div>
+                    <div style="font-size: 12px; margin-top: 10px; color: #B0B0B0;">
+                        (Amarelo intenso) → (Castanho claro/Transparente)
+                    </div>
+                </div>
+
+                <h4 style="color: #F39C12; margin: 20px 0 15px;">📋 Atividades</h4>
+                <ul style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>Demonstração molecular:</strong> Estrutura 3D da curcumina</li>
+                    <li><strong>Espectroscopia visual:</strong> Absorção de luz pela curcumina</li>
+                    <li><strong>Teste pH:</strong> Mudança de cor em meio básico vs ácido</li>
+                    <li><strong>Comparação pigmentos:</strong> Curcuma vs outros pigmentos naturais</li>
+                </ul>
+
+                <div class="pigment-comparison">
+                    <div class="pigment-card">
+                        <div class="pigment-color curcuma"></div>
+                        <h4 style="color: #F39C12; margin: 0 0 5px;">Curcumina</h4>
+                        <p style="color: var(--text-medium); font-size: 0.85em; margin: 0;">Cúrcuma - Fotossensível</p>
+                    </div>
+                    <div class="pigment-card">
+                        <div class="pigment-color indigo"></div>
+                        <h4 style="color: #3F51B5; margin: 0 0 5px;">Índigo</h4>
+                        <p style="color: var(--text-medium); font-size: 0.85em; margin: 0;">Indigofera - Estável UV</p>
+                    </div>
+                    <div class="pigment-card">
+                        <div class="pigment-color chlorophyll"></div>
+                        <h4 style="color: #4CAF50; margin: 0 0 5px;">Clorofila</h4>
+                        <p style="color: var(--text-medium); font-size: 0.85em; margin: 0;">Espinafre - Fotossensível</p>
+                    </div>
+                    <div class="pigment-card">
+                        <div class="pigment-color beetroot"></div>
+                        <h4 style="color: #E91E63; margin: 0 0 5px;">Betalaínas</h4>
+                        <p style="color: var(--text-medium); font-size: 0.85em; margin: 0;">Beterraba - Semi-estável</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experiência 2 -->
+            <div class="experiment-card">
+                <div class="experiment-header">
+                    <div class="experiment-icon">2</div>
+                    <div>
+                        <h3 class="experiment-title">Preparação da Emulsão Fotossensível</h3>
+                        <p class="experiment-duration">⏱️ 25 minutos | 🎯 Técnica laboratorial</p>
+                    </div>
+                </div>
+
+                <div class="safety-alert">
+                    <h4 style="margin: 0 0 15px 40px; color: #C62828;">Segurança Laboratorial</h4>
+                    <ul style="color: #D32F2F; margin: 0; padding-left: 40px; line-height: 1.6;">
+                        <li>Use óculos de proteção durante toda a atividade</li>
+                        <li>Luvas de nitrilo para manuseamento de químicos</li>
+                        <li>Área bem ventilada (fume hood se disponível)</li>
+                        <li>Não ingerir nem inalar pós ou soluções</li>
+                    </ul>
+                </div>
+
+                <h4 style="color: #F39C12; margin: 20px 0 15px;">🧪 Preparação da Solução</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="background: #F9F9F9; padding: 15px; border-radius: 8px;">
+                        <h5 style="color: #D35400; margin: 0 0 10px;">Ingredientes</h5>
+                        <ul style="color: var(--text-medium); font-size: 0.9em; line-height: 1.6; margin: 0; padding-left: 15px;">
+                            <li>5g de curcuma em pó</li>
+                            <li>50ml de álcool etílico (96°)</li>
+                            <li>2ml de ácido cítrico (0.1M)</li>
+                            <li>Goma arábica (estabilizante)</li>
+                        </ul>
+                    </div>
+                    <div style="background: #F9F9F9; padding: 15px; border-radius: 8px;">
+                        <h5 style="color: #D35400; margin: 0 0 10px;">Procedimento</h5>
+                        <ol style="color: var(--text-medium); font-size: 0.9em; line-height: 1.6; margin: 0; padding-left: 15px;">
+                            <li>Misturar curcuma com álcool</li>
+                            <li>Agitar vigorosamente 2 min</li>
+                            <li>Filtrar com papel de filtro</li>
+                            <li>Adicionar ácido cítrico</li>
+                            <li>Incorporar goma arábica</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="hands-on-lab">
+                    <h4 style="margin: 0 0 15px 40px; color: #2E7D32;">Aplicação no Papel</h4>
+                    <p style="color: #1B5E20; margin: 0; line-height: 1.6;">
+                        <strong>Técnica de pincelagem:</strong> Aplicar a emulsão uniformemente no papel de aquarela 
+                        usando pincel macio de pelo natural. Trabalhar rapidamente em movimentos cruzados 
+                        (horizontal e vertical) para garantir cobertura homogénea. Deixar secar ao abrigo da luz 
+                        durante 10-15 minutos.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Experiência 3 -->
+            <div class="experiment-card">
+                <div class="experiment-header">
+                    <div class="experiment-icon">3</div>
+                    <div>
+                        <h3 class="experiment-title">Exposição UV e Fotólise</h3>
+                        <p class="experiment-duration">⏱️ 30 minutos | 🎯 Processo fotoquímico</p>
+                    </div>
+                </div>
+
+                <div class="uv-reaction">
+                    <h4 style="color: #01579B; margin-bottom: 15px;">☀️ Processo de Exposição UV</h4>
+                    <p style="color: #0277BD; margin-bottom: 15px; line-height: 1.6;">
+                        A radiação ultravioleta (280-400nm) quebra as ligações moleculares da curcumina, 
+                        causando descoloração nas áreas expostas. Onde o negativo bloqueia a luz UV, 
+                        o pigmento mantém-se inalterado, criando a imagem.
+                    </p>
+                    <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #03A9F4;">
+                        <strong style="color: #01579B;">Tempo de exposição:</strong> 8-15 minutos (dependendo da intensidade UV)<br>
+                        <strong style="color: #01579B;">Fonte UV:</strong> Sol direto ou lâmpada UV especializada<br>
+                        <strong style="color: #01579B;">Controlo:</strong> Teste gradual com tiras de papel
+                    </div>
+                </div>
+
+                <h4 style="color: #F39C12; margin: 20px 0 15px;">📷 Setup Fotográfico</h4>
+                <ol style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>Preparação do negativo:</strong> Imagem impressa em transparência (acetato)</li>
+                    <li><strong>Montagem:</strong> Negativo + papel sensibilizado + vidro (prensa de contato)</li>
+                    <li><strong>Posicionamento:</strong> Conjunto perpendicular à fonte UV</li>
+                    <li><strong>Cronometragem:</strong> Exposição controlada com timer</li>
+                    <li><strong>Proteção:</strong> Área circundante protegida da luz UV</li>
+                </ol>
+
+                <div class="scientific-method">
+                    <h4 style="color: #7B1FA2; margin-bottom: 15px;">🔬 Observação Científica</h4>
+                    <p style="color: #4A148C; margin: 0; line-height: 1.6;">
+                        Durante a exposição, observa as mudanças graduais de cor. Documenta o processo 
+                        a cada 2 minutos: cor inicial (amarelo intenso) → transição (amarelo claro) → 
+                        resultado final (castanho/bege). Regista as variáveis: tempo, intensidade UV, temperatura.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Experiência 4 -->
+            <div class="experiment-card">
+                <div class="experiment-header">
+                    <div class="experiment-icon">4</div>
+                    <div>
+                        <h3 class="experiment-title">Análise e Comparação</h3>
+                        <p class="experiment-duration">⏱️ 25 minutos | 🎯 Interpretação científica</p>
+                    </div>
+                </div>
+
+                <h4 style="color: #F39C12; margin: 20px 0 15px;">🔍 Análise Comparativa</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div style="background: #F0F9FF; padding: 20px; border-radius: 10px; border-left: 4px solid #0EA5E9;">
+                        <h5 style="color: #0C4A6E; margin: 0 0 15px;">🧪 Análise Química</h5>
+                        <ul style="color: #0E7490; font-size: 0.9em; line-height: 1.6; margin: 0; padding-left: 15px;">
+                            <li>Comparar degradação em diferentes pH</li>
+                            <li>Teste de estabilidade térmica</li>
+                            <li>Reação com antioxidantes</li>
+                            <li>Fluorescência sob luz UV</li>
+                        </ul>
+                    </div>
+                    <div style="background: #F0FDF4; padding: 20px; border-radius: 10px; border-left: 4px solid #22C55E;">
+                        <h5 style="color: #14532D; margin: 0 0 15px;">📊 Análise Física</h5>
+                        <ul style="color: #15803D; font-size: 0.9em; line-height: 1.6; margin: 0; padding-left: 15px;">
+                            <li>Densidade ótica das imagens</li>
+                            <li>Contraste e definição</li>
+                            <li>Permanência da imagem</li>
+                            <li>Textura do papel vs resultado</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 style="color: #F39C12; margin: 20px 0 15px;">⚗️ Experiências Complementares</h4>
+                <div style="background: #FFFBEB; padding: 20px; border-radius: 10px; border: 2px solid #F59E0B;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div>
+                            <h5 style="color: #92400E; margin: 0 0 8px;">🌿 Outros Pigmentos</h5>
+                            <p style="color: #A16207; font-size: 0.9em; margin: 0;">
+                                Testar espinafre (clorofila), beterraba (betalaínas), cenoura (carotenos)
+                            </p>
+                        </div>
+                        <div>
+                            <h5 style="color: #92400E; margin: 0 0 8px;">🔬 Microscopia</h5>
+                            <p style="color: #A16207; font-size: 0.9em; margin: 0;">
+                                Examinar cristais de pigmento antes/depois da exposição
+                            </p>
+                        </div>
+                        <div>
+                            <h5 style="color: #92400E; margin: 0 0 8px;">📈 Gráficos</h5>
+                            <p style="color: #A16207; font-size: 0.9em; margin: 0;">
+                                Curva de degradação: tempo vs intensidade de cor
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hands-on-lab">
+                    <h4 style="margin: 0 0 15px 40px; color: #2E7D32;">Relatório Científico</h4>
+                    <p style="color: #1B5E20; margin: 0; line-height: 1.6;">
+                        <strong>Documento final:</strong> Cada participante produz um relatório científico incluindo: 
+                        hipótese inicial, metodologia aplicada, resultados observados, conclusões químicas 
+                        e comparação com processos fotográficos históricos (daguerreótipo, calótipo).
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Recursos e Aplicações -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🎓</span>
+                <div>
+                    <div class="cicf-section-title">Aplicações e Competências</div>
+                    <div class="cicf-section-subtitle">Conexões interdisciplinares</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 25px 0;">
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #F39C12; margin-bottom: 15px;">⚗️ Química</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li>Fotoquímica e fotólise</li>
+                        <li>Estruturas moleculares orgânicas</li>
+                        <li>Reações de oxidação/redução</li>
+                        <li>Espectroscopia UV-Vis</li>
+                        <li>Cinética de reações</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #F39C12; margin-bottom: 15px;">📷 História da Fotografia</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li>Processos fotográficos alternativos</li>
+                        <li>Técnicas históricas (séc. XIX)</li>
+                        <li>Antótipos vs outros processos</li>
+                        <li>Fotografia científica</li>
+                        <li>Arte contemporânea alternativa</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #F39C12; margin-bottom: 15px;">🌱 Sustentabilidade</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li>Pigmentos naturais vs sintéticos</li>
+                        <li>Química verde e processos eco-friendly</li>
+                        <li>Biodegradabilidade de materiais</li>
+                        <li>Redução de químicos tóxicos</li>
+                        <li>Economia circular na arte</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 25px;">
+                <h4 style="color: #F39C12; margin-bottom: 15px; text-align: center;">🎯 Competências Desenvolvidas</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
+                    <div style="padding: 15px; background: #FDF2E9; border-radius: 8px;">
+                        <strong style="color: #D35400;">🔬 Método Científico</strong><br>
+                        <span style="color: var(--text-medium); font-size: 0.9em;">Observação, hipótese, experimentação</span>
+                    </div>
+                    <div style="padding: 15px; background: #FDF2E9; border-radius: 8px;">
+                        <strong style="color: #D35400;">📊 Análise de Dados</strong><br>
+                        <span style="color: var(--text-medium); font-size: 0.9em;">Interpretação de resultados quantitativos</span>
+                    </div>
+                    <div style="padding: 15px; background: #FDF2E9; border-radius: 8px;">
+                        <strong style="color: #D35400;">🛠️ Técnicas Laboratoriais</strong><br>
+                        <span style="color: var(--text-medium); font-size: 0.9em;">Preparação, manuseamento, segurança</span>
+                    </div>
+                    <div style="padding: 15px; background: #FDF2E9; border-radius: 8px;">
+                        <strong style="color: #D35400;">🎨 Criatividade Científica</strong><br>
+                        <span style="color: var(--text-medium); font-size: 0.9em;">Arte através da ciência aplicada</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Circuito Antótipos com Curcuma</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                Físico-Química • Fotografia Alternativa • Pigmentos Naturais • Janeiro 2026
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Inscrição Antótipos Curcuma" 
+                   style="color: var(--cicf-primary); text-decoration: none; margin-right: 20px;">
+                    🧪 Agendar Circuito
+                </a>
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Materiais Antótipos" 
+                   style="color: var(--cicf-primary); text-decoration: none;">
+                    📋 Lista de Materiais
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Programa
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Animação das experiências conforme scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const experiments = document.querySelectorAll('.experiment-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            experiments.forEach(experiment => {
+                experiment.style.opacity = '0';
+                experiment.style.transform = 'translateY(30px)';
+                experiment.style.transition = 'all 0.6s ease';
+                observer.observe(experiment);
+            });
+        });
+
+        // Ativar etapas da timeline conforme scroll
+        window.addEventListener('scroll', function() {
+            const steps = document.querySelectorAll('.timeline-step');
+            const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            
+            steps.forEach((step, index) => {
+                if (scrollPercent > (index + 1) * 20) {
+                    step.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

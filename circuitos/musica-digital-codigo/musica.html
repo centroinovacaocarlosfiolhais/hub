@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Circuito: Música Digital e Código | CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        .music-header {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .music-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.15) 40%, transparent 50%, rgba(255,255,255,0.1) 60%, transparent 70%);
+            animation: soundWave 4s infinite;
+        }
+        
+        @keyframes soundWave {
+            0% { transform: translateX(-100%) translateY(-100%) scale(1) rotate(0deg); }
+            50% { transform: translateX(0%) translateY(0%) scale(1.1) rotate(180deg); }
+            100% { transform: translateX(100%) translateY(100%) scale(1) rotate(360deg); }
+        }
+
+        .track-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #FF6B6B;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .track-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .track-card:nth-child(2) { border-left-color: #4ECDC4; }
+        .track-card:nth-child(3) { border-left-color: #45B7D1; }
+        .track-card:nth-child(4) { border-left-color: #96CEB4; }
+        .track-card:nth-child(5) { border-left-color: #FFEAA7; }
+
+        .track-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .track-icon {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            margin-right: 25px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .track-title {
+            color: #2D3748;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .track-duration {
+            color: var(--text-medium);
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+
+        .music-theory {
+            background: linear-gradient(135deg, #FFF5F5, #FED7D7);
+            border: 2px solid #FC8181;
+            color: #C53030;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .music-theory::before {
+            content: '🎼';
+            font-size: 1.8em;
+            margin-right: 12px;
+        }
+
+        .coding-exercise {
+            background: linear-gradient(135deg, #F0FFF4, #C6F6D5);
+            border: 2px solid #68D391;
+            color: #22543D;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .coding-exercise::before {
+            content: '💻';
+            font-size: 1.8em;
+            margin-right: 12px;
+        }
+
+        .daw-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .daw-item {
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 3px solid #E2E8F0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .daw-item:hover {
+            border-color: #FF6B6B;
+            transform: scale(1.03);
+        }
+
+        .daw-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .daw-item:hover::before {
+            animation: shimmer 1s ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .audio-visualizer {
+            background: #1A202C;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .visualizer-bars {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 100px;
+            gap: 3px;
+        }
+
+        .visualizer-bar {
+            width: 8px;
+            background: linear-gradient(to top, #FF6B6B, #4ECDC4);
+            border-radius: 4px 4px 0 0;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        .visualizer-bar:nth-child(2) { animation-delay: -0.1s; }
+        .visualizer-bar:nth-child(3) { animation-delay: -0.2s; }
+        .visualizer-bar:nth-child(4) { animation-delay: -0.3s; }
+        .visualizer-bar:nth-child(5) { animation-delay: -0.4s; }
+
+        @keyframes bounce {
+            0%, 100% { height: 20px; }
+            50% { height: 80px; }
+        }
+
+        .interactive-demo {
+            background: #F7FAFC;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .piano-keys {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .piano-key {
+            width: 40px;
+            height: 120px;
+            background: white;
+            border: 2px solid #CBD5E1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .piano-key:hover {
+            background: #F1F5F9;
+            transform: translateY(-2px);
+        }
+
+        .piano-key.black {
+            width: 25px;
+            height: 80px;
+            background: #2D3748;
+            margin: 0 -12px;
+            z-index: 2;
+        }
+
+        .piano-key.black:hover {
+            background: #4A5568;
+        }
+
+        .code-snippet {
+            background: #1E1E1E;
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .syntax-keyword { color: #569CD6; }
+        .syntax-string { color: #CE9178; }
+        .syntax-number { color: #B5CEA8; }
+        .syntax-comment { color: #6A9955; font-style: italic; }
+        .syntax-function { color: #DCDCAA; }
+
+        .genre-explorer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .genre-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #E2E8F0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .genre-card:hover {
+            border-color: #FF6B6B;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .genre-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .collaboration-tools {
+            background: linear-gradient(135deg, #EBF8FF, #BEE3F8);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 5px solid #3182CE;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header do Circuito -->
+        <div class="music-header">
+            <h1 style="font-size: 2.5em; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 2; position: relative;">
+                🎵 Circuito: Música Digital e Código
+            </h1>
+            <p style="font-size: 1.1em; opacity: 0.95; z-index: 2; position: relative;">
+                Sonic Pi • Ableton Live • Max/MSP • JavaScript Audio
+            </p>
+            <div style="margin-top: 20px; z-index: 2; position: relative;">
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">5 Módulos</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">15-20 Horas</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">Criativo</span>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="padding: 0 40px 30px;">
+            <a href="../circuitos.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Circuitos
+            </a>
+        </div>
+
+        <!-- Visão Geral -->
+        <div style="background: #F7FAFC; padding: 25px 40px; margin: 0 40px 30px; border-radius: 10px; border-left: 5px solid #FF6B6B;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🎼</span>
+                <div>
+                    <div class="cicf-section-title">Visão Geral do Circuito</div>
+                    <div class="cicf-section-subtitle">Da teoria musical à produção digital</div>
+                </div>
+            </div>
+            
+            <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 20px;">
+                Este circuito combina programação com música, explorando como o código pode ser usado para criar, 
+                manipular e produzir música digital. Os participantes aprenderão desde conceitos básicos de síntese sonora 
+                até técnicas avançadas de live coding e produção musical.
+            </p>
+
+            <div class="daw-showcase">
+                <div class="daw-item">
+                    <div style="font-size: 3em; margin-bottom: 15px;">🎹</div>
+                    <h4 style="color: #FF6B6B; margin-bottom: 10px;">Sonic Pi</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">
+                        Live coding musical em Ruby
+                    </p>
+                </div>
+                <div class="daw-item">
+                    <div style="font-size: 3em; margin-bottom: 15px;">🎚️</div>
+                    <h4 style="color: #4ECDC4; margin-bottom: 10px;">Ableton Live</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">
+                        Produção e performance ao vivo
+                    </p>
+                </div>
+                <div class="daw-item">
+                    <div style="font-size: 3em; margin-bottom: 15px;">🔗</div>
+                    <h4 style="color: #45B7D1; margin-bottom: 10px;">Max/MSP</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">
+                        Programação visual para áudio
+                    </p>
+                </div>
+                <div class="daw-item">
+                    <div style="font-size: 3em; margin-bottom: 15px;">🌐</div>
+                    <h4 style="color: #96CEB4; margin-bottom: 10px;">Web Audio API</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">
+                        Áudio interativo no browser
+                    </p>
+                </div>
+            </div>
+
+            <div class="audio-visualizer">
+                <h4 style="color: white; text-align: center; margin-bottom: 20px;">🎵 Audio Visualizer Demo</h4>
+                <div class="visualizer-bars">
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                </div>
+                <p style="color: #A0AEC0; text-align: center; margin-top: 15px; font-size: 0.9em;">
+                    Visualização de frequências em tempo real
+                </p>
+            </div>
+        </div>
+
+        <!-- Módulos do Circuito -->
+        <div style="padding: 0 40px;">
+            
+            <!-- Módulo 1 -->
+            <div class="track-card">
+                <div class="track-header">
+                    <div class="track-icon">1</div>
+                    <div>
+                        <h3 class="track-title">Fundamentos: Som e Programação</h3>
+                        <p class="track-duration">⏱️ 3 horas | 🎯 Teoria musical digital</p>
+                    </div>
+                </div>
+
+                <div class="music-theory">
+                    <h4 style="margin: 0 0 15px 40px; color: #C53030;">Conceitos Fundamentais</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div>
+                            <h5 style="color: #9B2C2C; margin: 0 0 8px;">🌊 Física do Som</h5>
+                            <ul style="margin: 0; font-size: 0.9em; padding-left: 15px;">
+                                <li>Frequência e amplitude</li>
+                                <li>Harmónicos e timbre</li>
+                                <li>Ondas sinusoidais</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 style="color: #9B2C2C; margin: 0 0 8px;">🔢 Audio Digital</h5>
+                            <ul style="margin: 0; font-size: 0.9em; padding-left: 15px;">
+                                <li>Sample rate (44.1kHz)</li>
+                                <li>Bit depth (16/24 bit)</li>
+                                <li>Teorema de Nyquist</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 style="color: #9B2C2C; margin: 0 0 8px;">🎼 MIDI Protocol</h5>
+                            <ul style="margin: 0; font-size: 0.9em; padding-left: 15px;">
+                                <li>Note On/Off</li>
+                                <li>Control Change</li>
+                                <li>Program Change</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="color: #FF6B6B; margin: 20px 0 15px;">📋 Programa</h4>
+                <ol style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>História da Música Eletrónica:</strong> De Theremin ao EDM moderno</li>
+                    <li><strong>Análise Espectral:</strong> Audacity para visualizar formas de onda</li>
+                    <li><strong>Síntese Subtrativa:</strong> Osciladores, filtros, envolventes</li>
+                    <li><strong>Primeiros Sons:</strong> Geração de tons puros em Python</li>
+                </ol>
+
+                <div class="coding-exercise">
+                    <h4 style="margin: 0 0 15px 40px; color: #22543D;">Exercício: Gerador de Frequências</h4>
+                    <div class="code-snippet">
+<span class="syntax-keyword">import</span> numpy <span class="syntax-keyword">as</span> np
+<span class="syntax-keyword">import</span> pygame
+
+<span class="syntax-comment"># Gerar tom puro</span>
+<span class="syntax-keyword">def</span> <span class="syntax-function">generate_tone</span>(frequency, duration, sample_rate=<span class="syntax-number">44100</span>):
+    frames = <span class="syntax-keyword">int</span>(duration * sample_rate)
+    arr = np.<span class="syntax-function">zeros</span>(frames)
+    
+    <span class="syntax-keyword">for</span> i <span class="syntax-keyword">in</span> <span class="syntax-function">range</span>(frames):
+        arr[i] = np.<span class="syntax-function">sin</span>(<span class="syntax-number">2</span> * np.pi * frequency * i / sample_rate)
+    
+    <span class="syntax-keyword">return</span> arr
+
+<span class="syntax-comment"># Tocar nota Lá (440 Hz) durante 1 segundo</span>
+tone_a = <span class="syntax-function">generate_tone</span>(<span class="syntax-number">440</span>, <span class="syntax-number">1.0</span>)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 2 -->
+            <div class="track-card">
+                <div class="track-header">
+                    <div class="track-icon">2</div>
+                    <div>
+                        <h3 class="track-title">Live Coding com Sonic Pi</h3>
+                        <p class="track-duration">⏱️ 4 horas | 🎯 Programação musical em tempo real</p>
+                    </div>
+                </div>
+
+                <div style="background: #F0F9FF; padding: 20px; border-radius: 10px; border-left: 4px solid #0EA5E9; margin: 15px 0;">
+                    <h4 style="color: #0C4A6E; margin-bottom: 15px;">🎹 Sonic Pi: Ruby for Music</h4>
+                    <p style="color: #0C4A6E; margin: 0; font-size: 0.95em;">
+                        Sonic Pi é uma linguagem de programação criada especificamente para fazer música ao vivo. 
+                        Baseia-se em Ruby e permite criar desde batidas simples até composições complexas.
+                    </p>
+                </div>
+
+                <div class="code-snippet">
+<span class="syntax-comment"># Primeiro beat em Sonic Pi</span>
+<span class="syntax-function">live_loop</span> <span class="syntax-string">:drums</span> <span class="syntax-keyword">do</span>
+  <span class="syntax-function">sample</span> <span class="syntax-string">:bd_haus</span>
+  <span class="syntax-function">sleep</span> <span class="syntax-number">1</span>
+  <span class="syntax-function">sample</span> <span class="syntax-string">:sn_dub</span>
+  <span class="syntax-function">sleep</span> <span class="syntax-number">1</span>
+<span class="syntax-keyword">end</span>
+
+<span class="syntax-function">live_loop</span> <span class="syntax-string">:bass</span> <span class="syntax-keyword">do</span>
+  <span class="syntax-function">play</span> <span class="syntax-string">:c2</span>
+  <span class="syntax-function">sleep</span> <span class="syntax-number">0.5</span>
+  <span class="syntax-function">play</span> <span class="syntax-string">:c3</span>
+  <span class="syntax-function">sleep</span> <span class="syntax-number">0.5</span>
+<span class="syntax-keyword">end</span>
+                </div>
+
+                <h4 style="color: #FF6B6B; margin: 20px 0 15px;">🎵 Projetos Progressivos</h4>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                    <div style="background: #FFF5F5; padding: 15px; border-radius: 8px; border-left: 4px solid #FF6B6B;">
+                        <h5 style="color: #C53030; margin: 0 0 8px;">🥁 Sequenciador Básico</h5>
+                        <p style="color: #9B2C2C; font-size: 0.9em; margin: 0;">
+                            Criar patterns de bateria usando live_loops e samples
+                        </p>
+                    </div>
+                    <div style="background: #F0FFFF; padding: 15px; border-radius: 8px; border-left: 4px solid #4ECDC4;">
+                        <h5 style="color: #2C7A7B; margin: 0 0 8px;">🎹 Melodias Generativas</h5>
+                        <p style="color: #2D5A5A; font-size: 0.9em; margin: 0;">
+                            Usar escalas e aleatoriedade para criar melodias infinitas
+                        </p>
+                    </div>
+                    <div style="background: #F0F8FF; padding: 15px; border-radius: 8px; border-left: 4px solid #45B7D1;">
+                        <h5 style="color: #2B5797; margin: 0 0 8px;">🔊 Efeitos em Tempo Real</h5>
+                        <p style="color: #2A4E7C; font-size: 0.9em; margin: 0;">
+                            Reverb, delay, distortion controlados por código
+                        </p>
+                    </div>
+                    <div style="background: #F0FFF0; padding: 15px; border-radius: 8px; border-left: 4px solid #96CEB4;">
+                        <h5 style="color: #2F855A; margin: 0 0 8px;">🎚️ Performance Interativa</h5>
+                        <p style="color: #276749; font-size: 0.9em; margin: 0;">
+                            Controlo via MIDI e sensores externos
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 3 -->
+            <div class="track-card">
+                <div class="track-header">
+                    <div class="track-icon">3</div>
+                    <div>
+                        <h3 class="track-title">Web Audio API e JavaScript</h3>
+                        <p class="track-duration">⏱️ 4 horas | 🎯 Áudio interativo no browser</p>
+                    </div>
+                </div>
+
+                <div style="background: #FFFAF0; padding: 20px; border-radius: 10px; border-left: 4px solid #FFA500; margin: 15px 0;">
+                    <h4 style="color: #CC8400; margin-bottom: 15px;">🌐 Web Audio: O Futuro da Música Digital</h4>
+                    <p style="color: #B8860B; margin: 0; font-size: 0.95em;">
+                        A Web Audio API permite criar experiências musicais interativas diretamente no browser, 
+                        sem plugins. Desde simples sintetizadores até aplicações de produção completas.
+                    </p>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4 style="text-align: center; color: #2D3748; margin-bottom: 20px;">🎹 Mini Sintetizador Web</h4>
+                    <div class="piano-keys">
+                        <div class="piano-key" data-note="C" onclick="playNote(261.63)"></div>
+                        <div class="piano-key black" data-note="C#" onclick="playNote(277.18)"></div>
+                        <div class="piano-key" data-note="D" onclick="playNote(293.66)"></div>
+                        <div class="piano-key black" data-note="D#" onclick="playNote(311.13)"></div>
+                        <div class="piano-key" data-note="E" onclick="playNote(329.63)"></div>
+                        <div class="piano-key" data-note="F" onclick="playNote(349.23)"></div>
+                        <div class="piano-key black" data-note="F#" onclick="playNote(369.99)"></div>
+                        <div class="piano-key" data-note="G" onclick="playNote(392.00)"></div>
+                    </div>
+                    <p style="text-align: center; color: var(--text-medium); font-size: 0.9em;">
+                        Clica nas teclas para ouvir! (Requer browsers modernos)
+                    </p>
+                </div>
+
+                <div class="code-snippet">
+<span class="syntax-comment">// Sintetizador Web Audio API</span>
+<span class="syntax-keyword">class</span> <span class="syntax-function">WebSynth</span> {
+  <span class="syntax-function">constructor</span>() {
+    <span class="syntax-keyword">this</span>.audioContext = <span class="syntax-keyword">new</span> (<span class="syntax-keyword">window</span>.AudioContext || <span class="syntax-keyword">window</span>.webkitAudioContext)();
+    <span class="syntax-keyword">this</span>.masterGain = <span class="syntax-keyword">this</span>.audioContext.<span class="syntax-function">createGain</span>();
+    <span class="syntax-keyword">this</span>.masterGain.<span class="syntax-function">connect</span>(<span class="syntax-keyword">this</span>.audioContext.destination);
+  }
+
+  <span class="syntax-function">playNote</span>(frequency, duration = <span class="syntax-number">0.5</span>) {
+    <span class="syntax-keyword">const</span> oscillator = <span class="syntax-keyword">this</span>.audioContext.<span class="syntax-function">createOscillator</span>();
+    <span class="syntax-keyword">const</span> gainNode = <span class="syntax-keyword">this</span>.audioContext.<span class="syntax-function">createGain</span>();
+    
+    oscillator.<span class="syntax-function">connect</span>(gainNode);
+    gainNode.<span class="syntax-function">connect</span>(<span class="syntax-keyword">this</span>.masterGain);
+    
+    oscillator.frequency.value = frequency;
+    oscillator.type = <span class="syntax-string">'sine'</span>;
+    
+    <span class="syntax-comment">// Envelope ADSR</span>
+    <span class="syntax-keyword">const</span> now = <span class="syntax-keyword">this</span>.audioContext.currentTime;
+    gainNode.gain.<span class="syntax-function">setValueAtTime</span>(<span class="syntax-number">0</span>, now);
+    gainNode.gain.<span class="syntax-function">linearRampToValueAtTime</span>(<span class="syntax-number">0.3</span>, now + <span class="syntax-number">0.1</span>);
+    gainNode.gain.<span class="syntax-function">exponentialRampToValueAtTime</span>(<span class="syntax-number">0.01</span>, now + duration);
+    
+    oscillator.<span class="syntax-function">start</span>(now);
+    oscillator.<span class="syntax-function">stop</span>(now + duration);
+  }
+}
+                </div>
+
+                <h4 style="color: #FF6B6B; margin: 20px 0 15px;">🚀 Projetos Web Audio</h4>
+                <ul style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>Drum Machine:</strong> Sequenciador de bateria com interface visual</li>
+                    <li><strong>Arpeggiator:</strong> Geração automática de arpejos musicais</li>
+                    <li><strong>Audio Visualizer:</strong> Análise de frequências em tempo real</li>
+                    <li><strong>Loop Station:</strong> Gravação e reprodução de loops</li>
+                </ul>
+            </div>
+
+            <!-- Módulo 4 -->
+            <div class="track-card">
+                <div class="track-header">
+                    <div class="track-icon">4</div>
+                    <div>
+                        <h3 class="track-title">Max/MSP: Programação Visual</h3>
+                        <p class="track-duration">⏱️ 3 horas | 🎯 Patches e processamento em tempo real</p>
+                    </div>
+                </div>
+
+                <div style="background: #F5F7FA; padding: 20px; border-radius: 10px; border-left: 4px solid #667EEA; margin: 15px 0;">
+                    <h4 style="color: #4C51BF; margin-bottom: 15px;">🔗 Max/MSP: Programação para Artistas</h4>
+                    <p style="color: #553C9A; margin: 0; font-size: 0.95em;">
+                        Max/MSP permite criar aplicações musicais complexas através de programação visual com "patches". 
+                        É usado por artistas como Aphex Twin e Autechre para criar música experimental.
+                    </p>
+                </div>
+
+                <div style="background: #F8F9FA; border: 2px solid #DEE2E6; border-radius: 10px; padding: 20px; margin: 20px 0;">
+                    <h4 style="color: #495057; text-align: center; margin-bottom: 15px;">📊 Exemplo de Patch Max/MSP</h4>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 15px; font-family: monospace; font-size: 0.9em;">
+                        <div style="background: #E9ECEF; padding: 10px; border-radius: 5px; border: 1px solid #ADB5BD;">
+                            metro 500
+                        </div>
+                        <div style="color: #6C757D;">→</div>
+                        <div style="background: #FFF3CD; padding: 10px; border-radius: 5px; border: 1px solid #FFEAA7;">
+                            random 127
+                        </div>
+                        <div style="color: #6C757D;">→</div>
+                        <div style="background: #D4EDDA; padding: 10px; border-radius: 5px; border: 1px solid #96CEB4;">
+                            makenote 60 500
+                        </div>
+                        <div style="color: #6C757D;">→</div>
+                        <div style="background: #D1ECF1; padding: 10px; border-radius: 5px; border: 1px solid #4ECDC4;">
+                            noteout
+                        </div>
+                    </div>
+                    <p style="text-align: center; color: #6C757D; margin-top: 15px; font-size: 0.85em;">
+                        Gerador de notas MIDI aleatórias a cada 500ms
+                    </p>
+                </div>
+
+                <h4 style="color: #FF6B6B; margin: 20px 0 15px;">🎛️ Conceitos Max/MSP</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h5 style="color: #667EEA; margin: 0 0 10px;">📦 Objetos Básicos</h5>
+                        <ul style="color: var(--text-medium); font-size: 0.9em; line-height: 1.6;">
+                            <li><strong>metro:</strong> Relógio/metrônomo</li>
+                            <li><strong>random:</strong> Números aleatórios</li>
+                            <li><strong>scale:</strong> Mapeamento de valores</li>
+                            <li><strong>delay:</strong> Atraso temporal</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 style="color: #667EEA; margin: 0 0 10px;">🔊 Áudio/MIDI</h5>
+                        <ul style="color: var(--text-medium); font-size: 0.9em; line-height: 1.6;">
+                            <li><strong>cycle~:</strong> Oscilador</li>
+                            <li><strong>noteout:</strong> MIDI out</li>
+                            <li><strong>dac~:</strong> Audio output</li>
+                            <li><strong>record~:</strong> Gravação</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="coding-exercise">
+                    <h4 style="margin: 0 0 15px 40px; color: #22543D;">Projeto: Sequenciador Algorítmico</h4>
+                    <p style="color: #276749; margin: 0; line-height: 1.6;">
+                        Criar um sequenciador que gera patterns musicais baseado em regras matemáticas. 
+                        Usar objetos como <strong>metro</strong>, <strong>counter</strong>, <strong>select</strong> e <strong>noteout</strong> 
+                        para criar sequências que evoluem ao longo do tempo.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Módulo 5 -->
+            <div class="track-card">
+                <div class="track-header">
+                    <div class="track-icon">5</div>
+                    <div>
+                        <h3 class="track-title">Projeto Final: EP Colaborativo</h3>
+                        <p class="track-duration">⏱️ 4 horas | 🎯 Produção musical completa</p>
+                    </div>
+                </div>
+
+                <div style="background: #FFF0F5; padding: 20px; border-radius: 10px; border-left: 4px solid #FF69B4; margin: 15px 0;">
+                    <h4 style="color: #C2185B; margin-bottom: 15px;">🎵 EP "Code Beats" - Projeto Colaborativo</h4>
+                    <p style="color: #AD1457; margin: 0; font-size: 0.95em;">
+                        Os participantes trabalham em equipas para criar um EP de 4 faixas, cada uma demonstrando 
+                        diferentes técnicas aprendidas. O resultado final é masterizado e distribuído digitalmente.
+                    </p>
+                </div>
+
+                <div class="genre-explorer">
+                    <div class="genre-card" onclick="selectGenre('ambient')">
+                        <span class="genre-icon">🌌</span>
+                        <h4 style="color: #667EEA; margin: 0;">Ambient Code</h4>
+                        <p style="color: var(--text-medium); font-size: 0.85em; margin: 8px 0 0;">Texturas generativas</p>
+                    </div>
+                    <div class="genre-card" onclick="selectGenre('techno')">
+                        <span class="genre-icon">🤖</span>
+                        <h4 style="color: #667EEA; margin: 0;">Algorithmic Techno</h4>
+                        <p style="color: var(--text-medium); font-size: 0.85em; margin: 8px 0 0;">Beats programáticos</p>
+                    </div>
+                    <div class="genre-card" onclick="selectGenre('experimental')">
+                        <span class="genre-icon">🔬</span>
+                        <h4 style="color: #667EEA; margin: 0;">Experimental</h4>
+                        <p style="color: var(--text-medium); font-size: 0.85em; margin: 8px 0 0;">Sound art digital</p>
+                    </div>
+                    <div class="genre-card" onclick="selectGenre('interactive')">
+                        <span class="genre-icon">🎮</span>
+                        <h4 style="color: #667EEA; margin: 0;">Interactive Music</h4>
+                        <p style="color: var(--text-medium); font-size: 0.85em; margin: 8px 0 0;">Controlo em tempo real</p>
+                    </div>
+                </div>
+
+                <div class="collaboration-tools">
+                    <h4 style="color: #2B6CB0; margin-bottom: 15px;">🤝 Ferramentas de Colaboração</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div>
+                            <h5 style="color: #2C5282; margin: 0 0 8px;">📂 BandLab</h5>
+                            <p style="margin: 0; font-size: 0.9em;">DAW colaborativo gratuito</p>
+                        </div>
+                        <div>
+                            <h5 style="color: #2C5282; margin: 0 0 8px;">☁️ Splice</h5>
+                            <p style="margin: 0; font-size: 0.9em;">Partilha de samples e stems</p>
+                        </div>
+                        <div>
+                            <h5 style="color: #2C5282; margin: 0 0 8px;">🎧 SoundCloud</h5>
+                            <p style="margin: 0; font-size: 0.9em;">Distribuição e feedback</p>
+                        </div>
+                        <div>
+                            <h5 style="color: #2C5282; margin: 0 0 8px;">📊 GitHub</h5>
+                            <p style="margin: 0; font-size: 0.9em;">Controlo de versões do código</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="color: #FF6B6B; margin: 20px 0 15px;">📋 Deliverables</h4>
+                <ul style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>4 Faixas Musicais:</strong> Cada uma demonstrando técnica diferente</li>
+                    <li><strong>Código Source:</strong> Scripts Sonic Pi, patches Max/MSP, Web Audio</li>
+                    <li><strong>Documentação:</strong> Processo criativo e decisões técnicas</li>
+                    <li><strong>Performance ao Vivo:</strong> 10 minutos de live coding</li>
+                    <li><strong>EP Masterizado:</strong> Release final em plataformas digitais</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Certificação e Recursos -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🏆</span>
+                <div>
+                    <div class="cicf-section-title">Certificação e Recursos</div>
+                    <div class="cicf-section-subtitle">Torna-te um produtor musical digital</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 25px 0;">
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #FF6B6B; margin-bottom: 15px;">🎓 Certificação Musical</h4>
+                    <div style="background: #FFF5F5; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <p style="color: #C53030; margin: 0; font-size: 0.9em;">
+                            <strong>Portfolio Requerido:</strong><br>
+                            • EP colaborativo completo<br>
+                            • 3 técnicas de live coding<br>
+                            • Performance ao vivo documentada<br>
+                            • Código partilhado no GitHub
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #FF6B6B; margin-bottom: 15px;">🎹 Software Recomendado</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Sonic Pi:</strong> Gratuito, multiplataforma</li>
+                        <li><strong>Max/MSP:</strong> Estudantes têm desconto</li>
+                        <li><strong>Ableton Live Lite:</strong> Versão gratuita</li>
+                        <li><strong>Audacity:</strong> Edição básica gratuita</li>
+                        <li><strong>REAPER:</strong> DAW profissional acessível</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #FF6B6B; margin-bottom: 15px;">🎤 Comunidade CICF</h4>
+                    <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                        Junta-te à comunidade de produtores musicais CICF:
+                    </p>
+                    <div style="background: #F0F9FF; padding: 12px; border-radius: 6px;">
+                        <small style="color: #0369A1;">
+                            🎵 Jam sessions mensais<br>
+                            🎧 Partilha de tracks e feedback<br>
+                            🎪 Performances em eventos CICF<br>
+                            📚 Workshops avançados de produção
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Circuito Música Digital e Código</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                Sonic Pi • Max/MSP • Web Audio • Live Coding • Janeiro 2026
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Inscrição Música Digital" 
+                   style="color: var(--cicf-primary); text-decoration: none; margin-right: 20px;">
+                    🎵 Inscrever-me
+                </a>
+                <a href="https://soundcloud.com/cicf-music" 
+                   style="color: var(--cicf-primary); text-decoration: none;">
+                    🎧 Ouvir Projetos
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Programa
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Web Audio Context para demo
+        let audioContext;
+        let gainNode;
+        let isAudioInitialized = false;
+
+        function initAudio() {
+            if (!isAudioInitialized) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                gainNode = audioContext.createGain();
+                gainNode.connect(audioContext.destination);
+                gainNode.gain.value = 0.3;
+                isAudioInitialized = true;
+            }
+        }
+
+        function playNote(frequency) {
+            initAudio();
+            
+            const oscillator = audioContext.createOscillator();
+            const noteGain = audioContext.createGain();
+            
+            oscillator.connect(noteGain);
+            noteGain.connect(gainNode);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            
+            const now = audioContext.currentTime;
+            noteGain.gain.setValueAtTime(0, now);
+            noteGain.gain.linearRampToValueAtTime(0.3, now + 0.1);
+            noteGain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+            
+            oscillator.start(now);
+            oscillator.stop(now + 0.5);
+        }
+
+        function selectGenre(genre) {
+            document.querySelectorAll('.genre-card').forEach(card => {
+                card.style.borderColor = '#E2E8F0';
+                card.style.backgroundColor = 'white';
+            });
+            
+            event.target.closest('.genre-card').style.borderColor = '#FF6B6B';
+            event.target.closest('.genre-card').style.backgroundColor = '#FFF5F5';
+        }
+
+        // Animação dos módulos conforme scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const tracks = document.querySelectorAll('.track-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            tracks.forEach(track => {
+                track.style.opacity = '0';
+                track.style.transform = 'translateY(30px)';
+                track.style.transition = 'all 0.6s ease';
+                observer.observe(track);
+            });
+        });
+    </script>
+</body>
+</html>

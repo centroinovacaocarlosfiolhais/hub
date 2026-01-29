@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Planeador de Visita CICF | Escolas & Famílias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cicf-design-system.css">
+    <style>
+        .planner-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .planner-hero::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+            animation: heroSweep 8s linear infinite;
+        }
+
+        @keyframes heroSweep {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 25px;
+        }
+
+        .hero-description {
+            font-size: 1.1em;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .quick-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .selector-option {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .selector-option:hover {
+            border-color: var(--cicf-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .selector-option.selected {
+            border-color: var(--cicf-primary);
+            background: linear-gradient(135deg, var(--cicf-primary), var(--cicf-secondary));
+            color: white;
+        }
+
+        .selector-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .selector-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .selector-description {
+            font-size: 0.95em;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .circuits-showcase {
+            background: var(--bg-light);
+            padding: 50px 40px;
+            margin: 0;
+        }
+
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .showcase-title {
+            color: var(--cicf-primary);
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .showcase-subtitle {
+            color: var(--text-medium);
+            font-size: 1.2em;
+        }
+
+        .circuits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .circuit-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circuit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: var(--cicf-primary);
+        }
+
+        .circuit-card.selected {
+            border-color: var(--cicf-primary);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+        }
+
+        .circuit-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--cicf-primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            z-index: 2;
+        }
+
+        .circuit-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .circuit-icon {
+            font-size: 2.5em;
+            margin-right: 20px;
+        }
+
+        .circuit-title {
+            color: var(--text-dark);
+            font-size: 1.2em;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .circuit-badges {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .circuit-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .badge-duration { background: #E3F2FD; color: #1565C0; }
+        .badge-age { background: #F3E5F5; color: #7B1FA2; }
+        .badge-size { background: #E8F5E8; color: #2E7D32; }
+        .badge-new { 
+            background: linear-gradient(45deg, #FF5722, #FF9800); 
+            color: white; 
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .badge-chemistry { background: #FFF3E0; color: #EF6C00; }
+        .badge-portable { background: #E8F5E8; color: #2E7D32; }
+        .badge-lab-only { background: #FFEBEE; color: #D32F2F; }
+
+        .circuit-description {
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .portable-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        .portable-yes {
+            background: #E8F5E8;
+            color: #2E7D32;
+        }
+
+        .portable-no {
+            background: #FFEBEE;
+            color: #D32F2F;
+        }
+
+        .contact-section {
+            background: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-field {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .form-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-field label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: var(--cicf-primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, var(--cicf-primary), var(--cicf-secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            grid-column: 1 / -1;
+        }
+
+        .summary-header {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .summary-stat {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .selected-circuits-list {
+            margin-top: 20px;
+        }
+
+        .selected-circuit-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .send-button {
+            background: #27AE60;
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+
+        .send-button:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+        }
+
+        .success-message {
+            background: #D4EDDA;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            grid-column: 1 / -1;
+        }
+
+        .info-box {
+            background: #E3F2FD;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .info-box h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #1565C0;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .quick-selector {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .circuits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2.2em;
+            }
+
+            .planner-hero {
+                padding: 40px 20px;
+            }
+
+            .circuits-showcase {
+                padding: 40px 20px;
+            }
+
+            .contact-section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container" style="max-width: none; margin: 0; border-radius: 0;">
+        
+        <!-- Hero Section -->
+        <div class="planner-hero">
+            <div class="hero-content">
+                <h1 class="hero-title">🎯 Planeador de Visita CICF</h1>
+                <p class="hero-subtitle">Experiências educativas personalizadas para escolas e famílias</p>
+                <p class="hero-description">
+                    Selecione os circuitos que melhor se adequam ao vosso grupo e deixe-nos criar uma experiência 
+                    educativa inesquecível! Cada circuito é cuidadosamente desenhado para desenvolver competências 
+                    STEAMD através de atividades práticas e envolventes.
+                </p>
+            </div>
+        </div>
+
+        <!-- Quick Selector -->
+        <div style="padding: 50px 40px; background: white;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="color: var(--cicf-primary); font-size: 2em; margin-bottom: 15px;">1️⃣ Onde preferem realizar as atividades?</h2>
+                <p style="color: var(--text-medium); font-size: 1.1em;">Escolham entre vir ao CICF ou receber a nossa equipa na vossa escola</p>
+            </div>
+
+            <div class="quick-selector">
+                <div class="selector-option" onclick="selectLocation('cicf')" id="location-cicf">
+                    <span class="selector-icon">🏢</span>
+                    <h3 class="selector-title">Visitar o CICF</h3>
+                    <p class="selector-description">
+                        Venham ao nosso centro em Maia e tenham acesso a todos os laboratórios, 
+                        equipamentos especializados e espaços de inovação.
+                        <br><br>
+                        ✅ Todos os circuitos disponíveis<br>
+                        ✅ Tour completo pelas instalações<br>
+                        ✅ Equipamentos profissionais
+                    </p>
+                </div>
+
+                <div class="selector-option" onclick="selectLocation('escola')" id="location-escola">
+                    <span class="selector-icon">🎒</span>
+                    <h3 class="selector-title">CICF vai à Escola</h3>
+                    <p class="selector-description">
+                        A nossa equipa desloca-se à vossa escola com materiais e equipamentos portáteis. 
+                        Conveniente e adaptado ao vosso espaço.
+                        <br><br>
+                        ⚠️ Circuitos selecionados apenas<br>
+                        ✅ Zero deslocações<br>
+                        ✅ Horário flexível
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-box" id="escola-info" style="display: none;">
+                <h4>ℹ️ Informação Importante - Atividade na Escola</h4>
+                <p>
+                    Alguns circuitos requerem equipamentos especializados que só estão disponíveis no CICF 
+                    (impressoras 3D, equipamentos de laboratório químico, robótica avançada). 
+                    Estes circuitos estarão marcados como "Apenas no CICF" na seleção abaixo.
+                </p>
+            </div>
+        </div>
+
+        <!-- Circuits Showcase -->
+        <div class="circuits-showcase">
+            <div class="showcase-header">
+                <h2 class="showcase-title">2️⃣ Selecionem os Circuitos</h2>
+                <p class="showcase-subtitle">Escolham as experiências que querem incluir na vossa visita</p>
+            </div>
+
+            <div class="circuits-grid" id="circuits-grid">
+                
+                <!-- Circuito 1: Cibersegurança -->
+                <div class="circuit-card" onclick="toggleCircuit(this, 'ciberseguranca')" data-portable="true" data-duration="3" data-max="25">
+                    <div class="circuit-header">
+                        <span class="circuit-icon">🛡️</span>
+                        <h4 class="circuit-title">Detetive Digital - Cibersegurança</h4>
+                    </div>
+                    <div class="circuit-badges">
+                        <span class="circuit-badge badge-duration">3h</span>
+                        <span class="circuit-badge badge-age">12+ anos</span>
+                        <span class="circuit-badge badge-size">15-25 pax</span>
+                        <span class="circuit-badge badge-portable">Portátil</span>
+                    </div>
+                    <p class="circuit-description">
+                        Torna-te um detetive digital! Aprende a proteger-te online, identifica phishing, 
+                        cria passwords seguras e navega anonimamente.
+                    </p>
+                    <div class="portable-indicator portable-yes">
+                        ✅ Disponível na escola
+                    </div>
+                </div>
+
+                <!-- Circuito 2: Aventura Python -->
+                <div class="circuit-card" onclick="toggleCircuit(this, 'aventura-python')" data-portable="true" data-duration="2.5" data-max="20">
+                    <div class="circuit-header">
+                        <span class="circuit-icon">🐍</span>
+                        <h4 class="circuit-title">Aventura Python</h4>
+                    </div>
+                    <div class="circuit-badges">
+                        <span class="circuit-badge badge-duration">2.5h</span>
+                        <span class="circuit-badge badge-age">10+ anos</span>
+                        <span class="circuit-badge badge-size">12-20 pax</span>
+                        <span class="circuit-badge badge-portable">Portátil</span>
+                    </div>
+                    <p class="circuit-description">
+                        Primeiros passos na programação Python através de jogos e desafios interativos. 
+                        Lógica, algoritmos e diversão garantida!
+                    </p>
+                    <div class="portable-indicator portable-yes">
+                        ✅ Disponível na escola
+                    </div>
+                </div>
+
+                <!-- Circuito 3: Jogo Educacional Python -->
+                <div class="circuit-card" onclick="toggleCircuit(this, 'jogo-python')" data-portable="true" data-duration="2" data-max="16">
+                    <div class="circuit-header">
+                        <span class="circuit-icon">🎮</span>
+                        <h4 class="circuit-title">Jogo Educacional Python</h4>
+                    </div>
+                    <div class="circuit-badges">
+                        <span class="circuit-badge badge-duration">2h</span>
+                        <span class="circuit-badge badge-age">12+ anos</span>
+                        <span class="circuit-badge badge-size">10-16 pax</span>
+                        <span class="circuit-badge badge-portable">Portátil</span>
+                    </div>
+                    <p class="circuit-description">
+                        Cria o teu próprio videojogo em Python! Personagens, movimento, colisões e 
+                        pontuação num projeto completo.
+                    </p>
+                    <div class="portable-indicator portable-yes">
+                        ✅ Disponível na escola
+                    </div>
+                </div>
+
+                <!-- Circuito 4: MakeCode Arcade -->
+                <div class="circuit-card" onclick="toggleCircuit(this, 'makecode-arcade')" data-portable="true" data-duration="2" data-max="15">
+                    <div class="circuit-header">
+                        <span class="circuit-icon">🕹️</span>
+                        <h4 class="circuit-title">MakeCode Arcade</h4>
+                    </div>
+                    <div class="circuit-badges">
+                        <span class="circuit-badge badge-duration">2h</span>
+                        <span class="circuit-badge badge-age">8+ anos</span>
+                        <span class="circuit-badge badge-size">6-15 pax</span>
+                        <span class="circuit-badge badge-portable">Portátil</span>
+                    </div>
+                    <p class="circuit-description">
+                        Programa visualmente o famoso "Jogo das Portas" no MakeCode Arcade. 
+                        Lógica de probabilidades de forma divertida!
+                    </p>
+                    <div class="portable-indicator portable-yes">
+                        ✅ Disponível na escola
+                    </div>
+                </div>
+
+                <!-- Circuito 5: Impressão 3D -->
+                <div class="circuit-card" onclick="toggleCircuit(this, 'impressao-3d')" data-portable="false" data-duration="2.5" data-max="12">
+                    <div class="circuit-header">
+                        <span class="circuit-icon">🖨️</span>
+                        <h4 class="circuit-title">Impressão 3D - Stencil</h4>
+                    </div>
+                    <div class="circuit-badges">
+                        <span class="circuit-badge badge-duration">2.5h</span>
+                        <span class="circuit-badge badge-age">10+ anos</span>
+                        <span class="circuit-badge badge-size">8-12 pax</span>
+                        <span class="circuit-badge badge-lab-only">Apenas CICF</span>
+                    </div>
+                    <p class="circuit-description">
+                        Design 3D no Tinkercad, impressão de stencils personalizados e criação 
+                        de carimbos únicos para levar para casa.
+                    </p>
+                    <div class="portable-indicator portable-no">
+                        🏢 Apenas no Centro CICF
+                    </div>
+                </div>
+
+                <!-- Circuito 6: Robótica -->
+                <div class="circuit-card" onclick="toggleCircuit(this, 'robotica-iniciantes')" data-portable="false" data-duration="2.5" data-max="16">
+                    <div class="circuit-header">
+                        <span class="circuit-icon">🤖</span>
+                        <h4 class="circuit-title">Robótica para Iniciantes</h4>
+                    </div>
+                    <div class="circuit-badges">
+                        <span class="circuit-badge badge-duration">2.5h</span>
+                        <span class="circuit-badge badge-age">10+ anos</span>
+                        <span class="circuit-badge badge-size">10-16 pax</span>
+                        <span class="circuit-badge badge-lab-only">Apenas CICF</span>
+                    </div>
+                    <p class="circuit-description">
+                        Arduino, sensores e motores! Programa o teu primeiro robô e vê-lo 
+                        ganhar vida através do código.
+                    </p>
+                    <div class="portable-indicator portable-no">
+                        🏢 Apenas no Centro CICF
+                    </div>
+                </div>
+
+                <!-- Circuito 7: Música Digital -->
+                <div class="circuit-card" onclick="toggleCircuit(this, 'musica-digital')" data-portable="true" data-duration="2.5" data-max="15">
+                    <div class="circuit-header">
+                        <span class="circuit-icon">🎵</span>
+                        <h4 class="circuit-title">Música Digital e Código</h4>
+                    </div>
+                    <div class="circuit-badges">
+                        <span class="circuit-badge badge-duration">2.5h</span>
+                        <span class="circuit-badge badge-age">12+ anos</span>
+                        <span class="circuit-badge badge-size">8-15 pax</span>
+                        <span class="circuit-badge badge-portable">Portátil</span>
+                    </div>
+                    <p class="circuit-description">
+                        Sonic Pi e live coding! Cria música através de programação, 
+                        explora algoritmos sonoros e faz uma jam session.
+                    </p>
+                    <div class="portable-indicator portable-yes">
+                        ✅ Disponível na escola
+                    </div>
+                </div>
+
+                <!-- Circuito 8: Antótipos com Curcuma (NOVO!) -->
+                <div class="circuit-card" onclick="toggleCircuit(this, 'antotipos-curcuma')" data-portable="false" data-duration="2" data-max="16">
+                    <div class="circuit-header">
+                        <span class="circuit-icon">🌟</span>
+                        <h4 class="circuit-title">Antótipos com Curcuma</h4>
+                    </div>
+                    <div class="circuit-badges">
+                        <span class="circuit-badge badge-duration">2h</span>
+                        <span class="circuit-badge badge-age">12+ anos</span>
+                        <span class="circuit-badge badge-size">8-16 pax</span>
+                        <span class="circuit-badge badge-new">NOVO!</span>
+                        <span class="circuit-badge badge-chemistry">Química</span>
+                        <span class="circuit-badge badge-lab-only">Apenas CICF</span>
+                    </div>
+                    <p class="circuit-description">
+                        Físico-química aplicada! Cria fotografias permanentes usando pigmentos naturais, 
+                        explora reações UV e técnicas fotográficas históricas.
+                    </p>
+                    <div class="portable-indicator portable-no">
+                        🏢 Apenas no Centro CICF (Equipamento laboratorial)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Contact & Booking Section -->
+        <div class="contact-section">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="color: var(--cicf-primary); font-size: 2em; margin-bottom: 15px;">3️⃣ Detalhes do Vosso Grupo</h2>
+                <p style="color: var(--text-medium); font-size: 1.1em;">Preencham os vossos dados para receberem uma proposta personalizada</p>
+            </div>
+
+            <form class="contact-form" id="planning-form">
+                <div class="form-field">
+                    <label for="institution">Escola/Instituição *</label>
+                    <input type="text" id="institution" required placeholder="Nome da escola ou organização">
+                </div>
+
+                <div class="form-field">
+                    <label for="contact-person">Pessoa de Contacto *</label>
+                    <input type="text" id="contact-person" required placeholder="Nome do responsável">
+                </div>
+
+                <div class="form-field">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" required placeholder="email@exemplo.com">
+                </div>
+
+                <div class="form-field">
+                    <label for="phone">Telefone</label>
+                    <input type="tel" id="phone" placeholder="+351 xxx xxx xxx">
+                </div>
+
+                <div class="form-field">
+                    <label for="participants">Número de Participantes *</label>
+                    <input type="number" id="participants" min="5" max="30" required placeholder="Ex: 20">
+                </div>
+
+                <div class="form-field">
+                    <label for="age-group">Faixa Etária *</label>
+                    <select id="age-group" required>
+                        <option value="">Selecione a faixa etária</option>
+                        <option value="6-8">6-8 anos</option>
+                        <option value="8-10">8-10 anos</option>
+                        <option value="10-12">10-12 anos</option>
+                        <option value="12-14">12-14 anos</option>
+                        <option value="14-16">14-16 anos</option>
+                        <option value="16-18">16-18 anos</option>
+                        <option value="adultos">Adultos/Professores</option>
+                        <option value="mista">Grupo misto</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="preferred-date">Data Preferida</label>
+                    <input type="date" id="preferred-date">
+                </div>
+
+                <div class="form-field">
+                    <label for="preferred-time">Hora Preferida</label>
+                    <select id="preferred-time">
+                        <option value="">Selecione a hora</option>
+                        <option value="09:00">09:00 - Manhã</option>
+                        <option value="10:00">10:00 - Manhã</option>
+                        <option value="14:00">14:00 - Tarde</option>
+                        <option value="15:00">15:00 - Tarde</option>
+                        <option value="16:00">16:00 - Tarde</option>
+                    </select>
+                </div>
+
+                <div class="form-field full-width">
+                    <label for="special-requirements">Requisitos Especiais</label>
+                    <textarea id="special-requirements" rows="3" 
+                              placeholder="Necessidades especiais, acessibilidade, objetivos específicos, etc."></textarea>
+                </div>
+
+                <!-- Summary Card -->
+                <div class="summary-card" id="summary-card" style="display: none;">
+                    <div class="summary-header">📋 Resumo da Vossa Planificação</div>
+                    
+                    <div class="summary-stats">
+                        <div class="summary-stat">
+                            <div class="stat-value" id="summary-location">-</div>
+                            <div class="stat-label">Local</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="stat-value" id="summary-circuits">0</div>
+                            <div class="stat-label">Circuitos</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="stat-value" id="summary-duration">0h</div>
+                            <div class="stat-label">Duração Total</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="stat-value" id="summary-participants">-</div>
+                            <div class="stat-label">Participantes</div>
+                        </div>
+                    </div>
+
+                    <div class="selected-circuits-list" id="selected-circuits">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="success-message" id="success-message">
+                    ✅ <strong>Pedido enviado com sucesso!</strong> A equipa CICF entrará em contacto em 24-48 horas 
+                    para confirmar disponibilidade e enviar a proposta detalhada.
+                </div>
+
+                <button type="submit" class="send-button" id="send-button">
+                    📧 Enviar Pedido ao CICF
+                </button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Planeador de Visitas Educativas</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                🏢 Rua Dr. Afonso Cordeiro, 4470-158 Maia • 📧 ci.carlosfiolhais@cm-maia.pt • ☎️ 220 000 000
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Informações Visitas CICF" 
+                   style="color: var(--cicf-primary); text-decoration: none; margin-right: 20px;">
+                    💬 Contacto Direto
+                </a>
+                <a href="https://centroinovacaocarlosfiolhais.pt" 
+                   style="color: var(--cicf-primary); text-decoration: none;"
+                   target="_blank">
+                    🌐 Website Oficial
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Planificação
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        let plannerState = {
+            location: null,
+            selectedCircuits: [],
+            groupDetails: {}
+        };
+
+        const circuitsData = {
+            'ciberseguranca': { 
+                name: 'Detetive Digital - Cibersegurança', 
+                icon: '🛡️', 
+                duration: 3, 
+                portable: true,
+                maxParticipants: 25 
+            },
+            'aventura-python': { 
+                name: 'Aventura Python', 
+                icon: '🐍', 
+                duration: 2.5, 
+                portable: true,
+                maxParticipants: 20 
+            },
+            'jogo-python': { 
+                name: 'Jogo Educacional Python', 
+                icon: '🎮', 
+                duration: 2, 
+                portable: true,
+                maxParticipants: 16 
+            },
+            'makecode-arcade': { 
+                name: 'MakeCode Arcade', 
+                icon: '🕹️', 
+                duration: 2, 
+                portable: true,
+                maxParticipants: 15 
+            },
+            'impressao-3d': { 
+                name: 'Impressão 3D - Stencil', 
+                icon: '🖨️', 
+                duration: 2.5, 
+                portable: false,
+                maxParticipants: 12 
+            },
+            'robotica-iniciantes': { 
+                name: 'Robótica para Iniciantes', 
+                icon: '🤖', 
+                duration: 2.5, 
+                portable: false,
+                maxParticipants: 16 
+            },
+            'musica-digital': { 
+                name: 'Música Digital e Código', 
+                icon: '🎵', 
+                duration: 2.5, 
+                portable: true,
+                maxParticipants: 15 
+            },
+            'antotipos-curcuma': { 
+                name: 'Antótipos com Curcuma', 
+                icon: '🌟', 
+                duration: 2, 
+                portable: false,
+                maxParticipants: 16 
+            }
+        };
+
+        function selectLocation(location) {
+            plannerState.location = location;
+            
+            // Update visual feedback
+            document.querySelectorAll('.selector-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.getElementById('location-' + location).classList.add('selected');
+            
+            // Show/hide escola info
+            const escolaInfo = document.getElementById('escola-info');
+            if (location === 'escola') {
+                escolaInfo.style.display = 'block';
+            } else {
+                escolaInfo.style.display = 'none';
+            }
+            
+            // Update circuit availability
+            updateCircuitAvailability();
+            updateSummary();
+        }
+
+        function updateCircuitAvailability() {
+            document.querySelectorAll('.circuit-card').forEach(card => {
+                const portable = card.dataset.portable === 'true';
+                
+                if (plannerState.location === 'escola' && !portable) {
+                    card.style.opacity = '0.6';
+                    card.style.pointerEvents = 'none';
+                    card.style.filter = 'grayscale(50%)';
+                } else {
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = 'auto';
+                    card.style.filter = 'none';
+                }
+            });
+        }
+
+        function toggleCircuit(element, circuitId) {
+            if (element.style.pointerEvents === 'none') return;
+            
+            if (element.classList.contains('selected')) {
+                // Remove circuit
+                element.classList.remove('selected');
+                plannerState.selectedCircuits = plannerState.selectedCircuits.filter(id => id !== circuitId);
+            } else {
+                // Add circuit
+                element.classList.add('selected');
+                plannerState.selectedCircuits.push(circuitId);
+            }
+            
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const summaryCard = document.getElementById('summary-card');
+            
+            if (plannerState.selectedCircuits.length > 0 || plannerState.location) {
+                summaryCard.style.display = 'block';
+            } else {
+                summaryCard.style.display = 'none';
+                return;
+            }
+
+            // Update location
+            const locationText = plannerState.location === 'cicf' ? '🏢 Centro CICF' : 
+                                 plannerState.location === 'escola' ? '🎒 Na Escola' : '-';
+            document.getElementById('summary-location').textContent = locationText;
+            
+            // Update circuits count and duration
+            const circuitsCount = plannerState.selectedCircuits.length;
+            const totalDuration = plannerState.selectedCircuits.reduce((total, circuitId) => {
+                return total + circuitsData[circuitId].duration;
+            }, 0);
+            
+            document.getElementById('summary-circuits').textContent = circuitsCount;
+            document.getElementById('summary-duration').textContent = totalDuration + 'h';
+            
+            // Update participants
+            const participants = document.getElementById('participants').value || '-';
+            document.getElementById('summary-participants').textContent = participants;
+            
+            // Update selected circuits list
+            const selectedCircuitsContainer = document.getElementById('selected-circuits');
+            if (circuitsCount === 0) {
+                selectedCircuitsContainer.innerHTML = '<p style="text-align: center; opacity: 0.8;">Nenhum circuito selecionado ainda.</p>';
+            } else {
+                const circuitsHTML = plannerState.selectedCircuits.map(circuitId => {
+                    const circuit = circuitsData[circuitId];
+                    return `
+                        <div class="selected-circuit-item">
+                            <span style="font-size: 1.5em;">${circuit.icon}</span>
+                            <div>
+                                <strong>${circuit.name}</strong><br>
+                                <small style="opacity: 0.8;">${circuit.duration}h • Máx. ${circuit.maxParticipants} pax</small>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                selectedCircuitsContainer.innerHTML = circuitsHTML;
+            }
+        }
+
+        // Form submission
+        document.getElementById('planning-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate
+            const requiredFields = ['institution', 'contact-person', 'email', 'participants', 'age-group'];
+            const missingFields = requiredFields.filter(field => !document.getElementById(field).value);
+            
+            if (missingFields.length > 0) {
+                alert('⚠️ Por favor, preencham todos os campos obrigatórios.');
+                return;
+            }
+            
+            if (!plannerState.location) {
+                alert('⚠️ Por favor, selecionem o local (CICF ou Escola).');
+                return;
+            }
+            
+            if (plannerState.selectedCircuits.length === 0) {
+                alert('⚠️ Por favor, selecionem pelo menos um circuito.');
+                return;
+            }
+            
+            // Collect data
+            plannerState.groupDetails = {
+                institution: document.getElementById('institution').value,
+                contactPerson: document.getElementById('contact-person').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                participants: document.getElementById('participants').value,
+                ageGroup: document.getElementById('age-group').value,
+                preferredDate: document.getElementById('preferred-date').value,
+                preferredTime: document.getElementById('preferred-time').value,
+                specialRequirements: document.getElementById('special-requirements').value
+            };
+            
+            // Generate email
+            const emailContent = generateEmailContent();
+            const emailSubject = encodeURIComponent(`Planeamento Visita CICF - ${plannerState.groupDetails.institution}`);
+            const emailBody = encodeURIComponent(emailContent);
+            const mailtoUrl = `mailto:ci.carlosfiolhais@cm-maia.pt?subject=${emailSubject}&body=${emailBody}`;
+            
+            // Show success
+            document.getElementById('success-message').style.display = 'block';
+            document.getElementById('send-button').style.background = '#27AE60';
+            document.getElementById('send-button').innerHTML = '✅ Enviado!';
+            
+            // Open email client
+            setTimeout(() => window.open(mailtoUrl), 1000);
+            
+            // Scroll to success
+            document.getElementById('success-message').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        });
+
+        function generateEmailContent() {
+            const totalDuration = plannerState.selectedCircuits.reduce((total, circuitId) => {
+                return total + circuitsData[circuitId].duration;
+            }, 0);
+            
+            const circuitsList = plannerState.selectedCircuits.map(circuitId => {
+                const circuit = circuitsData[circuitId];
+                return `• ${circuit.icon} ${circuit.name} (${circuit.duration}h, máx. ${circuit.maxParticipants} pax)`;
+            }).join('\n');
+            
+            return `PLANEAMENTO DE VISITA EDUCATIVA CICF
+
+INSTITUIÇÃO: ${plannerState.groupDetails.institution}
+CONTACTO: ${plannerState.groupDetails.contactPerson}
+EMAIL: ${plannerState.groupDetails.email}
+TELEFONE: ${plannerState.groupDetails.phone || 'Não fornecido'}
+
+DETALHES DO GRUPO:
+• Número de participantes: ${plannerState.groupDetails.participants}
+• Faixa etária: ${plannerState.groupDetails.ageGroup}
+• Data preferida: ${plannerState.groupDetails.preferredDate || 'Flexível'}
+• Hora preferida: ${plannerState.groupDetails.preferredTime || 'Flexível'}
+
+LOCAL ESCOLHIDO:
+${plannerState.location === 'cicf' ? '🏢 Visita ao Centro CICF (Maia)' : '🎒 Atividade na escola do grupo'}
+
+CIRCUITOS SELECIONADOS (${plannerState.selectedCircuits.length} total, ${totalDuration}h):
+${circuitsList}
+
+REQUISITOS ESPECIAIS:
+${plannerState.groupDetails.specialRequirements || 'Nenhum'}
+
+---
+Pedido gerado através do Planeador de Visitas CICF.
+Por favor, confirmar disponibilidade e enviar proposta detalhada.
+
+Centro de Inovação Carlos Fiolhais
+Rua Dr. Afonso Cordeiro, 4470-158 Maia
+📧 ci.carlosfiolhais@cm-maia.pt`;
+        }
+
+        // Auto-update summary when form fields change
+        ['participants', 'age-group'].forEach(fieldId => {
+            document.getElementById(fieldId).addEventListener('change', updateSummary);
+        });
+
+        // Initialize
+        updateSummary();
+    </script>
+</body>
+</html>

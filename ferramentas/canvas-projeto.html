@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canva de Projeto CICF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px 20px 40px;
+            text-align: center;
+        }
+        
+        .buttons-bar {
+            background: linear-gradient(135deg, #5568d3 0%, #653a8a 100%);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .header-btn:hover {
+            background: #f0f4ff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+        
+        .header-btn.export {
+            background: #10b981;
+            color: white;
+        }
+        
+        .header-btn.export:hover {
+            background: #059669;
+        }
+        
+        .header-btn.import {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .header-btn.import:hover {
+            background: #d97706;
+        }
+        
+        /* Hidden file input */
+        #importFileInput {
+            display: none;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 40px;
+        }
+        
+        .canvas-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-top: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+        
+        .canvas-section:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .canvas-section.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .canvas-section.two-thirds {
+            grid-column: span 2;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .section-icon {
+            font-size: 1.8em;
+            filter: grayscale(0.2);
+        }
+        
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .field-group {
+            margin-bottom: 20px;
+        }
+        
+        .field-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .field-label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        
+        .field-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .field-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea.field-input {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.5;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+            flex-shrink: 0;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 0.95em;
+            color: #333;
+            flex: 1;
+        }
+        
+        .tipo-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tipo-btn {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            position: relative;
+            flex: 1;
+            min-width: 180px;
+        }
+        
+        .tipo-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .tipo-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .tipo-btn.active .info-icon {
+            background: white;
+            color: #667eea;
+        }
+        
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75em;
+            font-weight: bold;
+            cursor: help;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            width: 280px;
+            margin-bottom: 8px;
+            z-index: 1000;
+            transition: opacity 0.3s;
+            line-height: 1.4;
+            text-align: left;
+            font-weight: normal;
+        }
+        
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #333;
+        }
+        
+        .info-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .kpi-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .kpi-item label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9em;
+        }
+        
+        .kpi-item input {
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .kpi-item input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .footer {
+            padding: 30px 40px;
+            background: #f8f9fa;
+            text-align: center;
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-header {
+            padding: 20px 30px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #666;
+            padding: 5px 10px;
+        }
+        
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+        
+        .a4-preview {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 15mm;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+        
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 2px solid #f0f0f0;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal-btn-print {
+            background: #667eea;
+            color: white;
+        }
+        
+        .modal-btn-print:hover {
+            background: #5568d3;
+        }
+        
+        .modal-btn-pdf {
+            background: #764ba2;
+            color: white;
+        }
+        
+        .modal-btn-pdf:hover {
+            background: #653a8a;
+        }
+        
+        .modal-btn-cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .modal-btn-cancel:hover {
+            background: #d0d0d0;
+        }
+        
+        /* Print-optimized One-Pager Layout */
+        .print-header {
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .print-header h1 {
+            font-size: 20pt;
+            margin: 0 0 8px 0;
+            color: #667eea;
+            font-weight: 700;
+        }
+        
+        .print-header .subtitle {
+            font-size: 10pt;
+            color: #666;
+            margin: 0 0 8px 0;
+        }
+        
+        .print-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        
+        .print-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #e8eaff;
+            color: #667eea;
+            border-radius: 4px;
+            font-size: 8pt;
+            font-weight: 600;
+        }
+        
+        .print-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .print-section {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+            page-break-inside: avoid;
+        }
+        
+        .print-section h3 {
+            font-size: 10pt;
+            margin: 0 0 8px 0;
+            color: #667eea;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .print-section .icon {
+            font-size: 12pt;
+        }
+        
+        .print-content {
+            font-size: 9pt;
+            color: #333;
+        }
+        
+        .print-content p {
+            margin: 0 0 6px 0;
+            line-height: 1.4;
+        }
+        
+        .print-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .print-label {
+            font-weight: 700;
+            color: #555;
+            display: inline;
+        }
+        
+        .print-value {
+            display: inline;
+            color: #333;
+        }
+        
+        .print-text-block {
+            margin-top: 6px;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+            font-size: 9pt;
+            line-height: 1.5;
+            color: #333;
+        }
+        
+        .print-kpis {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 12px 0;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .print-kpi {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+        }
+        
+        .print-kpi-value {
+            display: block;
+            font-size: 16pt;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        
+        .print-kpi-label {
+            font-size: 8pt;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .print-elevator {
+            margin-top: 12px;
+            padding: 12px;
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            border-radius: 6px;
+            page-break-inside: avoid;
+        }
+        
+        .print-elevator h3 {
+            font-size: 10pt;
+            margin: 0 0 8px 0;
+            color: #f57c00;
+            font-weight: 700;
+        }
+        
+        .print-elevator p {
+            margin: 0;
+            font-size: 9pt;
+            line-height: 1.5;
+            color: #333;
+        }
+        
+        .print-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            font-size: 8pt;
+            color: #666;
+        }
+        
+        @media screen and (max-width: 1200px) {
+            .canvas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .canvas-section.two-thirds {
+                grid-column: span 1;
+            }
+            
+            .buttons-bar {
+                padding: 15px 20px;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .buttons-bar {
+                display: none !important;
+            }
+        }
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Canvas de Projeto CICF</h1>
+            <p>Defina e estruture o seu projeto de forma clara e completa</p>
+        </div>
+        
+        <div class="buttons-bar">
+            <button class="header-btn export" onclick="exportJSON()">
+                <span>📥</span> Export JSON
+            </button>
+            <button class="header-btn import" onclick="document.getElementById('importFileInput').click()">
+                <span>📤</span> Import JSON
+            </button>
+            <button class="header-btn" onclick="prepareAndPrint()">
+                <span>🖨️</span> Pré-visualizar
+            </button>
+            <button class="header-btn" onclick="clearForm()" style="background: #ef4444; color: white;">
+                <span>🗑️</span> Limpar
+            </button>
+            <input type="file" id="importFileInput" accept=".json" onchange="importJSON(event)">
+        </div>
+        
+        <div class="canvas-grid">
+            <!-- Identificação -->
+            <div class="canvas-section full-width">
+                <div class="section-header">
+                    <span class="section-icon">🎯</span>
+                    <h2 class="section-title">Identificação do Projeto</h2>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Nome do Projeto *</label>
+                    <input type="text" class="field-input" id="nome" placeholder="Ex: Academia de Competências Digitais" data-storage="cicf-canva-nome">
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Tipo de Atividade</label>
+                    <div class="tipo-buttons" id="tipoButtons">
+                        <button class="tipo-btn" onclick="toggleTipo(this, 'Circuitos')">
+                            <span>Circuitos</span>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Atividades que combinam uma visita aos espaços e a realização de uma atividade de 1h, 2h, 4h ou 8h (4+4)</div>
+                            </div>
+                        </button>
+                        <button class="tipo-btn" onclick="toggleTipo(this, 'Clubes')">
+                            <span>Clubes</span>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Encontros semanais para pôr em prática conceitos do universo em laboratórios experimentais</div>
+                            </div>
+                        </button>
+                        <button class="tipo-btn" onclick="toggleTipo(this, 'Workshops')">
+                            <span>Workshops</span>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Exposição de conteúdos e metodologia de projeto sobre um tema do conhecimento. Abordagem hands-on.</div>
+                            </div>
+                        </button>
+                        <button class="tipo-btn" onclick="toggleTipo(this, 'Competições')">
+                            <span>Competições</span>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Desafios dinamizados por organizações e empresas, aberta a equipas orientadas por mentores CDI.</div>
+                            </div>
+                        </button>
+                        <button class="tipo-btn" onclick="toggleTipo(this, 'Sessões de Esclarecimento')">
+                            <span>Sessões de Esclarecimento</span>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Dinamização de Sessões de esclarecimento para promover e esclarecer um determinado tópico, no centro ou nas escolas.</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Timeline</label>
+                    <input type="text" class="field-input" id="timeline" placeholder="Ex: Jan 2024 - Dez 2024" data-storage="cicf-canva-timeline">
+                </div>
+            </div>
+            
+            <!-- Público & Propósito -->
+            <div class="canvas-section two-thirds">
+                <div class="section-header">
+                    <span class="section-icon">👥</span>
+                    <h2 class="section-title">Público & Propósito</h2>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Público-alvo</label>
+                    <input type="text" class="field-input" id="publico" placeholder="Ex: Jovens NEET 18-30 anos" data-storage="cicf-canva-publico">
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Problema/Necessidade</label>
+                    <textarea class="field-input" id="problema" placeholder="Que problema estamos a resolver?" data-storage="cicf-canva-problema"></textarea>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Objetivos</label>
+                    <textarea class="field-input" id="objetivos" placeholder="O que queremos alcançar?" data-storage="cicf-canva-objetivos"></textarea>
+                </div>
+            </div>
+            
+            <!-- KPIs -->
+            <div class="canvas-section">
+                <div class="section-header">
+                    <span class="section-icon">📊</span>
+                    <h2 class="section-title">KPIs</h2>
+                </div>
+                
+                <div class="kpi-grid">
+                    <div class="kpi-item">
+                        <label>Participantes</label>
+                        <input type="text" id="participantes" placeholder="Ex: 50" data-storage="cicf-canva-participantes">
+                    </div>
+                    <div class="kpi-item">
+                        <label>Taxa Conclusão</label>
+                        <input type="text" id="conclusao" placeholder="Ex: 80%" data-storage="cicf-canva-conclusao">
+                    </div>
+                    <div class="kpi-item">
+                        <label>Sessões</label>
+                        <input type="text" id="sessoes" placeholder="Ex: 20" data-storage="cicf-canva-sessoes">
+                    </div>
+                    <div class="kpi-item">
+                        <label>Horas Totais</label>
+                        <input type="text" id="horas" placeholder="Ex: 100h" data-storage="cicf-canva-horas">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Metodologia -->
+            <div class="canvas-section">
+                <div class="section-header">
+                    <span class="section-icon">🛠️</span>
+                    <h2 class="section-title">Metodologia</h2>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Metodologias</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-cbl" value="Challenge-Based Learning (CBL)" data-storage="cicf-canva-met-cbl">
+                            <label for="met-cbl">Challenge-Based Learning (CBL)</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Aprendizagem centrada em desafios reais e complexos do mundo atual. Participantes identificam problemas, desenvolvem soluções e implementam ações concretas na comunidade.</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-pbl" value="Project-Based Learning (PBL)" data-storage="cicf-canva-met-pbl">
+                            <label for="met-pbl">Project-Based Learning (PBL)</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Aprendizagem através do desenvolvimento de projetos complexos e significativos, promovendo autonomia, colaboração e apresentação de resultados a audiências reais.</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-competency" value="Competency-Based Education" data-storage="cicf-canva-met-competency">
+                            <label for="met-competency">Competency-Based Education</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Educação focada no desenvolvimento e demonstração de competências específicas. Progressão baseada em domínio efetivo de skills, não apenas em tempo de estudo.</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-maker" value="Maker Education / Constructionism" data-storage="cicf-canva-met-maker">
+                            <label for="met-maker">Maker Education / Constructionism</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Filosofia "learning by making" inspirada em Papert. Construção de artefactos físicos e digitais como forma de construir conhecimento, promovendo criatividade e pensamento crítico.</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-gaming" value="Gaming como Ferramenta Pedagógica" data-storage="cicf-canva-met-gaming">
+                            <label for="met-gaming">Gaming como Ferramenta Pedagógica</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Uso de videojogos e mecânicas de jogo para ensinar conceitos complexos. Inclui game design, programação de jogos e aprendizagem através de gameplay estratégico.</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-quest" value="Quest-Based Learning" data-storage="cicf-canva-met-quest">
+                            <label for="met-quest">Quest-Based Learning</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Inspirado em gaming/RPG, cada cenário é uma "quest" com objetivos, desafios e recompensas. Progressão narrativa que contextualiza a aprendizagem de forma envolvente.</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-peer" value="Peer Learning / Aprendizagem Colaborativa" data-storage="cicf-canva-met-peer">
+                            <label for="met-peer">Peer Learning / Aprendizagem Colaborativa</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Aprendizagem entre pares onde participantes ensinam-se mutuamente, partilham conhecimento e desenvolvem projetos em equipa, promovendo soft skills e inteligência social.</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-handson" value="Hands-On / Aprendizagem Ativa" data-storage="cicf-canva-met-handson">
+                            <label for="met-handson">Hands-On / Aprendizagem Ativa</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Metodologia prática centrada em experimentação direta, manipulação de materiais e tecnologias, e learning by doing em contextos autênticos de laboratório.</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="met-badges" value="Learning Scenarios com Digital Badges" data-storage="cicf-canva-met-badges">
+                            <label for="met-badges">Learning Scenarios com Digital Badges</label>
+                            <div class="info-icon">
+                                i
+                                <div class="tooltip">Cenários de aprendizagem estruturados com micro-credentials e Open Badges 3.0 que certificam competências específicas demonstradas através de evidências concretas.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Tecnologias</label>
+                    <input type="text" class="field-input" id="tecnologias" placeholder="Ex: Python, Arduino, Figma" data-storage="cicf-canva-tecnologias">
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Formato</label>
+                    <input type="text" class="field-input" id="formato" placeholder="Ex: Presencial, Online, Híbrido" data-storage="cicf-canva-formato">
+                </div>
+            </div>
+            
+            <!-- Stakeholders -->
+            <div class="canvas-section">
+                <div class="section-header">
+                    <span class="section-icon">🤝</span>
+                    <h2 class="section-title">Stakeholders</h2>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Coordenação</label>
+                    <input type="text" class="field-input" id="coordenacao" placeholder="Ex: Nome do coordenador" data-storage="cicf-canva-coordenacao">
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Equipa</label>
+                    <textarea class="field-input" id="equipa" placeholder="Membros da equipa" data-storage="cicf-canva-equipa"></textarea>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Parceiros</label>
+                    <textarea class="field-input" id="parceiros" placeholder="Organizações parceiras" data-storage="cicf-canva-parceiros"></textarea>
+                </div>
+            </div>
+            
+            <!-- Recursos -->
+            <div class="canvas-section">
+                <div class="section-header">
+                    <span class="section-icon">💰</span>
+                    <h2 class="section-title">Recursos</h2>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Fonte de Financiamento</label>
+                    <input type="text" class="field-input" id="financiamento" placeholder="Ex: Fundação Calouste Gulbenkian" data-storage="cicf-canva-financiamento">
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Investimento</label>
+                    <input type="text" class="field-input" id="investimento" placeholder="Ex: 50.000€" data-storage="cicf-canva-investimento">
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Recursos Necessários</label>
+                    <textarea class="field-input" id="recursos" placeholder="Materiais, espaços, equipamentos..." data-storage="cicf-canva-recursos"></textarea>
+                </div>
+            </div>
+            
+            <!-- Diferenciação -->
+            <div class="canvas-section two-thirds">
+                <div class="section-header">
+                    <span class="section-icon">⭐</span>
+                    <h2 class="section-title">Diferenciação</h2>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Factor WOW</label>
+                    <textarea class="field-input" id="diferenciacao" placeholder="O que torna este projeto único e inovador?" data-storage="cicf-canva-diferenciacao"></textarea>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Competências CICF Aplicadas</label>
+                    <textarea class="field-input" id="competencias" placeholder="Que competências do CICF são mobilizadas?" data-storage="cicf-canva-competencias"></textarea>
+                </div>
+            </div>
+            
+            <!-- Impacto -->
+            <div class="canvas-section">
+                <div class="section-header">
+                    <span class="section-icon">🎯</span>
+                    <h2 class="section-title">Resultados & Impacto</h2>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Outputs</label>
+                    <textarea class="field-input" id="resultados" placeholder="Produtos, entregas, resultados tangíveis" data-storage="cicf-canva-resultados"></textarea>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Impacto Social</label>
+                    <textarea class="field-input" id="impacto" placeholder="Que transformação esperamos gerar?" data-storage="cicf-canva-impacto"></textarea>
+                </div>
+            </div>
+            
+            <!-- Elevator Pitch -->
+            <div class="canvas-section full-width">
+                <div class="section-header">
+                    <span class="section-icon">🎤</span>
+                    <h2 class="section-title">Elevator Pitch</h2>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Resumo em 30 segundos</label>
+                    <textarea class="field-input" id="elevator" placeholder="Se tivesse que explicar este projeto num elevador, o que diria?" data-storage="cicf-canva-elevator" style="min-height: 120px;"></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <strong>CICF - Centro de Inovação Carlos Fiolhais</strong><br>
+            CDI Portugal | Transformando ideias em projetos de impacto
+        </div>
+    </div>
+    
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Pré-visualização - One-Pager A4</h2>
+                <button class="modal-close" onclick="closePreview()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="a4Content" class="a4-preview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" onclick="closePreview()">Cancelar</button>
+                <button class="modal-btn modal-btn-print" onclick="printA4()">🖨️ Imprimir</button>
+                <button class="modal-btn modal-btn-pdf" onclick="downloadPDF()">📄 Download PDF</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-save functionality
+        document.querySelectorAll('.field-input').forEach(input => {
+            const storageKey = input.dataset.storage;
+            if (storageKey) {
+                // Load saved value
+                const saved = localStorage.getItem(storageKey);
+                if (saved) input.value = saved;
+                
+                // Save on change
+                input.addEventListener('input', () => {
+                    localStorage.setItem(storageKey, input.value);
+                });
+            }
+        });
+        
+        // Auto-save checkboxes
+        document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
+            const storageKey = cb.dataset.storage;
+            if (storageKey) {
+                const saved = localStorage.getItem(storageKey);
+                if (saved === 'true') cb.checked = true;
+                
+                cb.addEventListener('change', () => {
+                    localStorage.setItem(storageKey, cb.checked);
+                });
+            }
+        });
+        
+        // Load saved tipo
+        const savedTipo = localStorage.getItem('cicf-canva-tipo');
+        if (savedTipo) {
+            const tipos = savedTipo.split(',');
+            tipos.forEach(tipo => {
+                const btn = Array.from(document.querySelectorAll('.tipo-btn')).find(b => b.querySelector('span').textContent === tipo);
+                if (btn) btn.classList.add('active');
+            });
+        }
+        
+        function toggleTipo(btn, tipo) {
+            // Prevent toggling when clicking on info icon
+            if (event && event.target.closest('.info-icon')) {
+                event.stopPropagation();
+                return;
+            }
+            
+            btn.classList.toggle('active');
+            
+            const activeTipos = Array.from(document.querySelectorAll('.tipo-btn.active'))
+                .map(b => b.querySelector('span').textContent);
+            localStorage.setItem('cicf-canva-tipo', activeTipos.join(','));
+        }
+        
+        // Get all form data
+        function getFormData() {
+            const metodologias = [];
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]:checked').forEach(cb => {
+                metodologias.push(cb.value);
+            });
+            
+            const tipos = Array.from(document.querySelectorAll('.tipo-btn.active'))
+                .map(btn => btn.querySelector('span').textContent);
+            
+            return {
+                nome: document.getElementById('nome').value,
+                tipos: tipos,
+                timeline: document.getElementById('timeline').value,
+                publico: document.getElementById('publico').value,
+                problema: document.getElementById('problema').value,
+                objetivos: document.getElementById('objetivos').value,
+                participantes: document.getElementById('participantes').value,
+                conclusao: document.getElementById('conclusao').value,
+                sessoes: document.getElementById('sessoes').value,
+                horas: document.getElementById('horas').value,
+                metodologias: metodologias,
+                tecnologias: document.getElementById('tecnologias').value,
+                formato: document.getElementById('formato').value,
+                coordenacao: document.getElementById('coordenacao').value,
+                equipa: document.getElementById('equipa').value,
+                parceiros: document.getElementById('parceiros').value,
+                financiamento: document.getElementById('financiamento').value,
+                investimento: document.getElementById('investimento').value,
+                recursos: document.getElementById('recursos').value,
+                diferenciacao: document.getElementById('diferenciacao').value,
+                competencias: document.getElementById('competencias').value,
+                resultados: document.getElementById('resultados').value,
+                impacto: document.getElementById('impacto').value,
+                elevator: document.getElementById('elevator').value
+            };
+        }
+        
+        // Export JSON functionality
+        function exportJSON() {
+            const data = getFormData();
+            const jsonString = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const filename = data.nome ? 
+                `CICF_Canvas_${data.nome.replace(/\s+/g, '_')}.json` : 
+                'CICF_Canvas.json';
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('✅ JSON exportado com sucesso!');
+        }
+        
+        // Import JSON functionality
+        function importJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    // Confirm before importing
+                    if (!confirm('Importar este JSON irá substituir todos os dados atuais. Continuar?')) {
+                        event.target.value = ''; // Reset file input
+                        return;
+                    }
+                    
+                    // Import text fields
+                    if (data.nome) document.getElementById('nome').value = data.nome;
+                    if (data.timeline) document.getElementById('timeline').value = data.timeline;
+                    if (data.publico) document.getElementById('publico').value = data.publico;
+                    if (data.problema) document.getElementById('problema').value = data.problema;
+                    if (data.objetivos) document.getElementById('objetivos').value = data.objetivos;
+                    if (data.participantes) document.getElementById('participantes').value = data.participantes;
+                    if (data.conclusao) document.getElementById('conclusao').value = data.conclusao;
+                    if (data.sessoes) document.getElementById('sessoes').value = data.sessoes;
+                    if (data.horas) document.getElementById('horas').value = data.horas;
+                    if (data.tecnologias) document.getElementById('tecnologias').value = data.tecnologias;
+                    if (data.formato) document.getElementById('formato').value = data.formato;
+                    if (data.coordenacao) document.getElementById('coordenacao').value = data.coordenacao;
+                    if (data.equipa) document.getElementById('equipa').value = data.equipa;
+                    if (data.parceiros) document.getElementById('parceiros').value = data.parceiros;
+                    if (data.financiamento) document.getElementById('financiamento').value = data.financiamento;
+                    if (data.investimento) document.getElementById('investimento').value = data.investimento;
+                    if (data.recursos) document.getElementById('recursos').value = data.recursos;
+                    if (data.diferenciacao) document.getElementById('diferenciacao').value = data.diferenciacao;
+                    if (data.competencias) document.getElementById('competencias').value = data.competencias;
+                    if (data.resultados) document.getElementById('resultados').value = data.resultados;
+                    if (data.impacto) document.getElementById('impacto').value = data.impacto;
+                    if (data.elevator) document.getElementById('elevator').value = data.elevator;
+                    
+                    // Import tipos
+                    document.querySelectorAll('.tipo-btn').forEach(btn => btn.classList.remove('active'));
+                    if (data.tipos && Array.isArray(data.tipos)) {
+                        data.tipos.forEach(tipo => {
+                            const btn = Array.from(document.querySelectorAll('.tipo-btn')).find(b => b.querySelector('span').textContent === tipo);
+                            if (btn) btn.classList.add('active');
+                        });
+                    }
+                    
+                    // Import metodologias
+                    document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => cb.checked = false);
+                    if (data.metodologias && Array.isArray(data.metodologias)) {
+                        data.metodologias.forEach(met => {
+                            const cb = document.querySelector(`.checkbox-item input[value="${met}"]`);
+                            if (cb) cb.checked = true;
+                        });
+                    }
+                    
+                    // Save to localStorage
+                    document.querySelectorAll('.field-input').forEach(input => {
+                        const storageKey = input.dataset.storage;
+                        if (storageKey && input.value) {
+                            localStorage.setItem(storageKey, input.value);
+                        }
+                    });
+                    
+                    document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
+                        const storageKey = cb.dataset.storage;
+                        if (storageKey) {
+                            localStorage.setItem(storageKey, cb.checked);
+                        }
+                    });
+                    
+                    const activeTipos = Array.from(document.querySelectorAll('.tipo-btn.active'))
+                        .map(b => b.querySelector('span').textContent);
+                    localStorage.setItem('cicf-canva-tipo', activeTipos.join(','));
+                    
+                    alert('✅ JSON importado com sucesso!');
+                    event.target.value = ''; // Reset file input
+                    
+                } catch (error) {
+                    alert('❌ Erro ao importar JSON: ' + error.message);
+                    event.target.value = ''; // Reset file input
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // Generate optimized print-friendly one-pager
+        function generateOnePager(data) {
+            let html = '';
+            
+            // Header
+            html += `
+                <div class="print-header">
+                    <h1>${data.nome || 'Projeto CICF'}</h1>
+                    ${data.timeline ? `<div class="subtitle">${data.timeline}</div>` : ''}
+                    ${data.tipos.length > 0 ? `
+                        <div class="print-tags">
+                            ${data.tipos.map(t => `<span class="print-tag">${t}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            html += `<div class="print-grid">`;
+            
+            // Público & Propósito
+            if (data.publico || data.problema || data.objetivos) {
+                html += `
+                    <div class="print-section">
+                        <h3><span class="icon">👥</span> Público & Propósito</h3>
+                        <div class="print-content">
+                            ${data.publico ? `<p><span class="print-label">Público:</span> ${data.publico}</p>` : ''}
+                            ${data.problema ? `
+                                <p><span class="print-label">Problema:</span></p>
+                                <div class="print-text-block">${data.problema}</div>
+                            ` : ''}
+                            ${data.objetivos ? `
+                                <p><span class="print-label">Objetivos:</span></p>
+                                <div class="print-text-block">${data.objetivos}</div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Metodologia
+            if (data.metodologias.length > 0 || data.tecnologias || data.formato) {
+                html += `
+                    <div class="print-section">
+                        <h3><span class="icon">🛠️</span> Metodologia</h3>
+                        <div class="print-content">
+                            ${data.metodologias.length > 0 ? `
+                                <div class="print-tags" style="margin-bottom: ${data.tecnologias || data.formato ? '6px' : '0'}">
+                                    ${data.metodologias.map(m => `<span class="print-tag">${m}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                            ${data.tecnologias ? `<p><span class="print-label">Tecnologias:</span> ${data.tecnologias}</p>` : ''}
+                            ${data.formato ? `<p><span class="print-label">Formato:</span> ${data.formato}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Stakeholders
+            if (data.coordenacao || data.equipa || data.parceiros) {
+                html += `
+                    <div class="print-section">
+                        <h3><span class="icon">🤝</span> Stakeholders</h3>
+                        <div class="print-content">
+                            ${data.coordenacao ? `<p><span class="print-label">Coordenação:</span> ${data.coordenacao}</p>` : ''}
+                            ${data.equipa ? `
+                                <p><span class="print-label">Equipa:</span></p>
+                                <div class="print-text-block">${data.equipa}</div>
+                            ` : ''}
+                            ${data.parceiros ? `
+                                <p><span class="print-label">Parceiros:</span></p>
+                                <div class="print-text-block">${data.parceiros}</div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Recursos
+            if (data.financiamento || data.recursos || data.investimento) {
+                html += `
+                    <div class="print-section">
+                        <h3><span class="icon">💰</span> Recursos</h3>
+                        <div class="print-content">
+                            ${data.financiamento ? `<p><span class="print-label">Financiamento:</span> ${data.financiamento}</p>` : ''}
+                            ${data.investimento ? `<p><span class="print-label">Investimento:</span> ${data.investimento}</p>` : ''}
+                            ${data.recursos ? `
+                                <p><span class="print-label">Necessário:</span></p>
+                                <div class="print-text-block">${data.recursos}</div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Diferenciação
+            if (data.diferenciacao || data.competencias) {
+                html += `
+                    <div class="print-section">
+                        <h3><span class="icon">⭐</span> Diferenciação</h3>
+                        <div class="print-content">
+                            ${data.diferenciacao ? `
+                                <p><span class="print-label">Factor WOW:</span></p>
+                                <div class="print-text-block">${data.diferenciacao}</div>
+                            ` : ''}
+                            ${data.competencias ? `
+                                <p><span class="print-label">Competências CICF:</span></p>
+                                <div class="print-text-block">${data.competencias}</div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Impacto
+            if (data.resultados || data.impacto) {
+                html += `
+                    <div class="print-section">
+                        <h3><span class="icon">📊</span> Resultados & Impacto</h3>
+                        <div class="print-content">
+                            ${data.resultados ? `
+                                <p><span class="print-label">Outputs:</span></p>
+                                <div class="print-text-block">${data.resultados}</div>
+                            ` : ''}
+                            ${data.impacto ? `
+                                <p><span class="print-label">Impacto Social:</span></p>
+                                <div class="print-text-block">${data.impacto}</div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            html += `</div>`; // Close grid
+            
+            // KPIs
+            if (data.participantes || data.conclusao || data.sessoes || data.horas) {
+                html += `
+                    <div class="print-kpis">
+                        ${data.participantes ? `<div class="print-kpi"><span class="print-kpi-value">${data.participantes}</span><div class="print-kpi-label">Participantes</div></div>` : ''}
+                        ${data.conclusao ? `<div class="print-kpi"><span class="print-kpi-value">${data.conclusao}</span><div class="print-kpi-label">Taxa Conclusão</div></div>` : ''}
+                        ${data.sessoes ? `<div class="print-kpi"><span class="print-kpi-value">${data.sessoes}</span><div class="print-kpi-label">Sessões</div></div>` : ''}
+                        ${data.horas ? `<div class="print-kpi"><span class="print-kpi-value">${data.horas}</span><div class="print-kpi-label">Horas Totais</div></div>` : ''}
+                    </div>
+                `;
+            }
+            
+            // Elevator Pitch
+            if (data.elevator) {
+                html += `
+                    <div class="print-elevator">
+                        <h3>🎤 Elevator Pitch</h3>
+                        <p>${data.elevator}</p>
+                    </div>
+                `;
+            }
+            
+            // Footer
+            html += `
+                <div class="print-footer">
+                    <strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | CDI Portugal<br>
+                    Gerado em ${new Date().toLocaleDateString('pt-PT')}
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        // Open preview modal
+        function prepareAndPrint() {
+            const data = getFormData();
+            const html = generateOnePager(data);
+            document.getElementById('a4Content').innerHTML = html;
+            document.getElementById('previewModal').classList.add('active');
+        }
+        
+        // Close preview
+        function closePreview() {
+            document.getElementById('previewModal').classList.remove('active');
+        }
+        
+        // Print A4
+        function printA4() {
+            const printContent = document.getElementById('a4Content').innerHTML;
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>One-Pager CICF</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        @page { size: A4; margin: 0; }
+                        body { 
+                            margin: 0; 
+                            padding: 0; 
+                            font-family: 'Montserrat', sans-serif;
+                        }
+                        .a4-preview { 
+                            padding: 15mm; 
+                            font-size: 9pt; 
+                            line-height: 1.4; 
+                        }
+                        
+                        .print-header {
+                            text-align: center;
+                            padding-bottom: 12px;
+                            border-bottom: 3px solid #667eea;
+                            margin-bottom: 15px;
+                        }
+                        
+                        .print-header h1 {
+                            font-size: 20pt;
+                            margin: 0 0 8px 0;
+                            color: #667eea;
+                            font-weight: 700;
+                        }
+                        
+                        .print-header .subtitle {
+                            font-size: 10pt;
+                            color: #666;
+                            margin: 0 0 8px 0;
+                        }
+                        
+                        .print-tags {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 6px;
+                            justify-content: center;
+                            margin-top: 8px;
+                        }
+                        
+                        .print-tag {
+                            display: inline-block;
+                            padding: 4px 10px;
+                            background: #e8eaff;
+                            color: #667eea;
+                            border-radius: 4px;
+                            font-size: 8pt;
+                            font-weight: 600;
+                        }
+                        
+                        .print-grid {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 10px;
+                            margin-bottom: 10px;
+                        }
+                        
+                        .print-section {
+                            background: #f8f9fa;
+                            padding: 10px;
+                            border-radius: 6px;
+                            border-left: 3px solid #667eea;
+                            page-break-inside: avoid;
+                        }
+                        
+                        .print-section h3 {
+                            font-size: 10pt;
+                            margin: 0 0 8px 0;
+                            color: #667eea;
+                            font-weight: 700;
+                            display: flex;
+                            align-items: center;
+                            gap: 6px;
+                        }
+                        
+                        .print-section .icon {
+                            font-size: 12pt;
+                        }
+                        
+                        .print-content {
+                            font-size: 9pt;
+                            color: #333;
+                        }
+                        
+                        .print-content p {
+                            margin: 0 0 6px 0;
+                            line-height: 1.4;
+                        }
+                        
+                        .print-content p:last-child {
+                            margin-bottom: 0;
+                        }
+                        
+                        .print-label {
+                            font-weight: 700;
+                            color: #555;
+                            display: inline;
+                        }
+                        
+                        .print-value {
+                            display: inline;
+                            color: #333;
+                        }
+                        
+                        .print-text-block {
+                            margin-top: 6px;
+                            padding: 8px;
+                            background: white;
+                            border-radius: 4px;
+                            font-size: 9pt;
+                            line-height: 1.5;
+                            color: #333;
+                        }
+                        
+                        .print-kpis {
+                            display: grid;
+                            grid-template-columns: repeat(4, 1fr);
+                            gap: 8px;
+                            margin: 12px 0;
+                            padding: 12px;
+                            background: #f8f9fa;
+                            border-radius: 6px;
+                        }
+                        
+                        .print-kpi {
+                            text-align: center;
+                            padding: 10px;
+                            background: white;
+                            border-radius: 6px;
+                        }
+                        
+                        .print-kpi-value {
+                            display: block;
+                            font-size: 16pt;
+                            font-weight: 700;
+                            color: #667eea;
+                            margin-bottom: 4px;
+                        }
+                        
+                        .print-kpi-label {
+                            font-size: 8pt;
+                            color: #666;
+                            font-weight: 600;
+                        }
+                        
+                        .print-elevator {
+                            margin-top: 12px;
+                            padding: 12px;
+                            background: #fff8e1;
+                            border-left: 4px solid #ffc107;
+                            border-radius: 6px;
+                            page-break-inside: avoid;
+                        }
+                        
+                        .print-elevator h3 {
+                            font-size: 10pt;
+                            margin: 0 0 8px 0;
+                            color: #f57c00;
+                            font-weight: 700;
+                        }
+                        
+                        .print-elevator p {
+                            margin: 0;
+                            font-size: 9pt;
+                            line-height: 1.5;
+                            color: #333;
+                        }
+                        
+                        .print-footer {
+                            margin-top: 15px;
+                            padding-top: 12px;
+                            border-top: 2px solid #e0e0e0;
+                            text-align: center;
+                            font-size: 8pt;
+                            color: #666;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="a4-preview">${printContent}</div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+        
+        // Download PDF
+        async function downloadPDF() {
+            const element = document.getElementById('a4Content');
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false
+            });
+            
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = 210; // A4 width in mm
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            
+            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            const filename = getFormData().nome ? 
+                `CICF_OnePager_${getFormData().nome.replace(/\s+/g, '_')}.pdf` :
+                'CICF_OnePager.pdf';
+            pdf.save(filename);
+        }
+        
+        // Close modal on outside click
+        document.getElementById('previewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePreview();
+            }
+        });
+        
+        // Clear form function
+        function clearForm() {
+            if (confirm('Tem a certeza que deseja limpar todo o formulário? Esta ação não pode ser desfeita.')) {
+                // Clear all text inputs and textareas
+                document.querySelectorAll('.field-input').forEach(input => {
+                    input.value = '';
+                });
+                
+                // Uncheck all checkboxes
+                document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
+                    cb.checked = false;
+                });
+                
+                // Deactivate all tipo buttons
+                document.querySelectorAll('.tipo-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Clear KPI inputs
+                document.querySelectorAll('.kpi-item input').forEach(input => {
+                    input.value = '';
+                });
+                
+                // Clear localStorage
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && key.startsWith('cicf-canva-')) {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                alert('Formulário limpo com sucesso!');
+            }
+        }
+    </script>
+</body>
+</html>

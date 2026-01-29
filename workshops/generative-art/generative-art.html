@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Workshop: Generative Art com Processing | CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        .art-header {
+            background: linear-gradient(135deg, #EC4899, #F472B6, #FBBF24, #34D399, #60A5FA);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .art-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 20%, rgba(255,255,255,0.15) 40%, transparent 60%, rgba(255,255,255,0.1) 80%, transparent 100%);
+            animation: generativeFlow 8s infinite;
+        }
+        
+        @keyframes generativeFlow {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+        }
+
+        .code-editor {
+            background: #1E1E1E;
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 20px 0;
+            position: relative;
+            border-left: 4px solid #EC4899;
+        }
+
+        .code-editor::before {
+            content: 'Processing';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #EC4899;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .syntax-keyword { color: #C586C0; }
+        .syntax-string { color: #CE9178; }
+        .syntax-number { color: #B5CEA8; }
+        .syntax-comment { color: #6A9955; font-style: italic; }
+        .syntax-function { color: #DCDCAA; }
+
+        .math-concept {
+            background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
+            border: 2px solid #8B5CF6;
+            color: #5B21B6;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .math-concept::before {
+            content: '🔢';
+            font-size: 2em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .math-content {
+            margin-left: 60px;
+        }
+
+        .canvas-preview {
+            background: #F8FAFC;
+            border: 3px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .canvas-preview::before {
+            content: 'Canvas 600x600px';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            background: #64748B;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .export-options {
+            background: #F0FDF4;
+            border: 2px solid #22C55E;
+            color: #15803D;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .export-options::before {
+            content: '💾';
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .technique-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .technique-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #EC4899;
+            transition: all 0.3s ease;
+        }
+
+        .technique-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .technique-card:nth-child(2) { border-left-color: #F472B6; }
+        .technique-card:nth-child(3) { border-left-color: #FBBF24; }
+        .technique-card:nth-child(4) { border-left-color: #34D399; }
+        .technique-card:nth-child(5) { border-left-color: #60A5FA; }
+
+        .interactive-demo {
+            background: #1F2937;
+            color: #F9FAFB;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .demo-slider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #374151;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+
+        .demo-slider input[type="range"] {
+            width: 100px;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: #F1F5F9;
+            border: 2px solid #CBD5E1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: #EC4899;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header do Workshop -->
+        <div class="art-header">
+            <h1 style="font-size: 2.5em; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 2; position: relative;">
+                🎨 Generative Art com Processing
+            </h1>
+            <p style="font-size: 1.1em; opacity: 0.95; z-index: 2; position: relative;">
+                Matemática • Algoritmos • Criatividade • Arte Digital
+            </p>
+            <div style="margin-top: 20px; z-index: 2; position: relative;">
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">3 Horas</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">8-12 Participantes</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">Coding + Arte</span>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="padding: 0 40px 30px;">
+            <a href="../workshops.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Workshops
+            </a>
+        </div>
+
+        <!-- Introdução ao Processing -->
+        <div style="padding: 0 40px;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🎨</span>
+                <div>
+                    <div class="cicf-section-title">Processing: Código como Arte</div>
+                    <div class="cicf-section-subtitle">Linguagem criada para artistas e designers</div>
+                </div>
+            </div>
+            
+            <div style="background: #F7FAFC; padding: 25px; border-radius: 10px; border-left: 5px solid #EC4899; margin: 25px 0;">
+                <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                    <strong>Processing</strong> é uma linguagem de programação e ambiente de desenvolvimento criado especificamente 
+                    para a comunidade das artes eletrónicas, new media art, e design visual. Permite criar arte, animações e 
+                    interações complexas com código relativamente simples.
+                </p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">☕</div>
+                        <strong style="color: #EC4899;">Baseado em Java</strong><br>
+                        <small style="color: var(--text-medium);">Sintaxe familiar, performance sólida</small>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🖼️</div>
+                        <strong style="color: #EC4899;">Canvas Nativo</strong><br>
+                        <small style="color: var(--text-medium);">Desenho 2D e 3D integrado</small>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">⚡</div>
+                        <strong style="color: #EC4899;">Real-time</strong><br>
+                        <small style="color: var(--text-medium);">Animações e interações fluídas</small>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">📱</div>
+                        <strong style="color: #EC4899;">Export Múltiplos</strong><br>
+                        <small style="color: var(--text-medium);">PNG, PDF, SVG, Video</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conceitos Matemáticos -->
+        <div style="padding: 0 40px;">
+            
+            <!-- Conceito 1: Sinusoidais -->
+            <div class="math-concept">
+                <div class="math-content">
+                    <h3 style="margin: 0 0 15px 0; color: #5B21B6;">Ondas Sinusoidais: O Ritmo da Natureza</h3>
+                    <p style="margin: 0 0 15px 0; color: #6B21A8; line-height: 1.6;">
+                        As funções seno e coseno criam padrões ondulantes encontrados em toda a natureza: 
+                        ondas do mar, som, luz, até batimentos cardíacos. Em arte generativa, permitem movimento orgânico e fluído.
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-comment">// Onda sinusoidal básica</span>
+<span class="syntax-keyword">float</span> x = <span class="syntax-number">0</span>;
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">draw</span>() {
+  <span class="syntax-function">background</span>(<span class="syntax-number">20</span>);
+  
+  <span class="syntax-comment">// Desenhar onda</span>
+  <span class="syntax-keyword">for</span> (<span class="syntax-keyword">int</span> i = <span class="syntax-number">0</span>; i &lt; <span class="syntax-function">width</span>; i++) {
+    <span class="syntax-keyword">float</span> y = <span class="syntax-function">height</span>/<span class="syntax-number">2</span> + <span class="syntax-function">sin</span>((i + x) * <span class="syntax-number">0.02</span>) * <span class="syntax-number">100</span>;
+    <span class="syntax-function">stroke</span>(<span class="syntax-number">255</span>, <span class="syntax-number">100</span>, <span class="syntax-number">150</span>);
+    <span class="syntax-function">point</span>(i, y);
+  }
+  
+  x += <span class="syntax-number">2</span>; <span class="syntax-comment">// Animação</span>
+}
+                    </div>
+
+                    <div class="canvas-preview">
+                        <div style="width: 400px; height: 200px; background: #141414; border-radius: 8px; position: relative; overflow: hidden;">
+                            <svg width="400" height="200" style="position: absolute;">
+                                <path d="M 0 100 Q 50 50 100 100 T 200 100 T 300 100 T 400 100" 
+                                      stroke="#ff6496" stroke-width="2" fill="none">
+                                    <animate attributeName="d" 
+                                             values="M 0 100 Q 50 50 100 100 T 200 100 T 300 100 T 400 100;
+                                                     M 0 100 Q 50 150 100 100 T 200 100 T 300 100 T 400 100;
+                                                     M 0 100 Q 50 50 100 100 T 200 100 T 300 100 T 400 100" 
+                                             dur="2s" repeatCount="indefinite"/>
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conceito 2: Fractais -->
+            <div class="math-concept">
+                <div class="math-content">
+                    <h3 style="margin: 0 0 15px 0; color: #5B21B6;">Fractais: Infinito em Escala Finita</h3>
+                    <p style="margin: 0 0 15px 0; color: #6B21A8; line-height: 1.6;">
+                        Fractais são padrões que se repetem em diferentes escalas - como ramos de árvores, 
+                        raios, costas marítimas. Em código, criamos usando recursão e auto-similaridade.
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-comment">// Árvore fractal simples</span>
+<span class="syntax-keyword">void</span> <span class="syntax-function">setup</span>() {
+  <span class="syntax-function">size</span>(<span class="syntax-number">600</span>, <span class="syntax-number">400</span>);
+}
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">draw</span>() {
+  <span class="syntax-function">background</span>(<span class="syntax-number">20</span>, <span class="syntax-number">30</span>, <span class="syntax-number">40</span>);
+  <span class="syntax-function">stroke</span>(<span class="syntax-number">100</span>, <span class="syntax-number">255</span>, <span class="syntax-number">150</span>);
+  
+  <span class="syntax-comment">// Começar do centro inferior</span>
+  <span class="syntax-function">translate</span>(<span class="syntax-function">width</span>/<span class="syntax-number">2</span>, <span class="syntax-function">height</span>);
+  <span class="syntax-function">branch</span>(<span class="syntax-number">80</span>); <span class="syntax-comment">// Tronco inicial</span>
+}
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">branch</span>(<span class="syntax-keyword">float</span> len) {
+  <span class="syntax-function">line</span>(<span class="syntax-number">0</span>, <span class="syntax-number">0</span>, <span class="syntax-number">0</span>, -len);
+  <span class="syntax-function">translate</span>(<span class="syntax-number">0</span>, -len);
+  
+  <span class="syntax-keyword">if</span> (len > <span class="syntax-number">4</span>) {
+    <span class="syntax-comment">// Ramo esquerdo</span>
+    <span class="syntax-function">pushMatrix</span>();
+    <span class="syntax-function">rotate</span>(-<span class="syntax-function">PI</span>/<span class="syntax-number">6</span>);
+    <span class="syntax-function">branch</span>(len * <span class="syntax-number">0.67</span>);
+    <span class="syntax-function">popMatrix</span>();
+    
+    <span class="syntax-comment">// Ramo direito</span>
+    <span class="syntax-function">pushMatrix</span>();
+    <span class="syntax-function">rotate</span>(<span class="syntax-function">PI</span>/<span class="syntax-number">6</span>);
+    <span class="syntax-function">branch</span>(len * <span class="syntax-number">0.67</span>);
+    <span class="syntax-function">popMatrix</span>();
+  }
+}
+                    </div>
+
+                    <div class="canvas-preview">
+                        <div style="color: #64748B; font-size: 4em;">🌳</div>
+                        <p style="color: var(--text-medium); margin-top: 10px;">Árvore Fractal Recursiva</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conceito 3: Curvas de Bézier -->
+            <div class="math-concept">
+                <div class="math-content">
+                    <h3 style="margin: 0 0 15px 0; color: #5B21B6;">Curvas de Bézier: Elegância Matemática</h3>
+                    <p style="margin: 0 0 15px 0; color: #6B21A8; line-height: 1.6;">
+                        Inventadas por Pierre Bézier para design automotivo, estas curvas são definidas por pontos de controlo 
+                        e criam linhas suaves e orgânicas. São a base de fontes digitais e ilustração vetorial.
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-comment">// Curva Bézier interativa</span>
+<span class="syntax-keyword">void</span> <span class="syntax-function">draw</span>() {
+  <span class="syntax-function">background</span>(<span class="syntax-number">240</span>);
+  <span class="syntax-function">noFill</span>();
+  
+  <span class="syntax-comment">// Pontos de controlo</span>
+  <span class="syntax-keyword">float</span> x1 = <span class="syntax-number">100</span>, y1 = <span class="syntax-number">300</span>;
+  <span class="syntax-keyword">float</span> cx1 = <span class="syntax-function">mouseX</span>, cy1 = <span class="syntax-function">mouseY</span>;
+  <span class="syntax-keyword">float</span> cx2 = <span class="syntax-function">width</span> - <span class="syntax-function">mouseX</span>, cy2 = <span class="syntax-number">100</span>;
+  <span class="syntax-keyword">float</span> x2 = <span class="syntax-function">width</span> - <span class="syntax-number">100</span>, y2 = <span class="syntax-number">300</span>;
+  
+  <span class="syntax-comment">// Desenhar curva</span>
+  <span class="syntax-function">stroke</span>(<span class="syntax-number">255</span>, <span class="syntax-number">50</span>, <span class="syntax-number">120</span>);
+  <span class="syntax-function">strokeWeight</span>(<span class="syntax-number">3</span>);
+  <span class="syntax-function">bezier</span>(x1, y1, cx1, cy1, cx2, cy2, x2, y2);
+  
+  <span class="syntax-comment">// Mostrar pontos de controlo</span>
+  <span class="syntax-function">stroke</span>(<span class="syntax-number">100</span>);
+  <span class="syntax-function">strokeWeight</span>(<span class="syntax-number">1</span>);
+  <span class="syntax-function">line</span>(x1, y1, cx1, cy1);
+  <span class="syntax-function">line</span>(cx2, cy2, x2, y2);
+  
+  <span class="syntax-function">fill</span>(<span class="syntax-number">255</span>, <span class="syntax-number">100</span>, <span class="syntax-number">50</span>);
+  <span class="syntax-function">ellipse</span>(cx1, cy1, <span class="syntax-number">10</span>, <span class="syntax-number">10</span>);
+  <span class="syntax-function">ellipse</span>(cx2, cy2, <span class="syntax-number">10</span>, <span class="syntax-number">10</span>);
+}
+                    </div>
+
+                    <div class="canvas-preview">
+                        <div style="color: #EC4899; font-size: 4em;">〰️</div>
+                        <p style="color: var(--text-medium); margin-top: 10px;">Curva Bézier Cúbica Interativa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projetos Práticos -->
+        <div style="padding: 0 40px;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🚀</span>
+                <div>
+                    <div class="cicf-section-title">Projetos Práticos</div>
+                    <div class="cicf-section-subtitle">Do conceito à obra de arte</div>
+                </div>
+            </div>
+
+            <div class="technique-showcase">
+                
+                <!-- Projeto 1: Mandala Generativa -->
+                <div class="technique-card">
+                    <h4 style="color: #EC4899; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        🌸 Mandala Generativa
+                    </h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Combina rotações, simetrias e padrões matemáticos para criar mandalas únicas. 
+                        Usa coordenadas polares e transformações geométricas.
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-keyword">void</span> <span class="syntax-function">setup</span>() {
+  <span class="syntax-function">size</span>(<span class="syntax-number">400</span>, <span class="syntax-number">400</span>);
+}
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">draw</span>() {
+  <span class="syntax-function">background</span>(<span class="syntax-number">20</span>);
+  <span class="syntax-function">translate</span>(<span class="syntax-function">width</span>/<span class="syntax-number">2</span>, <span class="syntax-function">height</span>/<span class="syntax-number">2</span>);
+  
+  <span class="syntax-keyword">int</span> petals = <span class="syntax-number">12</span>;
+  <span class="syntax-keyword">for</span> (<span class="syntax-keyword">int</span> i = <span class="syntax-number">0</span>; i &lt; petals; i++) {
+    <span class="syntax-function">rotate</span>(<span class="syntax-function">TWO_PI</span> / petals);
+    <span class="syntax-function">drawPetal</span>();
+  }
+}
+                    </div>
+
+                    <div style="background: #FDF2F8; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <h5 style="color: #BE185D; margin-bottom: 8px;">🎯 Conceitos:</h5>
+                        <ul style="margin: 0; padding-left: 15px; color: #BE185D; font-size: 0.9em;">
+                            <li>Coordenadas polares (r, θ)</li>
+                            <li>Rotações e simetrias</li>
+                            <li>Loops aninhados</li>
+                            <li>HSB color space</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Projeto 2: Flow Fields -->
+                <div class="technique-card">
+                    <h4 style="color: #F472B6; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        🌊 Flow Fields
+                    </h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Simula partículas seguindo campos vetoriais invisíveis, criando padrões orgânicos 
+                        que lembram rios, cabelo ao vento, ou linhas magnéticas.
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-keyword">ArrayList</span>&lt;<span class="syntax-keyword">Particle</span>&gt; particles;
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">setup</span>() {
+  <span class="syntax-function">size</span>(<span class="syntax-number">600</span>, <span class="syntax-number">400</span>);
+  particles = <span class="syntax-keyword">new</span> <span class="syntax-keyword">ArrayList</span>&lt;<span class="syntax-keyword">Particle</span>&gt;();
+  
+  <span class="syntax-keyword">for</span> (<span class="syntax-keyword">int</span> i = <span class="syntax-number">0</span>; i &lt; <span class="syntax-number">1000</span>; i++) {
+    particles.<span class="syntax-function">add</span>(<span class="syntax-keyword">new</span> <span class="syntax-function">Particle</span>());
+  }
+}
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">draw</span>() {
+  <span class="syntax-function">background</span>(<span class="syntax-number">10</span>, <span class="syntax-number">10</span>);
+  
+  <span class="syntax-keyword">for</span> (<span class="syntax-keyword">Particle</span> p : particles) {
+    p.<span class="syntax-function">follow</span>(flowField);
+    p.<span class="syntax-function">update</span>();
+    p.<span class="syntax-function">show</span>();
+  }
+}
+                    </div>
+
+                    <div style="background: #FEF7FF; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <h5 style="color: #A21CAF; margin-bottom: 8px;">🎯 Conceitos:</h5>
+                        <ul style="margin: 0; padding-left: 15px; color: #A21CAF; font-size: 0.9em;">
+                            <li>Vetores e campos de força</li>
+                            <li>Noise de Perlin</li>
+                            <li>Sistemas de partículas</li>
+                            <li>Trails e motion blur</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Projeto 3: Cellular Automata -->
+                <div class="technique-card">
+                    <h4 style="color: #FBBF24; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        🔬 Cellular Automata
+                    </h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Regras simples aplicadas localmente geram padrões complexos globais. 
+                        Como Game of Life de Conway, mas com variações artísticas.
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-keyword">int</span>[][] grid;
+<span class="syntax-keyword">int</span>[][] nextGrid;
+<span class="syntax-keyword">int</span> cols, rows;
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">setup</span>() {
+  <span class="syntax-function">size</span>(<span class="syntax-number">400</span>, <span class="syntax-number">400</span>);
+  cols = <span class="syntax-function">width</span> / <span class="syntax-number">5</span>;
+  rows = <span class="syntax-function">height</span> / <span class="syntax-number">5</span>;
+  
+  grid = <span class="syntax-keyword">new</span> <span class="syntax-keyword">int</span>[cols][rows];
+  nextGrid = <span class="syntax-keyword">new</span> <span class="syntax-keyword">int</span>[cols][rows];
+  
+  <span class="syntax-comment">// Seed inicial aleatório</span>
+  randomSeed();
+}
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">draw</span>() {
+  <span class="syntax-function">background</span>(<span class="syntax-number">0</span>);
+  
+  <span class="syntax-comment">// Desenhar grid</span>
+  <span class="syntax-function">drawGrid</span>();
+  
+  <span class="syntax-comment">// Calcular próxima geração</span>
+  <span class="syntax-function">nextGeneration</span>();
+}
+                    </div>
+
+                    <div style="background: #FFFBEB; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <h5 style="color: #D97706; margin-bottom: 8px;">🎯 Conceitos:</h5>
+                        <ul style="margin: 0; padding-left: 15px; color: #D97706; font-size: 0.9em;">
+                            <li>Autômatos celulares</li>
+                            <li>Algoritmos de vizinhança</li>
+                            <li>Estados discretos</li>
+                            <li>Emergência de padrões</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Projeto 4: L-Systems -->
+                <div class="technique-card">
+                    <h4 style="color: #34D399; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        🌿 L-Systems
+                    </h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Sistemas de reescrita que modelam crescimento orgânico. 
+                        Uma string de símbolos evolui segundo regras, gerando plantas realistas.
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-keyword">String</span> axiom = <span class="syntax-string">"X"</span>;
+<span class="syntax-keyword">String</span> sentence = axiom;
+<span class="syntax-keyword">int</span> generations = <span class="syntax-number">5</span>;
+
+<span class="syntax-comment">// Regras: X → F+[[X]-X]-F[-FX]+X, F → FF</span>
+<span class="syntax-keyword">void</span> <span class="syntax-function">generate</span>() {
+  <span class="syntax-keyword">String</span> nextSentence = <span class="syntax-string">""</span>;
+  
+  <span class="syntax-keyword">for</span> (<span class="syntax-keyword">int</span> i = <span class="syntax-number">0</span>; i &lt; sentence.<span class="syntax-function">length</span>(); i++) {
+    <span class="syntax-keyword">char</span> current = sentence.<span class="syntax-function">charAt</span>(i);
+    
+    <span class="syntax-keyword">if</span> (current == <span class="syntax-string">'X'</span>) {
+      nextSentence += <span class="syntax-string">"F+[[X]-X]-F[-FX]+X"</span>;
+    } <span class="syntax-keyword">else</span> <span class="syntax-keyword">if</span> (current == <span class="syntax-string">'F'</span>) {
+      nextSentence += <span class="syntax-string">"FF"</span>;
+    } <span class="syntax-keyword">else</span> {
+      nextSentence += current;
+    }
+  }
+  
+  sentence = nextSentence;
+}
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">turtle</span>() {
+  <span class="syntax-comment">// Interpretar string como comandos turtle</span>
+  <span class="syntax-keyword">for</span> (<span class="syntax-keyword">char</span> c : sentence.<span class="syntax-function">toCharArray</span>()) {
+    <span class="syntax-comment">// F=forward, +=right, -=left, [=push, ]=pop</span>
+  }
+}
+                    </div>
+
+                    <div style="background: #F0FDF4; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <h5 style="color: #059669; margin-bottom: 8px;">🎯 Conceitos:</h5>
+                        <ul style="margin: 0; padding-left: 15px; color: #059669; font-size: 0.9em;">
+                            <li>Sistemas de reescrita</li>
+                            <li>Grammar-based generation</li>
+                            <li>Turtle graphics</li>
+                            <li>Stacks (push/pop)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Projeto 5: Perlin Noise Landscape -->
+                <div class="technique-card">
+                    <h4 style="color: #60A5FA; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        🏔️ Perlin Noise Landscape
+                    </h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Gera terrenos, nuvens, texturas orgânicas usando Perlin Noise. 
+                        Variações suaves e naturais, não o caos do random().
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-keyword">void</span> <span class="syntax-function">draw</span>() {
+  <span class="syntax-function">background</span>(<span class="syntax-number">135</span>, <span class="syntax-number">206</span>, <span class="syntax-number">235</span>); <span class="syntax-comment">// Céu azul</span>
+  
+  <span class="syntax-keyword">float</span> yoff = <span class="syntax-number">0</span>;
+  
+  <span class="syntax-comment">// Desenhar montanhas em camadas</span>
+  <span class="syntax-keyword">for</span> (<span class="syntax-keyword">int</span> y = <span class="syntax-number">200</span>; y &lt; <span class="syntax-function">height</span>; y += <span class="syntax-number">20</span>) {
+    <span class="syntax-function">beginShape</span>();
+    <span class="syntax-function">fill</span>(<span class="syntax-number">34</span>, <span class="syntax-number">139</span>, <span class="syntax-number">34</span>, <span class="syntax-number">150</span>);
+    
+    <span class="syntax-keyword">float</span> xoff = <span class="syntax-number">0</span>;
+    <span class="syntax-keyword">for</span> (<span class="syntax-keyword">int</span> x = <span class="syntax-number">0</span>; x &lt; <span class="syntax-function">width</span>; x += <span class="syntax-number">5</span>) {
+      <span class="syntax-keyword">float</span> mountainHeight = <span class="syntax-function">map</span>(<span class="syntax-function">noise</span>(xoff, yoff), <span class="syntax-number">0</span>, <span class="syntax-number">1</span>, <span class="syntax-number">0</span>, <span class="syntax-number">100</span>);
+      <span class="syntax-function">vertex</span>(x, y - mountainHeight);
+      xoff += <span class="syntax-number">0.01</span>;
+    }
+    
+    <span class="syntax-function">vertex</span>(<span class="syntax-function">width</span>, <span class="syntax-function">height</span>);
+    <span class="syntax-function">vertex</span>(<span class="syntax-number">0</span>, <span class="syntax-function">height</span>);
+    <span class="syntax-function">endShape</span>(<span class="syntax-function">CLOSE</span>);
+    
+    yoff += <span class="syntax-number">0.005</span>;
+  }
+}
+                    </div>
+
+                    <div style="background: #EFF6FF; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <h5 style="color: #1D4ED8; margin-bottom: 8px;">🎯 Conceitos:</h5>
+                        <ul style="margin: 0; padding-left: 15px; color: #1D4ED8; font-size: 0.9em;">
+                            <li>Perlin Noise</li>
+                            <li>Mapeamento de valores</li>
+                            <li>Layers e transparências</li>
+                            <li>Vertices e shapes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Projeto 6: Interactive Particle System -->
+                <div class="technique-card">
+                    <h4 style="color: #8B5CF6; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        ✨ Interactive Particles
+                    </h4>
+                    <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
+                        Sistema de partículas que responde ao rato, teclado ou som. 
+                        Física básica com atração, repulsão e dinâmicas emergentes.
+                    </p>
+                    
+                    <div class="code-editor">
+<span class="syntax-keyword">class</span> <span class="syntax-function">Particle</span> {
+  <span class="syntax-keyword">PVector</span> pos, vel, acc;
+  <span class="syntax-keyword">float</span> mass;
+  
+  <span class="syntax-function">Particle</span>(<span class="syntax-keyword">float</span> x, <span class="syntax-keyword">float</span> y) {
+    pos = <span class="syntax-keyword">new</span> <span class="syntax-function">PVector</span>(x, y);
+    vel = <span class="syntax-function">PVector</span>.<span class="syntax-function">random2D</span>();
+    acc = <span class="syntax-keyword">new</span> <span class="syntax-function">PVector</span>(<span class="syntax-number">0</span>, <span class="syntax-number">0</span>);
+    mass = <span class="syntax-function">random</span>(<span class="syntax-number">0.5</span>, <span class="syntax-number">2</span>);
+  }
+  
+  <span class="syntax-keyword">void</span> <span class="syntax-function">applyForce</span>(<span class="syntax-keyword">PVector</span> force) {
+    <span class="syntax-keyword">PVector</span> f = <span class="syntax-function">PVector</span>.<span class="syntax-function">div</span>(force, mass);
+    acc.<span class="syntax-function">add</span>(f);
+  }
+  
+  <span class="syntax-keyword">void</span> <span class="syntax-function">seek</span>(<span class="syntax-keyword">PVector</span> target) {
+    <span class="syntax-keyword">PVector</span> desired = <span class="syntax-function">PVector</span>.<span class="syntax-function">sub</span>(target, pos);
+    desired.<span class="syntax-function">normalize</span>();
+    desired.<span class="syntax-function">mult</span>(maxSpeed);
+    
+    <span class="syntax-keyword">PVector</span> steer = <span class="syntax-function">PVector</span>.<span class="syntax-function">sub</span>(desired, vel);
+    steer.<span class="syntax-function">limit</span>(maxForce);
+    
+    <span class="syntax-function">applyForce</span>(steer);
+  }
+}
+                    </div>
+
+                    <div style="background: #FAF5FF; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <h5 style="color: #7C3AED; margin-bottom: 8px;">🎯 Conceitos:</h5>
+                        <ul style="margin: 0; padding-left: 15px; color: #7C3AED; font-size: 0.9em;">
+                            <li>Vetores e física</li>
+                            <li>Steering behaviors</li>
+                            <li>Classes e objetos</li>
+                            <li>Mouse/keyboard input</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Demo Interativo -->
+        <div style="padding: 0 40px;">
+            <div class="interactive-demo">
+                <h3 style="margin-bottom: 20px; color: #F9FAFB; display: flex; align-items: center; gap: 10px;">
+                    🎮 Demo Interativo: Mandala em Tempo Real
+                </h3>
+                
+                <div class="demo-controls">
+                    <div class="demo-slider">
+                        <label>Pétalas:</label>
+                        <input type="range" min="3" max="24" value="12" id="petals">
+                        <span id="petalsValue">12</span>
+                    </div>
+                    
+                    <div class="demo-slider">
+                        <label>Raio:</label>
+                        <input type="range" min="20" max="150" value="80" id="radius">
+                        <span id="radiusValue">80</span>
+                    </div>
+                    
+                    <div class="demo-slider">
+                        <label>Rotação:</label>
+                        <input type="range" min="0" max="360" value="0" id="rotation">
+                        <span id="rotationValue">0°</span>
+                    </div>
+                    
+                    <div class="demo-slider">
+                        <label>Cor:</label>
+                        <input type="range" min="0" max="360" value="320" id="hue">
+                        <span id="hueValue">320°</span>
+                    </div>
+                </div>
+                
+                <div class="canvas-preview" style="background: #000; min-height: 400px;">
+                    <canvas id="mandalaCanvas" width="400" height="400" style="border-radius: 8px;"></canvas>
+                </div>
+                
+                <div style="margin-top: 15px; color: #9CA3AF; font-size: 0.9em; text-align: center;">
+                    💡 Ajusta os controlos acima para ver a mandala mudar em tempo real
+                </div>
+            </div>
+        </div>
+
+        <!-- Export e Partilha -->
+        <div style="padding: 0 40px;">
+            <div class="export-options">
+                <h3 style="margin: 0 0 15px 40px; color: #15803D;">Exportar as Tuas Criações</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4 style="color: #059669; margin: 0 0 8px 0;">🖼️ Imagens Estáticas</h4>
+                        <div class="code-editor" style="background: #F0FDF4; color: #166534; border-left-color: #22C55E;">
+<span class="syntax-comment">// Exportar PNG de alta resolução</span>
+<span class="syntax-keyword">void</span> <span class="syntax-function">keyPressed</span>() {
+  <span class="syntax-keyword">if</span> (key == <span class="syntax-string">'s'</span>) {
+    <span class="syntax-function">saveFrame</span>(<span class="syntax-string">"artwork-####.png"</span>);
+  }
+}
+
+<span class="syntax-comment">// Para impressão: 300 DPI</span>
+<span class="syntax-function">size</span>(<span class="syntax-number">3000</span>, <span class="syntax-number">3000</span>);
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #059669; margin: 0 0 8px 0;">🎬 Animações</h4>
+                        <div class="code-editor" style="background: #F0FDF4; color: #166534; border-left-color: #22C55E;">
+<span class="syntax-comment">// Série de frames para GIF/video</span>
+<span class="syntax-keyword">int</span> frameNum = <span class="syntax-number">0</span>;
+
+<span class="syntax-keyword">void</span> <span class="syntax-function">draw</span>() {
+  <span class="syntax-comment">// Teu código de animação</span>
+  
+  <span class="syntax-keyword">if</span> (frameNum &lt; <span class="syntax-number">120</span>) {
+    <span class="syntax-function">saveFrame</span>(<span class="syntax-string">"frame-###.png"</span>);
+    frameNum++;
+  }
+}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #059669; margin: 0 0 8px 0;">📱 Partilha Web</h4>
+                        <div class="code-editor" style="background: #F0FDF4; color: #166534; border-left-color: #22C55E;">
+<span class="syntax-comment">// p5.js para browser</span>
+<span class="syntax-comment">// OpenProcessing.org</span>
+<span class="syntax-comment">// GitHub Pages</span>
+
+<span class="syntax-comment">// Instagram-ready: 1080x1080</span>
+<span class="syntax-function">size</span>(<span class="syntax-number">1080</span>, <span class="syntax-number">1080</span>);
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Galeria de Inspiração -->
+        <div style="padding: 0 40px;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🎨</span>
+                <div>
+                    <div class="cicf-section-title">Galeria de Inspiração</div>
+                    <div class="cicf-section-subtitle">Artistas que usam código</div>
+                </div>
+            </div>
+
+            <div class="project-gallery">
+                <div class="gallery-item">🌸</div>
+                <div class="gallery-item">🌊</div>
+                <div class="gallery-item">🔬</div>
+                <div class="gallery-item">🌿</div>
+                <div class="gallery-item">🏔️</div>
+                <div class="gallery-item">✨</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 25px 0;">
+                <div style="text-align: center; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h4 style="color: #EC4899; margin-bottom: 10px;">Casey Reas</h4>
+                    <p style="color: var(--text-medium); font-size: 0.9em; margin: 0;">Co-criador do Processing. Pioneiro em software art e arte generativa.</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h4 style="color: #EC4899; margin-bottom: 10px;">Refik Anadol</h4>
+                    <p style="color: var(--text-medium); font-size: 0.9em; margin: 0;">Data sculptures e instalações com machine learning e arte generativa.</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h4 style="color: #EC4899; margin-bottom: 10px;">Manolo Gamboa</h4>
+                    <p style="color: var(--text-medium); font-size: 0.9em; margin: 0;">Artista português que combina algoritmos com arte tradicional.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recursos e Próximos Passos -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🚀</span>
+                <div>
+                    <div class="cicf-section-title">Recursos e Próximos Passos</div>
+                    <div class="cicf-section-subtitle">Continue a jornada criativa</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 25px 0;">
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #EC4899; margin-bottom: 15px;">🛠️ Ferramentas Essenciais</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Processing IDE:</strong> Download gratuito</li>
+                        <li><strong>p5.js Editor:</strong> Versão web browser</li>
+                        <li><strong>OpenProcessing:</strong> Comunidade online</li>
+                        <li><strong>GitHub:</strong> Controlo de versões</li>
+                        <li><strong>OBS Studio:</strong> Screen recording</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #EC4899; margin-bottom: 15px;">📚 Aprender Mais</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>"Generative Design"</strong> - Hartmut Bohnacker</li>
+                        <li><strong>"The Nature of Code"</strong> - Daniel Shiffman</li>
+                        <li><strong>Coding Train</strong> - YouTube channel</li>
+                        <li><strong>"Processing: A Handbook"</strong> - Casey Reas</li>
+                        <li><strong>CreativeApplications.net</strong> - Inspiração</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #EC4899; margin-bottom: 15px;">🎯 Desafios CICF</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Daily Sketches:</strong> Uma obra por dia</li>
+                        <li><strong>Math Art Challenge:</strong> Cada fórmula = arte</li>
+                        <li><strong>Interactive Stories:</strong> Arte que responde</li>
+                        <li><strong>Plotter Prints:</strong> Arte física digital</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Workshop Generative Art</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                Processing • Arte Generativa • Matemática Criativa • Janeiro 2026
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Workshop Generative Art - Portfolio" 
+                   style="color: var(--cicf-primary); text-decoration: none; margin-right: 20px;">
+                    🎨 Partilhar Criações
+                </a>
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Advanced Generative Art Workshop" 
+                   style="color: var(--cicf-primary); text-decoration: none;">
+                    🚀 Workshop Avançado
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Guia
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Demo Mandala Interativo
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('mandalaCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Controlos
+            const petalsSlider = document.getElementById('petals');
+            const radiusSlider = document.getElementById('radius');
+            const rotationSlider = document.getElementById('rotation');
+            const hueSlider = document.getElementById('hue');
+            
+            const petalsValue = document.getElementById('petalsValue');
+            const radiusValue = document.getElementById('radiusValue');
+            const rotationValue = document.getElementById('rotationValue');
+            const hueValue = document.getElementById('hueValue');
+            
+            function updateMandala() {
+                const petals = parseInt(petalsSlider.value);
+                const radius = parseInt(radiusSlider.value);
+                const rotation = parseInt(rotationSlider.value) * Math.PI / 180;
+                const hue = parseInt(hueSlider.value);
+                
+                // Atualizar valores mostrados
+                petalsValue.textContent = petals;
+                radiusValue.textContent = radius;
+                rotationValue.textContent = rotationSlider.value + '°';
+                hueValue.textContent = hueSlider.value + '°';
+                
+                // Limpar canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Desenhar mandala
+                ctx.save();
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.rotate(rotation);
+                
+                for (let i = 0; i < petals; i++) {
+                    ctx.save();
+                    ctx.rotate((Math.PI * 2 / petals) * i);
+                    
+                    // Gradiente de cor
+                    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, radius);
+                    gradient.addColorStop(0, `hsl(${hue}, 70%, 60%)`);
+                    gradient.addColorStop(1, `hsl(${(hue + 60) % 360}, 70%, 30%)`);
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.ellipse(0, -radius/2, radius/4, radius/2, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.restore();
+                }
+                
+                ctx.restore();
+            }
+            
+            // Event listeners
+            petalsSlider.addEventListener('input', updateMandala);
+            radiusSlider.addEventListener('input', updateMandala);
+            rotationSlider.addEventListener('input', updateMandala);
+            hueSlider.addEventListener('input', updateMandala);
+            
+            // Desenhar mandala inicial
+            updateMandala();
+        });
+
+        // Animação das técnicas conforme scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const techniques = document.querySelectorAll('.technique-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            techniques.forEach(technique => {
+                technique.style.opacity = '0';
+                technique.style.transform = 'translateY(30px)';
+                technique.style.transition = 'all 0.6s ease';
+                observer.observe(technique);
+            });
+        });
+    </script>
+</body>
+</html>

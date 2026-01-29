@@ -226,6 +226,32 @@
             color: rgba(255,255,255,0.9);
         }
 
+        /* New Badge Styles */
+        .circuit-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #FF5722;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 700;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(255,87,34,0.3);
+        }
+
+        .new-badge {
+            background: linear-gradient(45deg, #FF5722, #FF9800);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         @media (max-width: 768px) {
             .circuits-grid {
                 grid-template-columns: 1fr;
@@ -254,11 +280,11 @@
 
         <div class="circuits-grid">
             
-            <!-- Circuito Destaque: Escola de Circuitos -->
-            <div class="circuit-card featured-circuit" onclick="window.location.href='escola-circuitos/circuitos.html'">
+            <!-- Circuito Destaque: Planeador de Circuitos -->
+            <div class="circuit-card featured-circuit" onclick="window.location.href='planeador/planeador.html'">
                 <div class="circuit-header">
-                    <span class="circuit-icon">🏫</span>
-                    <h3 class="circuit-title">Escola de Circuitos</h3>
+                    <span class="circuit-icon">🎯</span>
+                    <h3 class="circuit-title">Planeador de Circuitos</h3>
                 </div>
                 
                 <div class="circuit-meta">
@@ -314,7 +340,7 @@
                 </div>
 
                 <button class="circuit-cta" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white;">
-                    🏫 Explorar Escola de Circuitos
+                    🎯 Usar Planeador de Circuitos
                 </button>
             </div>
 
@@ -565,7 +591,7 @@
             </div>
 
             <!-- Circuito 5: Robótica Básica -->
-            <div class="circuit-card" onclick="window.location.href='robotica-basica/index.html'">
+            <div class="circuit-card" onclick="window.location.href='robotica-iniciantes/robotica.html'">
                 <div class="circuit-header">
                     <span class="circuit-icon">🤖</span>
                     <h3 class="circuit-title">Robótica para Iniciantes</h3>
@@ -613,7 +639,7 @@
             </div>
 
             <!-- Circuito 6: Música Digital -->
-            <div class="circuit-card" onclick="window.location.href='musica-digital/index.html'">
+            <div class="circuit-card" onclick="window.location.href='musica-digital-codigo/musica.html'">
                 <div class="circuit-header">
                     <span class="circuit-icon">🎵</span>
                     <h3 class="circuit-title">Música Digital & Códigos</h3>
@@ -660,6 +686,67 @@
                 </button>
             </div>
 
+            <!-- Circuito 7: Antótipos com Curcuma -->
+            <div class="circuit-card featured-circuit" onclick="window.location.href='antotipos-curcuma/antotipos.html'">
+                <div class="circuit-header">
+                    <span class="circuit-icon">🌟</span>
+                    <div class="circuit-badge new-badge">NOVO!</div>
+                    <h3 class="circuit-title">Antótipos com Curcuma</h3>
+                </div>
+                
+                <div class="circuit-meta">
+                    <span class="meta-badge age-12-plus">12+ anos</span>
+                    <span class="meta-badge duration-badge">2h</span>
+                    <span class="meta-badge group-badge">8-16 pax</span>
+                    <span class="meta-badge difficulty-badge">Intermédio</span>
+                </div>
+
+                <p class="circuit-description">
+                    Físico-química aplicada na arte! Cria fotografias permanentes usando pigmentos naturais, 
+                    explora reações UV e técnicas fotográficas históricas.
+                </p>
+
+                <div class="circuit-journey">
+                    <h4>⚗️ Processo Científico:</h4>
+                    <div class="journey-step">
+                        <span class="step-number">1</span>
+                        <span class="step-description">Química dos pigmentos naturais</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">2</span>
+                        <span class="step-description">Preparação emulsão fotossensível</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">3</span>
+                        <span class="step-description">Exposição UV e fotólise</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">4</span>
+                        <span class="step-description">Análise comparativa pigmentos</span>
+                    </div>
+                    <div class="journey-step">
+                        <span class="step-number">5</span>
+                        <span class="step-description">Revelação da imagem</span>
+                    </div>
+                </div>
+
+                <div class="circuit-skills">
+                    <h4>🎯 Competências:</h4>
+                    <div class="skills-grid">
+                        <div class="skill-item">⚗️ Reações fotoquímicas</div>
+                        <div class="skill-item">🧪 Técnicas laboratoriais</div>
+                        <div class="skill-item">🔬 Método científico</div>
+                        <div class="skill-item">📷 Fotografia alternativa</div>
+                        <div class="skill-item">🌿 Química verde</div>
+                        <div class="skill-item">📊 Análise de dados</div>
+                    </div>
+                </div>
+
+                <button class="circuit-cta">
+                    🧪 Explorar Química
+                </button>
+            </div>
+
 
         </div>
 
@@ -672,6 +759,15 @@
                     <div class="cicf-section-subtitle">Agenda a tua visita guiada ao CICF</div>
                 </div>
             </div>
+
+            <!-- Planificador de Circuitos - DESTAQUE -->
+            <div style="background: linear-gradient(135deg, var(--cicf-primary), var(--cicf-secondary)); padding: 25px; border-radius: 12px; color: white; text-align: center; margin-bottom: 30px;">
+                <h3 style="font-size: 1.5em; margin-bottom: 10px;">🎯 Planificador de Circuitos</h3>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Ferramenta interativa para escolas e famílias personalizarem a sua visita</p>
+                <a href="../../planeador-visita-cicf.html" class="cicf-btn" style="background: white; color: var(--cicf-primary); text-decoration: none; font-weight: 600; padding: 12px 25px;">
+                    🚀 Usar Planeador
+                </a>
+            </div>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 20px 0;">
                 <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
@@ -679,7 +775,7 @@
                     <p style="color: var(--text-medium); margin-bottom: 15px; line-height: 1.6;">
                         Circuitos adaptados ao currículo escolar com materiais de apoio para professores.
                     </p>
-                    <a href="/cdn-cgi/l/email-protection#a9cac087cac8dbc5c6dacfc0c6c5c1c8c0dae9cac484c4c8c0c887d9dd96dadccbc3cccadd94eac0dbcadcc0ddc689ecdacac6c5c8db89eae0eaef" class="cicf-btn cicf-btn-primary" style="text-decoration: none;">
+                    <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Agendamento Grupos Escolares" class="cicf-btn cicf-btn-primary" style="text-decoration: none;">
                         📚 Agendar Escola
                     </a>
                 </div>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Circuito: Robótica para Iniciantes | CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        .circuit-header {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6, #EC4899);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .circuit-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: robotMove 6s infinite;
+        }
+        
+        @keyframes robotMove {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #6366F1;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .module-icon {
+            background: #6366F1;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-right: 20px;
+        }
+
+        .module-title {
+            color: #6366F1;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .module-duration {
+            color: var(--text-medium);
+            font-size: 0.9em;
+        }
+
+        .learning-objectives {
+            background: #F0F9FF;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #0EA5E9;
+            margin: 15px 0;
+        }
+
+        .hands-on-project {
+            background: #F0FDF4;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #22C55E;
+            margin: 15px 0;
+        }
+
+        .hardware-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .hardware-item {
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #E2E8F0;
+            transition: all 0.3s ease;
+        }
+
+        .hardware-item:hover {
+            border-color: #6366F1;
+            transform: scale(1.02);
+        }
+
+        .progression-path {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .progression-step {
+            background: white;
+            border: 3px solid #E5E7EB;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            position: relative;
+            margin: 10px;
+        }
+
+        .progression-step.active {
+            border-color: #6366F1;
+            background: #6366F1;
+            color: white;
+        }
+
+        .progression-step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -25px;
+            width: 30px;
+            height: 3px;
+            background: #E5E7EB;
+            z-index: -1;
+        }
+
+        .progression-step:last-child::after {
+            display: none;
+        }
+
+        .progression-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            color: var(--text-medium);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header do Circuito -->
+        <div class="circuit-header">
+            <h1 style="font-size: 2.5em; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 2; position: relative;">
+                🤖 Circuito: Robótica para Iniciantes
+            </h1>
+            <p style="font-size: 1.1em; opacity: 0.95; z-index: 2; position: relative;">
+                Arduino • Sensores • Atuadores • Programação Visual
+            </p>
+            <div style="margin-top: 20px; z-index: 2; position: relative;">
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">6 Módulos</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">12-18 Horas</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 15px; margin: 0 5px;">Iniciante</span>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="padding: 0 40px 30px;">
+            <a href="../circuitos.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Circuitos
+            </a>
+        </div>
+
+        <!-- Visão Geral -->
+        <div style="background: #F7FAFC; padding: 25px 40px; margin: 0 40px 30px; border-radius: 10px; border-left: 5px solid #6366F1;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🎯</span>
+                <div>
+                    <div class="cicf-section-title">Visão Geral do Circuito</div>
+                    <div class="cicf-section-subtitle">Do conceito ao robô funcional</div>
+                </div>
+            </div>
+            
+            <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 20px;">
+                Este circuito introduz os conceitos fundamentais da robótica através de projetos práticos e progressivos. 
+                Os participantes começam com componentes simples e evoluem para criar robôs funcionais que interagem com o ambiente.
+            </p>
+
+            <div class="hardware-showcase">
+                <div class="hardware-item">
+                    <div style="font-size: 3em; margin-bottom: 10px;">🔧</div>
+                    <h4 style="color: #6366F1; margin-bottom: 8px;">Arduino Uno</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">Microcontrolador central para todos os projetos</p>
+                </div>
+                <div class="hardware-item">
+                    <div style="font-size: 3em; margin-bottom: 10px;">👁️</div>
+                    <h4 style="color: #6366F1; margin-bottom: 8px;">Sensores</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">Ultrassom, luz, temperatura, movimento</p>
+                </div>
+                <div class="hardware-item">
+                    <div style="font-size: 3em; margin-bottom: 10px;">⚙️</div>
+                    <h4 style="color: #6366F1; margin-bottom: 8px;">Atuadores</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">Servos, motores DC, LEDs, buzzer</p>
+                </div>
+                <div class="hardware-item">
+                    <div style="font-size: 3em; margin-bottom: 10px;">🔌</div>
+                    <h4 style="color: #6366F1; margin-bottom: 8px;">Conectividade</h4>
+                    <p style="color: var(--text-medium); margin: 0; font-size: 0.9em;">Breadboard, jumpers, shield motor</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progressão do Circuito -->
+        <div style="padding: 0 40px;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🚀</span>
+                <div>
+                    <div class="cicf-section-title">Progressão do Circuito</div>
+                    <div class="cicf-section-subtitle">Construção incremental de competências</div>
+                </div>
+            </div>
+
+            <div class="progression-path">
+                <div class="progression-step active">
+                    💡
+                    <div class="progression-label">Conceitos</div>
+                </div>
+                <div class="progression-step">
+                    🔧
+                    <div class="progression-label">Montagem</div>
+                </div>
+                <div class="progression-step">
+                    💻
+                    <div class="progression-label">Programação</div>
+                </div>
+                <div class="progression-step">
+                    🤖
+                    <div class="progression-label">Robô Básico</div>
+                </div>
+                <div class="progression-step">
+                    🧠
+                    <div class="progression-label">Inteligência</div>
+                </div>
+                <div class="progression-step">
+                    🏆
+                    <div class="progression-label">Projeto Final</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Módulos do Circuito -->
+        <div style="padding: 0 40px;">
+            
+            <!-- Módulo 1 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">1</div>
+                    <div>
+                        <h3 class="module-title">Introdução à Robótica</h3>
+                        <p class="module-duration">⏱️ 2 horas | 🎯 Conceitos fundamentais</p>
+                    </div>
+                </div>
+
+                <div class="learning-objectives">
+                    <h4 style="color: #0EA5E9; margin-bottom: 15px;">🎓 Objetivos de Aprendizagem</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #0369A1; line-height: 1.8;">
+                        <li>Compreender o que é um robô e os seus componentes principais</li>
+                        <li>Distinguir entre sensores, processadores e atuadores</li>
+                        <li>Conhecer a história da robótica e aplicações atuais</li>
+                        <li>Identificar robôs no quotidiano (aspiradores, carros autônomos, etc.)</li>
+                    </ul>
+                </div>
+
+                <h4 style="color: #6366F1; margin: 20px 0 10px;">📋 Conteúdo</h4>
+                <ul style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>Teoria:</strong> Definição de robô, Lei de Asimov, tipos de robôs</li>
+                    <li><strong>Demonstrações:</strong> Vídeos de robôs industriais, domésticos, exploração</li>
+                    <li><strong>Componentes:</strong> Análise de um robô simples (sensor + processador + atuador)</li>
+                    <li><strong>Discussão:</strong> Ética em robótica, futuro da automação</li>
+                </ul>
+
+                <div class="hands-on-project">
+                    <h4 style="color: #16A34A; margin-bottom: 10px;">🔬 Atividade Prática</h4>
+                    <p style="color: #15803D; margin: 0;">
+                        <strong>Desmontagem Guiada:</strong> Examinar um brinquedo robótico simples, 
+                        identificar componentes internos e compreender o fluxo de informação.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Módulo 2 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">2</div>
+                    <div>
+                        <h3 class="module-title">Arduino e Programação Básica</h3>
+                        <p class="module-duration">⏱️ 2.5 horas | 🎯 Setup e primeiros programas</p>
+                    </div>
+                </div>
+
+                <div class="learning-objectives">
+                    <h4 style="color: #0EA5E9; margin-bottom: 15px;">🎓 Objetivos de Aprendizagem</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #0369A1; line-height: 1.8;">
+                        <li>Configurar o ambiente de desenvolvimento Arduino IDE</li>
+                        <li>Compreender a estrutura básica de um programa (setup + loop)</li>
+                        <li>Usar funções básicas: digitalWrite, delay, Serial.print</li>
+                        <li>Controlar LEDs e ler botões</li>
+                    </ul>
+                </div>
+
+                <h4 style="color: #6366F1; margin: 20px 0 10px;">📋 Conteúdo</h4>
+                <ul style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>Hardware:</strong> Anatomia do Arduino Uno, pinos digitais/analógicos</li>
+                    <li><strong>Software:</strong> Instalação IDE, bibliotecas, upload de código</li>
+                    <li><strong>Primeiro programa:</strong> Blink LED (Hello World da robótica)</li>
+                    <li><strong>Debugging:</strong> Monitor série, resolução de problemas comuns</li>
+                </ul>
+
+                <div class="hands-on-project">
+                    <h4 style="color: #16A34A; margin-bottom: 10px;">🔬 Projetos Práticos</h4>
+                    <div style="color: #15803D;">
+                        <p style="margin: 0 0 8px;"><strong>1. LED Piscante:</strong> Controlar frequência de piscadela</p>
+                        <p style="margin: 0 0 8px;"><strong>2. Semáforo:</strong> Simular ciclo completo vermelho-amarelo-verde</p>
+                        <p style="margin: 0;"><strong>3. Botão Interativo:</strong> LED que acende quando se pressiona botão</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 3 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">3</div>
+                    <div>
+                        <h3 class="module-title">Sensores e Perceção</h3>
+                        <p class="module-duration">⏱️ 2 horas | 🎯 Como os robôs "veem" o mundo</p>
+                    </div>
+                </div>
+
+                <div class="learning-objectives">
+                    <h4 style="color: #0EA5E9; margin-bottom: 15px;">🎓 Objetivos de Aprendizagem</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #0369A1; line-height: 1.8;">
+                        <li>Compreender diferentes tipos de sensores e suas aplicações</li>
+                        <li>Usar sensor ultrassónico para medir distâncias</li>
+                        <li>Implementar sensor de luz (LDR) para deteção de luminosidade</li>
+                        <li>Integrar múltiplos sensores num projeto</li>
+                    </ul>
+                </div>
+
+                <h4 style="color: #6366F1; margin: 20px 0 10px;">📋 Conteúdo</h4>
+                <ul style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>Tipos de sensores:</strong> Táteis, visuais, proximidade, ambiente</li>
+                    <li><strong>Sensor HC-SR04:</strong> Funcionamento ultrassónico, precisão, limitações</li>
+                    <li><strong>Sensor LDR:</strong> Resistência variável, divisor de tensão</li>
+                    <li><strong>Calibração:</strong> Mapear valores analógicos para unidades reais</li>
+                </ul>
+
+                <div class="hands-on-project">
+                    <h4 style="color: #16A34A; margin-bottom: 10px;">🔬 Projetos Práticos</h4>
+                    <div style="color: #15803D;">
+                        <p style="margin: 0 0 8px;"><strong>1. Medidor de Distância:</strong> Display no monitor série</p>
+                        <p style="margin: 0 0 8px;"><strong>2. Luz Automática:</strong> LED que acende automaticamente no escuro</p>
+                        <p style="margin: 0;"><strong>3. Alarme de Proximidade:</strong> Buzzer + LED quando objeto se aproxima</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 4 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">4</div>
+                    <div>
+                        <h3 class="module-title">Movimento e Motores</h3>
+                        <p class="module-duration">⏱️ 2.5 horas | 🎯 Como os robôs se movem</p>
+                    </div>
+                </div>
+
+                <div class="learning-objectives">
+                    <h4 style="color: #0EA5E9; margin-bottom: 15px;">🎓 Objetivos de Aprendizagem</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #0369A1; line-height: 1.8;">
+                        <li>Distinguir entre servo motor, motor DC e motor passo</li>
+                        <li>Controlar servos com precisão angular</li>
+                        <li>Usar motor shield para controlar motores DC</li>
+                        <li>Implementar movimento direcionado (frente, trás, esquerda, direita)</li>
+                    </ul>
+                </div>
+
+                <h4 style="color: #6366F1; margin: 20px 0 10px;">📋 Conteúdo</h4>
+                <ul style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>Servo SG90:</strong> Controlo de posição, biblioteca Servo</li>
+                    <li><strong>Motor DC:</strong> Controlo de velocidade (PWM), direção (H-bridge)</li>
+                    <li><strong>Motor Shield L298N:</strong> Conexões, alimentação, proteções</li>
+                    <li><strong>Chassis robótico:</strong> Montagem mecânica, balanceamento</li>
+                </ul>
+
+                <div class="hands-on-project">
+                    <h4 style="color: #16A34A; margin-bottom: 10px;">🔬 Projetos Práticos</h4>
+                    <div style="color: #15803D;">
+                        <p style="margin: 0 0 8px;"><strong>1. Servo Scanner:</strong> Movimento 180° automático</p>
+                        <p style="margin: 0 0 8px;"><strong>2. Carro Controlado:</strong> Movimento básico em todas as direções</p>
+                        <p style="margin: 0;"><strong>3. Robô Seguidor de Linha:</strong> Sensores infravermelhos + motores</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 5 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">5</div>
+                    <div>
+                        <h3 class="module-title">Comportamentos Inteligentes</h3>
+                        <p class="module-duration">⏱️ 2 horas | 🎯 Algoritmos de decisão</p>
+                    </div>
+                </div>
+
+                <div class="learning-objectives">
+                    <h4 style="color: #0EA5E9; margin-bottom: 15px;">🎓 Objetivos de Aprendizagem</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #0369A1; line-height: 1.8;">
+                        <li>Implementar algoritmos de decisão (if-else, switch-case)</li>
+                        <li>Criar comportamentos emergentes com regras simples</li>
+                        <li>Usar máquinas de estado para comportamentos complexos</li>
+                        <li>Desenvolver algoritmos de evitar obstáculos</li>
+                    </ul>
+                </div>
+
+                <h4 style="color: #6366F1; margin: 20px 0 10px;">📋 Conteúdo</h4>
+                <ul style="color: var(--text-medium); line-height: 1.8;">
+                    <li><strong>Algoritmos básicos:</strong> Evitar obstáculos, seguir parede</li>
+                    <li><strong>Máquinas de estado:</strong> Estados finitos, transições</li>
+                    <li><strong>Comportamentos emergentes:</strong> Regras simples → comportamentos complexos</li>
+                    <li><strong>Subsumption Architecture:</strong> Layered intelligence (Rodney Brooks)</li>
+                </ul>
+
+                <div class="hands-on-project">
+                    <h4 style="color: #16A34A; margin-bottom: 10px;">🔬 Projetos Práticos</h4>
+                    <div style="color: #15803D;">
+                        <p style="margin: 0 0 8px;"><strong>1. Explorador:</strong> Movimento aleatório que evita obstáculos</p>
+                        <p style="margin: 0 0 8px;"><strong>2. Pet Robot:</strong> Estados feliz/triste baseado em sensores</p>
+                        <p style="margin: 0;"><strong>3. Seguidor de Objetos:</strong> Perseguir movimento detetado</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 6 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">6</div>
+                    <div>
+                        <h3 class="module-title">Projeto Final: Robô Autônomo</h3>
+                        <p class="module-duration">⏱️ 3 horas | 🎯 Integração completa</p>
+                    </div>
+                </div>
+
+                <div class="learning-objectives">
+                    <h4 style="color: #0EA5E9; margin-bottom: 15px;">🎓 Objetivos de Aprendizagem</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #0369A1; line-height: 1.8;">
+                        <li>Integrar todos os conceitos aprendidos num projeto completo</li>
+                        <li>Planear e implementar um robô com missão específica</li>
+                        <li>Documentar o processo de design e desenvolvimento</li>
+                        <li>Apresentar e demonstrar o projeto funcional</li>
+                    </ul>
+                </div>
+
+                <h4 style="color: #6366F1; margin: 20px 0 10px;">🚀 Opções de Projeto Final</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <div style="background: #F0F9FF; padding: 20px; border-radius: 10px; border-left: 4px solid #0EA5E9;">
+                        <h4 style="color: #0369A1; margin-bottom: 10px;">🎯 Robô de Limpeza</h4>
+                        <p style="color: #0C4A6E; margin: 0; font-size: 0.9em;">
+                            Movimento automático que evita obstáculos e "aspirador" simulado com LED/buzzer
+                        </p>
+                    </div>
+                    <div style="background: #F0FDF4; padding: 20px; border-radius: 10px; border-left: 4px solid #22C55E;">
+                        <h4 style="color: #15803D; margin-bottom: 10px;">🕵️ Robô Detetive</h4>
+                        <p style="color: #14532D; margin: 0; font-size: 0.9em;">
+                            Patrulha área, deteta movimento/luz e aciona alerta sonoro/visual
+                        </p>
+                    </div>
+                    <div style="background: #FEF3C7; padding: 20px; border-radius: 10px; border-left: 4px solid #F59E0B;">
+                        <h4 style="color: #92400E; margin-bottom: 10px;">🐕 Robô de Companhia</h4>
+                        <p style="color: #78350F; margin: 0; font-size: 0.9em;">
+                            Segue pessoas, reage a proximidade, simula "humor" com LEDs
+                        </p>
+                    </div>
+                </div>
+
+                <div class="hands-on-project" style="margin-top: 25px;">
+                    <h4 style="color: #16A34A; margin-bottom: 10px;">📋 Entregáveis do Projeto</h4>
+                    <ul style="color: #15803D; margin: 0; padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Robô funcional</strong> que cumpre os requisitos definidos</li>
+                        <li><strong>Código comentado</strong> explicando a lógica implementada</li>
+                        <li><strong>Vídeo demonstração</strong> (2 minutos) do robô em funcionamento</li>
+                        <li><strong>Apresentação final</strong> (5 minutos) explicando escolhas técnicas</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Recursos e Certificação -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🏆</span>
+                <div>
+                    <div class="cicf-section-title">Certificação e Próximos Passos</div>
+                    <div class="cicf-section-subtitle">Continue a jornada robótica</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 25px 0;">
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #6366F1; margin-bottom: 15px;">📜 Certificação CICF</h4>
+                    <div style="background: #F0F9FF; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <p style="color: #1E40AF; margin: 0; font-size: 0.9em;">
+                            <strong>Critérios:</strong><br>
+                            • Completar todos os 6 módulos<br>
+                            • Projeto final funcional e documentado<br>
+                            • Apresentação técnica aprovada<br>
+                            • Participação ativa em 80%+ das sessões
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #6366F1; margin-bottom: 15px;">🚀 Circuitos Avançados</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Robótica Avançada:</strong> ROS, visão computacional</li>
+                        <li><strong>IoT Robotics:</strong> Conectividade e controlo remoto</li>
+                        <li><strong>AI Robotics:</strong> Machine learning aplicado</li>
+                        <li><strong>Competições:</strong> RoboCup Jr, FIRST LEGO League</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: #6366F1; margin-bottom: 15px;">🛠️ Kit Robótica CICF</h4>
+                    <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                        Kit completo disponível para participantes certificados:
+                    </p>
+                    <div style="background: #F0FDF4; padding: 12px; border-radius: 6px;">
+                        <small style="color: #15803D;">
+                            ✅ Arduino Uno + cabo USB<br>
+                            ✅ Sensores (HC-SR04, LDR, PIR)<br>
+                            ✅ Motores (Servo + DC)<br>
+                            ✅ Componentes eletrónicos essenciais<br>
+                            ✅ Chassis robótico personalizável
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Circuito Robótica para Iniciantes</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                Arduino • Sensores • Atuadores • Projeto Final • Janeiro 2026
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Inscrição Robótica Iniciantes" 
+                   style="color: var(--cicf-primary); text-decoration: none; margin-right: 20px;">
+                    🤖 Inscrever-me
+                </a>
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Kit Robótica CICF" 
+                   style="color: var(--cicf-primary); text-decoration: none;">
+                    🛠️ Adquirir Kit
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Programa
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Animação das etapas conforme scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const modules = document.querySelectorAll('.module-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            modules.forEach(module => {
+                module.style.opacity = '0';
+                module.style.transform = 'translateY(30px)';
+                module.style.transition = 'all 0.6s ease';
+                observer.observe(module);
+            });
+        });
+    </script>
+</body>
+</html>

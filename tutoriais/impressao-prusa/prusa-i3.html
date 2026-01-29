@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🖨️ Tutorial: Impressão 3D Prusa i3 MK3s | CICF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../cicf-design-system.css">
+    <style>
+        /* Estilos específicos para tutorial Prusa */
+        .tutorial-header {
+            background: linear-gradient(135deg, #FF6B35, #F7931E, #FFD23F);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tutorial-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: prusaShimmer 8s infinite;
+        }
+        
+        @keyframes prusaShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .tutorial-title {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 2;
+            position: relative;
+        }
+        
+        .tutorial-subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            z-index: 2;
+            position: relative;
+        }
+
+        .prusa-badge {
+            background: #FF6B35;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+
+        .safety-alert {
+            background: linear-gradient(135deg, #FFE5E5, #FFCCCC);
+            border: 2px solid #FF6B6B;
+            color: #C92A2A;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .safety-alert::before {
+            content: '⚠️';
+            font-size: 1.8em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .safety-content {
+            margin-left: 50px;
+        }
+
+        .temp-display {
+            background: #2C3E50;
+            color: #ECF0F1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            text-align: center;
+            margin: 15px 0;
+            border-left: 4px solid #FF6B35;
+        }
+
+        .material-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .material-card {
+            background: #F8F9FA;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #FF6B35;
+            text-align: center;
+        }
+
+        .step-container {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .step-container:hover {
+            border-color: #FF6B35;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .step-number {
+            background: #FF6B35;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            position: absolute;
+            top: -10px;
+            left: 25px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .step-content {
+            margin-left: 60px;
+            margin-top: 15px;
+        }
+        
+        .step-title {
+            color: #FF6B35;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .checklist {
+            background: #F0FFF4;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #68D391;
+            margin: 15px 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: var(--text-medium);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .pro-tip {
+            background: linear-gradient(135deg, #E6F3FF, #CCE7FF);
+            border: 2px solid #4A90E2;
+            color: #1A365D;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .pro-tip::before {
+            content: '💡';
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        .troubleshooting {
+            background: #FFF8E1;
+            border: 2px solid #FFB74D;
+            color: #E65100;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        
+        <!-- Header do Tutorial -->
+        <div class="tutorial-header">
+            <h1 class="tutorial-title">🖨️ Impressão 3D: Prusa i3 MK3s</h1>
+            <p class="tutorial-subtitle">Guia completo do setup à impressão final</p>
+            <div style="margin-top: 20px;">
+                <span class="prusa-badge">Original Prusa MK3s</span>
+                <span class="prusa-badge">PrusaSlicer</span>
+                <span class="prusa-badge">PLA/PETG/ABS</span>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="padding: 0 40px 30px;">
+            <a href="../tutoriais.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar aos Tutoriais
+            </a>
+        </div>
+
+        <!-- Informações Gerais -->
+        <div style="background: #F7FAFC; padding: 20px 40px; margin: 0 40px 30px; border-radius: 10px; border-left: 5px solid #FF6B35;">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">📋</span>
+                <div>
+                    <div class="cicf-section-title">Sobre Este Tutorial</div>
+                    <div class="cicf-section-subtitle">Impressora Prusa i3 MK3s do CICF</div>
+                </div>
+            </div>
+            
+            <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                A <strong>Prusa i3 MK3s</strong> é uma das melhores impressoras 3D do mundo, com qualidade profissional 
+                e facilidade de uso. Este tutorial cobre todo o processo, desde a preparação inicial até à impressão final.
+            </p>
+            
+            <div class="material-specs">
+                <div class="material-card">
+                    <h4 style="color: #FF6B35; margin-bottom: 10px;">⏱️ Tempo</h4>
+                    <p style="margin: 0; color: var(--text-medium);">30-90min<br><small>Dependendo da complexidade</small></p>
+                </div>
+                <div class="material-card">
+                    <h4 style="color: #FF6B35; margin-bottom: 10px;">🌡️ Temperaturas</h4>
+                    <p style="margin: 0; color: var(--text-medium);">PLA: 215°C/60°C<br><small>Nozzle/Bed</small></p>
+                </div>
+                <div class="material-card">
+                    <h4 style="color: #FF6B35; margin-bottom: 10px;">📏 Área</h4>
+                    <p style="margin: 0; color: var(--text-medium);">250×210×210mm<br><small>Volume de impressão</small></p>
+                </div>
+                <div class="material-card">
+                    <h4 style="color: #FF6B35; margin-bottom: 10px;">🎯 Precisão</h4>
+                    <p style="margin: 0; color: var(--text-medium);">±0.1mm<br><small>Resolução típica</small></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segurança -->
+        <div class="safety-alert">
+            <div class="safety-content">
+                <h3 style="margin: 0 0 10px 0;">Segurança em Primeiro Lugar</h3>
+                <ul style="margin: 0; padding-left: 20px;">
+                    <li><strong>Superfícies quentes:</strong> Nozzle e cama aquecida atingem 200°C+</li>
+                    <li><strong>Partes móveis:</strong> Mantém distância das correias e motores</li>
+                    <li><strong>Ventilação:</strong> Imprime em área bem ventilada (especialmente ABS)</li>
+                    <li><strong>Supervisão:</strong> Nunca deixes a impressora sozinha em impressões longas</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Passo 1: Verificações Iniciais -->
+        <div class="step-container">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h2 class="step-title">Verificações Iniciais</h2>
+                
+                <p style="color: var(--text-medium); margin-bottom: 20px;">
+                    Antes de começar, verifica se a impressora está pronta e em condições de funcionar.
+                </p>
+
+                <div class="checklist">
+                    <h4 style="color: #22543D; margin-bottom: 15px;">✅ Lista de Verificação</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check1">
+                        <label for="check1">Impressora ligada e écran ativo</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2">
+                        <label for="check2">Cama de impressão limpa e sem restos</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check3">
+                        <label for="check3">Nozzle desobstruído (sem filamento antigo)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check4">
+                        <label for="check4">Correias tensionadas correctamente</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check5">
+                        <label for="check5">SD card inserido ou ligação USB ativa</label>
+                    </div>
+                </div>
+
+                <div class="pro-tip">
+                    <strong>Dica Pro:</strong> Se a impressora não foi usada há mais de uma semana, 
+                    executa o "Self Test" no menu para verificar todos os componentes.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 2: Preparar o Ficheiro -->
+        <div class="step-container">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h2 class="step-title">Preparar o Ficheiro (Slicing)</h2>
+                
+                <p style="color: var(--text-medium); margin-bottom: 20px;">
+                    O PrusaSlicer converte o teu modelo 3D em instruções que a impressora consegue entender.
+                </p>
+
+                <ol style="line-height: 1.8; color: var(--text-medium);">
+                    <li><strong>Abre o PrusaSlicer</strong> no computador CICF</li>
+                    <li><strong>Carrega o modelo:</strong> File → Import → Seleciona o ficheiro .STL/.OBJ</li>
+                    <li><strong>Posiciona o objeto:</strong> Clique direito → "Place on face" se necessário</li>
+                    <li><strong>Seleciona configurações:</strong></li>
+                </ol>
+
+                <div class="material-specs">
+                    <div class="material-card">
+                        <h4 style="color: #FF6B35;">🧵 Material</h4>
+                        <select style="width: 100%; padding: 8px; margin-top: 8px;">
+                            <option>Generic PLA</option>
+                            <option>Prusament PLA</option>
+                            <option>PETG</option>
+                            <option>ABS</option>
+                        </select>
+                    </div>
+                    <div class="material-card">
+                        <h4 style="color: #FF6B35;">📊 Qualidade</h4>
+                        <select style="width: 100%; padding: 8px; margin-top: 8px;">
+                            <option>0.20mm QUALITY</option>
+                            <option>0.15mm QUALITY</option>
+                            <option>0.30mm DRAFT</option>
+                        </select>
+                    </div>
+                    <div class="material-card">
+                        <h4 style="color: #FF6B35;">🏗️ Suportes</h4>
+                        <select style="width: 100%; padding: 8px; margin-top: 8px;">
+                            <option>Nenhum</option>
+                            <option>Suportes</option>
+                            <option>Suportes + Brim</option>
+                        </select>
+                    </div>
+                    <div class="material-card">
+                        <h4 style="color: #FF6B35;">🧱 Preenchimento</h4>
+                        <select style="width: 100%; padding: 8px; margin-top: 8px;">
+                            <option>15% - Protótipos</option>
+                            <option>20% - Padrão</option>
+                            <option>40% - Resistente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <p style="margin: 15px 0;"><strong>5. Clica "Slice now"</strong> para gerar o G-code</p>
+                <p style="margin: 15px 0;"><strong>6. Guarda para SD card</strong> ou envia via USB</p>
+
+                <div class="pro-tip">
+                    <strong>Configurações Recomendadas CICF:</strong> Para a maioria dos projetos, usa 
+                    PLA a 0.20mm com 20% de preenchimento. Para detalhes finos, usa 0.15mm.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 3: Carregar Filamento -->
+        <div class="step-container">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h2 class="step-title">Carregar o Filamento</h2>
+                
+                <p style="color: var(--text-medium); margin-bottom: 20px;">
+                    Processo para carregar filamento novo ou trocar material.
+                </p>
+
+                <div class="temp-display">
+                    AQUECIMENTO: Nozzle 215°C | Cama 60°C
+                </div>
+
+                <ol style="line-height: 1.8; color: var(--text-medium);">
+                    <li><strong>Menu da Prusa:</strong> Settings → Temperature → Nozzle → 215°C</li>
+                    <li><strong>Aguarda aquecimento</strong> (2-3 minutos)</li>
+                    <li><strong>Descarrega filamento antigo:</strong> Settings → Filament → Unload</li>
+                    <li><strong>Corta a ponta</strong> do filamento novo em ângulo de 45°</li>
+                    <li><strong>Insere o filamento:</strong> Settings → Filament → Load filament</li>
+                    <li><strong>Empurra suavemente</strong> até sentir resistência</li>
+                    <li><strong>Aguarda extrusão</strong> de filamento limpo</li>
+                    <li><strong>Confirma a cor</strong> que sai é a correta</li>
+                </ol>
+
+                <div class="troubleshooting">
+                    <strong>🔧 Problema Comum:</strong> Se o filamento não entra, verifica se não está 
+                    enrolado ou se a ponta não está muito arredondada. Usa o alicate para cortar uma nova ponta.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 4: Nivelar a Cama -->
+        <div class="step-container">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h2 class="step-title">Nivelar a Cama</h2>
+                
+                <p style="color: var(--text-medium); margin-bottom: 20px;">
+                    O nivelamento automático da Prusa facilita muito, mas é importante verificar.
+                </p>
+
+                <ol style="line-height: 1.8; color: var(--text-medium);">
+                    <li><strong>Limpa a cama</strong> com álcool isopropílico</li>
+                    <li><strong>Menu da Prusa:</strong> Calibration → Mesh Bed Leveling</li>
+                    <li><strong>Aguarda o processo</strong> (toca 9 pontos automaticamente)</li>
+                    <li><strong>Ajusta Z-offset se necessário:</strong> Calibration → Live Adjust Z</li>
+                    <li><strong>Teste:</strong> A primeira camada deve aderir bem, sem estar muito alta nem baixa</li>
+                </ol>
+
+                <div class="material-specs">
+                    <div class="material-card">
+                        <h4 style="color: #FF6B35;">✅ Perfeito</h4>
+                        <p style="margin: 0; color: var(--text-medium); font-size: 0.9em;">
+                            Filamento adere bem, superfície lisa e uniforme
+                        </p>
+                    </div>
+                    <div class="material-card">
+                        <h4 style="color: #E53E3E;">❌ Muito Alto</h4>
+                        <p style="margin: 0; color: var(--text-medium); font-size: 0.9em;">
+                            Filamento não adere, linhas separadas
+                        </p>
+                    </div>
+                    <div class="material-card">
+                        <h4 style="color: #E53E3E;">❌ Muito Baixo</h4>
+                        <p style="margin: 0; color: var(--text-medium); font-size: 0.9em;">
+                            Filamento esmagado, nozzle arranha a cama
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pro-tip">
+                    <strong>Live Adjust Z:</strong> Durante a primeira camada, podes ajustar o Z em tempo real. 
+                    Valores negativos aproximam o nozzle da cama.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 5: Iniciar Impressão -->
+        <div class="step-container">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h2 class="step-title">Iniciar a Impressão</h2>
+                
+                <p style="color: var(--text-medium); margin-bottom: 20px;">
+                    Com tudo preparado, é hora de começar a impressão.
+                </p>
+
+                <ol style="line-height: 1.8; color: var(--text-medium);">
+                    <li><strong>Seleciona o ficheiro:</strong> Print → From SD card → Escolhe o teu G-code</li>
+                    <li><strong>Confirma as configurações</strong> apresentadas no écran</li>
+                    <li><strong>Clica "Print"</strong> para começar</li>
+                    <li><strong>Observa a primeira camada</strong> (crítica para o sucesso)</li>
+                    <li><strong>Ajusta se necessário</strong> usando Live Adjust Z</li>
+                </ol>
+
+                <div class="temp-display">
+                    IMPRESSÃO ATIVA<br>
+                    Camada: 12/156 | Tempo restante: 2h34m<br>
+                    Nozzle: 215°C | Cama: 60°C
+                </div>
+
+                <div class="checklist">
+                    <h4 style="color: #22543D; margin-bottom: 15px;">🎯 Primeiros 10 Minutos</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="print1">
+                        <label for="print1">Primeira camada adere bem em toda a superfície</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="print2">
+                        <label for="print2">Sem warping ou levantamento das bordas</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="print3">
+                        <label for="print3">Extrusão consistente (sem gaps ou over-extrusion)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="print4">
+                        <label for="print4">Som da impressora normal (sem ruídos estranhos)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 6: Monitorização -->
+        <div class="step-container">
+            <div class="step-number">6</div>
+            <div class="step-content">
+                <h2 class="step-title">Monitorização da Impressão</h2>
+                
+                <p style="color: var(--text-medium); margin-bottom: 20px;">
+                    Uma boa monitorização evita falhas e desperdício de material.
+                </p>
+
+                <div class="material-specs">
+                    <div class="material-card">
+                        <h4 style="color: #FF6B35;">👀 Verificações</h4>
+                        <ul style="margin: 10px 0 0 15px; font-size: 0.9em;">
+                            <li>A cada 30 min nas primeiras 2h</li>
+                            <li>A cada hora após estabilizar</li>
+                            <li>Sempre antes de sair</li>
+                        </ul>
+                    </div>
+                    <div class="material-card">
+                        <h4 style="color: #FF6B35;">🚨 Sinais de Alerta</h4>
+                        <ul style="margin: 10px 0 0 15px; font-size: 0.9em;">
+                            <li>Warping ou descolamento</li>
+                            <li>Stringing excessivo</li>
+                            <li>Camadas desalinhadas</li>
+                        </ul>
+                    </div>
+                    <div class="material-card">
+                        <h4 style="color: #FF6B35;">📱 Controlo Remoto</h4>
+                        <ul style="margin: 10px 0 0 15px; font-size: 0.9em;">
+                            <li>PrusaLink (se configurado)</li>
+                            <li>Webcam para monitorização</li>
+                            <li>Notificações de conclusão</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pro-tip">
+                    <strong>Regra de Ouro:</strong> Se algo parece estar mal nas primeiras camadas, 
+                    é melhor parar e recomeçar. Poupar 10 minutos pode evitar horas de impressão falhada.
+                </div>
+            </div>
+        </div>
+
+        <!-- Passo 7: Finalização -->
+        <div class="step-container">
+            <div class="step-number">7</div>
+            <div class="step-content">
+                <h2 class="step-title">Finalização e Remoção</h2>
+                
+                <p style="color: var(--text-medium); margin-bottom: 20px;">
+                    Processo para remover a peça com segurança e preparar para a próxima impressão.
+                </p>
+
+                <ol style="line-height: 1.8; color: var(--text-medium);">
+                    <li><strong>Aguarda arrefecer:</strong> Deixa a cama arrefecer até temperatura ambiente</li>
+                    <li><strong>Flexiona a chapa de aço:</strong> Remove cuidadosamente da cama</li>
+                    <li><strong>Descola a peça:</strong> Usa a espátula incluída, nunca força</li>
+                    <li><strong>Remove suportes</strong> se existirem, com alicate</li>
+                    <li><strong>Limpa a chapa</strong> com álcool isopropílico</li>
+                    <li><strong>Recoloca a chapa</strong> na cama magnética</li>
+                </ol>
+
+                <div class="safety-alert" style="margin: 20px 0;">
+                    <div class="safety-content">
+                        <h4 style="margin: 0 0 10px 0;">⚠️ Cuidados na Remoção</h4>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Nunca tentes remover peças com a cama ainda quente</li>
+                            <li>Flexiona a chapa suavemente, sem dobrar em excesso</li>
+                            <li>Se a peça não sai facilmente, arrefece mais tempo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pro-tip">
+                    <strong>Para impressões em PETG:</strong> Aguarda sempre arrefecer completamente. 
+                    O PETG pode danificar a superfície PEI se removido quente.
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="cicf-highlight-section">
+            <div class="cicf-section-header">
+                <span class="cicf-icon">🔧</span>
+                <div>
+                    <div class="cicf-section-title">Resolução de Problemas</div>
+                    <div class="cicf-section-subtitle">Soluções para problemas comuns</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 4px solid #E53E3E;">
+                    <h4 style="color: #E53E3E; margin-bottom: 15px;">🚫 Primeira camada não adere</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li>Limpa a cama com álcool</li>
+                        <li>Baixa o Z-offset (mais negativo)</li>
+                        <li>Aumenta temperatura da cama</li>
+                        <li>Usa Brim ou Raft</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 4px solid #FFA726;">
+                    <h4 style="color: #FFA726; margin-bottom: 15px;">🕷️ Stringing (fios entre peças)</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li>Baixa temperatura (5-10°C)</li>
+                        <li>Aumenta retraction distance</li>
+                        <li>Aumenta travel speed</li>
+                        <li>Ativa Z-hop</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 4px solid #42A5F5;">
+                    <h4 style="color: #42A5F5; margin-bottom: 15px;">📐 Warping (empenamento)</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li>Usa Brim ou Raft</li>
+                        <li>Aumenta temperatura da cama</li>
+                        <li>Fecha portas/janelas (evita correntes)</li>
+                        <li>Para ABS: considera enclosure</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 4px solid #66BB6A;">
+                    <h4 style="color: #66BB6A; margin-bottom: 15px;">🔇 Impressora muito barulhenta</h4>
+                    <ul style="color: var(--text-medium); line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li>Verifica se está numa superfície estável</li>
+                        <li>Aperta todos os parafusos</li>
+                        <li>Lubrifica os eixos (óleo 3-em-1)</li>
+                        <li>Baixa speeds de impressão</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recursos Adicionais -->
+        <div class="cicf-grid">
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">🔗</span>
+                    <div>
+                        <div class="cicf-section-title">Recursos Online</div>
+                        <div class="cicf-section-subtitle">Links úteis</div>
+                    </div>
+                </div>
+                
+                <ul style="line-height: 1.8; color: var(--text-medium);">
+                    <li><a href="https://help.prusa3d.com/" style="color: #FF6B35; text-decoration: none;" target="_blank">Prusa Knowledge Base</a></li>
+                    <li><a href="https://www.prusa3d.com/category/original-prusa-i3/" style="color: #FF6B35; text-decoration: none;" target="_blank">Manual da MK3s</a></li>
+                    <li><a href="https://forum.prusa3d.com/" style="color: #FF6B35; text-decoration: none;" target="_blank">Prusa Community Forum</a></li>
+                    <li><a href="https://www.prusaslicer.org/" style="color: #FF6B35; text-decoration: none;" target="_blank">PrusaSlicer Download</a></li>
+                </ul>
+            </div>
+
+            <div class="cicf-section">
+                <div class="cicf-section-header">
+                    <span class="cicf-icon">📧</span>
+                    <div>
+                        <div class="cicf-section-title">Suporte CICF</div>
+                        <div class="cicf-section-subtitle">Precisa de ajuda?</div>
+                    </div>
+                </div>
+                
+                <p style="color: var(--text-medium); line-height: 1.6; margin-bottom: 15px;">
+                    Se tiveres problemas com a Prusa ou precisas de orientação:
+                </p>
+                
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Ajuda Prusa i3 MK3s" 
+                   class="cicf-btn cicf-btn-primary" 
+                   style="text-decoration: none; width: 100%; display: block; text-align: center;">
+                    🖨️ Contactar Equipa CICF
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Tutorial Prusa i3 MK3s</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                Impressão 3D • Fabricação Digital • Janeiro 2026
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Feedback Tutorial Prusa" 
+                   style="color: var(--cicf-primary); text-decoration: none; margin-right: 20px;">
+                    💌 Feedback Tutorial
+                </a>
+                <a href="https://help.prusa3d.com/" style="color: var(--cicf-primary); text-decoration: none;" target="_blank">
+                    📚 Mais Recursos Prusa
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Guia
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Animação dos passos conforme scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const steps = document.querySelectorAll('.step-container');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            steps.forEach(step => {
+                step.style.opacity = '0';
+                step.style.transform = 'translateY(30px)';
+                step.style.transition = 'all 0.6s ease';
+                observer.observe(step);
+            });
+        });
+    </script>
+</body>
+</html>

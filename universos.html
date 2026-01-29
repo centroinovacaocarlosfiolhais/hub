@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 Universos CICF | Oficinas & Clubes 2025/2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cicf-design-system.css">
+    <style>
+        :root {
+            --universe-code: #5DADE2;
+            --universe-bot: #F39C12;
+            --universe-voice: #EC7063;
+            --universe-make: #95A5A6;
+            --universe-play: #9B59B6;
+            --universe-green: #52BE80;
+            --universe-link: #F4D03F;
+        }
+
+        .universes-header {
+            background: linear-gradient(135deg, var(--cicf-primary) 0%, var(--cicf-secondary) 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .universes-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: galaxySwirl 8s linear infinite;
+        }
+
+        @keyframes galaxySwirl {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .universes-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .universes-header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            z-index: 2;
+            position: relative;
+        }
+
+        .inscription-bar {
+            background: linear-gradient(135deg, #E67E22, #D35400);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .inscription-text {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .inscription-btn {
+            background: white;
+            color: #E67E22;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .inscription-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .universes-nav {
+            display: flex;
+            overflow-x: auto;
+            background: white;
+            border-bottom: 3px solid var(--bg-light);
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .universe-tab {
+            flex: 1;
+            min-width: 140px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 5px solid transparent;
+            font-weight: 700;
+            font-size: 0.95em;
+            position: relative;
+        }
+
+        .universe-tab:hover {
+            background: rgba(0,0,0,0.03);
+            transform: translateY(-2px);
+        }
+
+        .universe-tab.active {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .universe-tab.code { color: var(--universe-code); }
+        .universe-tab.code.active { border-bottom-color: var(--universe-code); }
+        
+        .universe-tab.bot { color: var(--universe-bot); }
+        .universe-tab.bot.active { border-bottom-color: var(--universe-bot); }
+        
+        .universe-tab.voice { color: var(--universe-voice); }
+        .universe-tab.voice.active { border-bottom-color: var(--universe-voice); }
+        
+        .universe-tab.make { color: var(--universe-make); }
+        .universe-tab.make.active { border-bottom-color: var(--universe-make); }
+        
+        .universe-tab.play { color: var(--universe-play); }
+        .universe-tab.play.active { border-bottom-color: var(--universe-play); }
+        
+        .universe-tab.green { color: var(--universe-green); }
+        .universe-tab.green.active { border-bottom-color: var(--universe-green); }
+        
+        .universe-tab.link { color: #c5a500; }
+        .universe-tab.link.active { border-bottom-color: var(--universe-link); }
+
+        .universe-icon {
+            font-size: 2em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .content-area {
+            padding: 40px;
+        }
+
+        .universe-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .universe-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .universe-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .universe-header.code { background: linear-gradient(135deg, rgba(93, 173, 226, 0.1), rgba(93, 173, 226, 0.2)); }
+        .universe-header.bot { background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.2)); }
+        .universe-header.voice { background: linear-gradient(135deg, rgba(236, 112, 99, 0.1), rgba(236, 112, 99, 0.2)); }
+        .universe-header.make { background: linear-gradient(135deg, rgba(149, 165, 166, 0.1), rgba(149, 165, 166, 0.2)); }
+        .universe-header.play { background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(155, 89, 182, 0.2)); }
+        .universe-header.green { background: linear-gradient(135deg, rgba(82, 190, 128, 0.1), rgba(82, 190, 128, 0.2)); }
+        .universe-header.link { background: linear-gradient(135deg, rgba(244, 208, 63, 0.1), rgba(244, 208, 63, 0.2)); }
+
+        .universe-header-icon {
+            font-size: 4em;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .universe-header-info h2 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .universe-header-info p {
+            font-size: 1.2em;
+            color: var(--text-medium);
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid;
+            position: relative;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .activity-card.code { border-top-color: var(--universe-code); }
+        .activity-card.bot { border-top-color: var(--universe-bot); }
+        .activity-card.voice { border-top-color: var(--universe-voice); }
+        .activity-card.make { border-top-color: var(--universe-make); }
+        .activity-card.play { border-top-color: var(--universe-play); }
+        .activity-card.green { border-top-color: var(--universe-green); }
+        .activity-card.link { border-top-color: var(--universe-link); }
+
+        .activity-status {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .status-active {
+            background: #D4EDDA;
+            color: #155724;
+        }
+
+        .status-soon {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        .activity-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .activity-card p {
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .activity-schedule {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .schedule-icon {
+            font-size: 1.5em;
+        }
+
+        .activity-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: var(--text-medium);
+        }
+
+        .detail-icon {
+            font-size: 1.2em;
+            width: 20px;
+        }
+
+        .activity-cta {
+            background: var(--cicf-primary);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .activity-cta:hover {
+            background: var(--cicf-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .activity-cta.disabled {
+            opacity: 0.7;
+            pointer-events: none;
+            background: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .universes-header {
+                padding: 25px 20px;
+            }
+
+            .universes-header h1 {
+                font-size: 2em;
+            }
+
+            .inscription-bar {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .activities-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px 40px;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .universes-nav {
+                padding: 0 10px;
+            }
+
+            .universe-tab {
+                min-width: 100px;
+                padding: 15px 10px;
+                font-size: 0.85em;
+            }
+
+            .universe-icon {
+                font-size: 1.5em;
+            }
+
+            .universe-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .universe-header-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 3em;
+            }
+
+            .universe-header-info h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cicf-container">
+        <!-- Header -->
+        <div class="universes-header">
+            <h1>🌍 Universos CICF</h1>
+            <p>Explora os 7 Universos e descobre o teu próximo projeto!</p>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="padding: 30px 40px 0;">
+            <a href="index.html" class="cicf-btn cicf-btn-outline" style="text-decoration: none; display: inline-flex;">
+                ← Voltar ao Hub CICF
+            </a>
+        </div>
+
+        <!-- Barra de Inscrição -->
+        <div class="inscription-bar">
+            <div class="inscription-text">💫 Inscrições abertas! Junta-te à comunidade CICF</div>
+            <a href="https://forms.office.com/INSCRICAO-GERAL" class="inscription-btn" target="_blank">
+                ✍️ Inscrever-me Agora
+            </a>
+        </div>
+
+        <!-- Navegação dos Universos -->
+        <nav class="universes-nav">
+            <div class="universe-tab code active" onclick="showUniverse('code')">
+                <span class="universe-icon">💻</span>
+                CODE
+            </div>
+            <div class="universe-tab bot" onclick="showUniverse('bot')">
+                <span class="universe-icon">🤖</span>
+                BOT
+            </div>
+            <div class="universe-tab voice" onclick="showUniverse('voice')">
+                <span class="universe-icon">🎙️</span>
+                VOICE
+            </div>
+            <div class="universe-tab make" onclick="showUniverse('make')">
+                <span class="universe-icon">🔧</span>
+                MAKE
+            </div>
+            <div class="universe-tab play" onclick="showUniverse('play')">
+                <span class="universe-icon">🎮</span>
+                PLAY
+            </div>
+            <div class="universe-tab green" onclick="showUniverse('green')">
+                <span class="universe-icon">🌱</span>
+                GREEN
+            </div>
+            <div class="universe-tab link" onclick="showUniverse('link')">
+                <span class="universe-icon">❤️</span>
+                LINK
+            </div>
+        </nav>
+
+        <!-- Área de Conteúdo -->
+        <div class="content-area">
+            <!-- CODE UNIVERSE -->
+            <div id="code" class="universe-content active">
+                <div class="universe-header code">
+                    <div class="universe-header-icon" style="color: var(--universe-code);">💻</div>
+                    <div class="universe-header-info">
+                        <h2 style="color: var(--universe-code);">CODE</h2>
+                        <p>Programação e Inteligência Artificial</p>
+                    </div>
+                </div>
+
+                <div class="activities-grid">
+                    <div class="activity-card code">
+                        <span class="activity-status status-active">✨ ATIVO</span>
+                        <h3>Vibe Coding</h3>
+                        <p>Utiliza Inteligência Artificial para reforçar conceitos fundamentais de programação. Explora ferramentas de IA e cria aplicações MVP.</p>
+                        
+                        <div class="activity-schedule">
+                            <span class="schedule-icon">📅</span>
+                            <span>3ªs feiras | 16h00-18h00</span>
+                        </div>
+
+                        <div class="activity-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span>12-18 anos | Máx. 20 participantes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span>Maia</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span>Out 2025 - Jun 2026</span>
+                            </div>
+                        </div>
+
+                        <a href="https://forms.office.com/VIBE-CODING" class="activity-cta" target="_blank">
+                            ✍️ Inscrever nesta Oficina
+                        </a>
+                    </div>
+
+                    <div class="activity-card code">
+                        <span class="activity-status status-active">✨ ATIVO</span>
+                        <h3>Criadores do Futuro</h3>
+                        <p>Minecraft Education para desenvolver competências de programação e resolução criativa de problemas através de projetos colaborativos.</p>
+                        
+                        <div class="activity-schedule">
+                            <span class="schedule-icon">📅</span>
+                            <span>4ªs feiras | 14h00-16h00</span>
+                        </div>
+
+                        <div class="activity-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span>12-18 anos | Máx. 20 participantes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span>Maia</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span>Out 2025 - Jun 2026</span>
+                            </div>
+                        </div>
+
+                        <a href="https://forms.office.com/CRIADORES-FUTURO" class="activity-cta" target="_blank">
+                            ✍️ Inscrever nesta Oficina
+                        </a>
+                    </div>
+
+                    <div class="activity-card code">
+                        <span class="activity-status status-active">✨ ATIVO</span>
+                        <h3>Clube de Código</h3>
+                        <p>Movimento global para ensinar programação de forma lúdica. Explora diferentes tecnologias e linguagens, desenvolve projetos práticos.</p>
+                        
+                        <div class="activity-schedule">
+                            <span class="schedule-icon">📅</span>
+                            <span>Sábados | 10h00-12h00</span>
+                        </div>
+
+                        <div class="activity-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span>9-18 anos | Máx. 20 participantes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span>Valongo + Maia</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span>Out 2025 - Mai 2026</span>
+                            </div>
+                        </div>
+
+                        <a href="https://forms.office.com/CLUBE-CODIGO" class="activity-cta" target="_blank">
+                            ✍️ Inscrever nesta Oficina
+                        </a>
+                    </div>
+
+                    <div class="activity-card code">
+                        <span class="activity-status status-soon">⏳ EM BREVE</span>
+                        <h3>Ethical Hacking</h3>
+                        <p>Aprende segurança digital e ethical hacking. Explora vulnerabilidades, proteção de sistemas e cibersegurança de forma ética.</p>
+                        
+                        <div class="activity-schedule">
+                            <span class="schedule-icon">📅</span>
+                            <span>Horário a definir | 2026</span>
+                        </div>
+
+                        <div class="activity-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span>14-18 anos | Inscrições em breve</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span>Maia</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span>2026</span>
+                            </div>
+                        </div>
+
+                        <a href="#" class="activity-cta disabled">
+                            🔔 Notificar-me quando abrir
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOT UNIVERSE -->
+            <div id="bot" class="universe-content">
+                <div class="universe-header bot">
+                    <div class="universe-header-icon" style="color: var(--universe-bot);">🤖</div>
+                    <div class="universe-header-info">
+                        <h2 style="color: var(--universe-bot);">BOT</h2>
+                        <p>Robótica e Automação</p>
+                    </div>
+                </div>
+
+                <div class="activities-grid">
+                    <div class="activity-card bot">
+                        <span class="activity-status status-active">✨ ATIVO</span>
+                        <h3>Robótica Educativa</h3>
+                        <p>Constrói e programa robots usando LEGO Mindstorms e Arduino. Desenvolve competências de engenharia e pensamento computacional.</p>
+                        
+                        <div class="activity-schedule">
+                            <span class="schedule-icon">📅</span>
+                            <span>5ªs feiras | 16h00-18h00</span>
+                        </div>
+
+                        <div class="activity-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span>10-16 anos | Máx. 16 participantes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span>Maia + Valongo</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span>Out 2025 - Jun 2026</span>
+                            </div>
+                        </div>
+
+                        <a href="https://forms.office.com/ROBOTICA" class="activity-cta" target="_blank">
+                            ✍️ Inscrever nesta Oficina
+                        </a>
+                    </div>
+
+                    <div class="activity-card bot">
+                        <span class="activity-status status-soon">⏳ EM BREVE</span>
+                        <h3>Drones & AI</h3>
+                        <p>Programação de drones autônomos com inteligência artificial. Navegação, reconhecimento de objetos e missões automatizadas.</p>
+                        
+                        <div class="activity-schedule">
+                            <span class="schedule-icon">📅</span>
+                            <span>Horário a definir | 2026</span>
+                        </div>
+
+                        <div class="activity-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span>14-18 anos | Inscrições em breve</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span>Maia</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span>2026</span>
+                            </div>
+                        </div>
+
+                        <a href="#" class="activity-cta disabled">
+                            🔔 Notificar-me quando abrir
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Os outros universos seguem o mesmo padrão - adicionarei só um exemplo mais -->
+            
+            <!-- VOICE UNIVERSE -->
+            <div id="voice" class="universe-content">
+                <div class="universe-header voice">
+                    <div class="universe-header-icon" style="color: var(--universe-voice);">🎙️</div>
+                    <div class="universe-header-info">
+                        <h2 style="color: var(--universe-voice);">VOICE</h2>
+                        <p>Áudio, Voz e Comunicação Digital</p>
+                    </div>
+                </div>
+
+                <div class="activities-grid">
+                    <div class="activity-card voice">
+                        <span class="activity-status status-active">✨ ATIVO</span>
+                        <h3>Podcast Academy</h3>
+                        <p>Cria o teu próprio podcast! Aprende gravação, edição de áudio, storytelling e distribuição digital através de projetos práticos.</p>
+                        
+                        <div class="activity-schedule">
+                            <span class="schedule-icon">📅</span>
+                            <span>6ªs feiras | 16h00-18h00</span>
+                        </div>
+
+                        <div class="activity-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span>12-18 anos | Máx. 12 participantes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span>Maia</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span>Nov 2025 - Jun 2026</span>
+                            </div>
+                        </div>
+
+                        <a href="https://forms.office.com/PODCAST" class="activity-cta" target="_blank">
+                            ✍️ Inscrever nesta Oficina
+                        </a>
+                    </div>
+
+                    <div class="activity-card voice">
+                        <span class="activity-status status-soon">⏳ EM BREVE</span>
+                        <h3>Music Production</h3>
+                        <p>Produção musical digital com DAWs profissionais. Desde a composição até masterização, cria a tua própria música.</p>
+                        
+                        <div class="activity-schedule">
+                            <span class="schedule-icon">📅</span>
+                            <span>Horário a definir | 2026</span>
+                        </div>
+
+                        <div class="activity-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span>14-18 anos | Inscrições em breve</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span>Maia</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏱️</span>
+                                <span>2026</span>
+                            </div>
+                        </div>
+
+                        <a href="#" class="activity-cta disabled">
+                            🔔 Notificar-me quando abrir
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Os restantes universos (MAKE, PLAY, GREEN, LINK) seguem estrutura similar -->
+            <div id="make" class="universe-content">
+                <div class="universe-header make">
+                    <div class="universe-header-icon" style="color: var(--universe-make);">🔧</div>
+                    <div class="universe-header-info">
+                        <h2 style="color: var(--universe-make);">MAKE</h2>
+                        <p>Fabricação Digital e Maker Space</p>
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 40px; color: var(--text-medium);">
+                    <p>🔧 Atividades MAKE em desenvolvimento...</p>
+                    <p>Impressão 3D • Laser Cutting • Electronics • Design</p>
+                </div>
+            </div>
+
+            <div id="play" class="universe-content">
+                <div class="universe-header play">
+                    <div class="universe-header-icon" style="color: var(--universe-play);">🎮</div>
+                    <div class="universe-header-info">
+                        <h2 style="color: var(--universe-play);">PLAY</h2>
+                        <p>Gaming e Desenvolvimento de Jogos</p>
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 40px; color: var(--text-medium);">
+                    <p>🎮 Atividades PLAY em desenvolvimento...</p>
+                    <p>Game Development • E-Sports • VR/AR • Unity</p>
+                </div>
+            </div>
+
+            <div id="green" class="universe-content">
+                <div class="universe-header green">
+                    <div class="universe-header-icon" style="color: var(--universe-green);">🌱</div>
+                    <div class="universe-header-info">
+                        <h2 style="color: var(--universe-green);">GREEN</h2>
+                        <p>Sustentabilidade e Tecnologia Verde</p>
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 40px; color: var(--text-medium);">
+                    <p>🌱 Atividades GREEN em desenvolvimento...</p>
+                    <p>Energia Renovável • IoT Ambiental • Agricultura Tech</p>
+                </div>
+            </div>
+
+            <div id="link" class="universe-content">
+                <div class="universe-header link">
+                    <div class="universe-header-icon" style="color: #c5a500;">❤️</div>
+                    <div class="universe-header-info">
+                        <h2 style="color: #c5a500;">LINK</h2>
+                        <p>Conexões e Relacionamentos Digitais</p>
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 40px; color: var(--text-medium);">
+                    <p>❤️ Atividades LINK em desenvolvimento...</p>
+                    <p>Social Media • Community Building • Digital Citizenship</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cicf-footer">
+            <p><strong>CICF - Centro de Inovação Carlos Fiolhais</strong> | Universos de Aprendizagem</p>
+            <p style="margin-top: 8px; font-size: 0.85em;">
+                7 Universos • 15+ Oficinas & Clubes • Inscrições abertas • 2025/2026
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="mailto:ci.carlosfiolhais@cm-maia.pt?subject=Inscrição Universos CICF" 
+                   style="color: var(--cicf-primary); text-decoration: none; margin-right: 20px;">
+                    📧 Informações
+                </a>
+                <a href="https://forms.office.com/INSCRICAO-GERAL" 
+                   style="color: var(--cicf-primary); text-decoration: none;" target="_blank">
+                    📝 Inscrever-me
+                </a>
+            </div>
+            <button class="cicf-btn cicf-btn-ghost" onclick="window.print()" style="margin-top: 15px;">
+                🖨️ Imprimir Universos
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        function showUniverse(universeId) {
+            // Hide all universes
+            document.querySelectorAll('.universe-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.universe-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected universe
+            document.getElementById(universeId).classList.add('active');
+            
+            // Activate selected tab
+            document.querySelector(`.universe-tab.${universeId}`).classList.add('active');
+        }
+
+        // Animação dos cards conforme scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.activity-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+
+        // Smooth scroll para navegação
+        document.querySelectorAll('.universe-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                setTimeout(() => {
+                    document.querySelector('.content-area').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
